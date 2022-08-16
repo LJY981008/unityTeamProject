@@ -18,7 +18,10 @@ public class MonsterPhase1Run : StateMachineBehaviour
     {
 
         _monster.moveToTarget();
-
+        if (_monster.getDistanceToTarget() <= 1.5f)
+        {
+            animator.SetInteger("indexAni", 3);
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

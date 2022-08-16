@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
+/// <summary>
+/// 몬스터의 관한 전반적인 코드를 담는 클래스
+/// </summary>
+
 public class InitMonster : MonoBehaviour
 {
 
+    // 목표물을 담을 변수
     private GameObject _target;
-    private string _target_name = "Character";
-    private float _move_speed;
+
+    // 목표물의 Name
+    private string _targetName = "Character";
+
+    // Run 모션에서의 속도
+    private float _speedRun;
 
     public GameObject target
     {
@@ -16,15 +25,15 @@ public class InitMonster : MonoBehaviour
         set { _target = value; }
     }
 
-    public float move_speed
+    public float moveSpeed
     {
-        get { return _move_speed; }
-        set { _move_speed = value; }
+        get { return _speedRun; }
+        set { _speedRun = value; }
     }
 
     private void Awake()
     {
-        _move_speed = 15.0f;
+        _speedRun = 15.0f;
     }
 
     // Start is called before the first frame update
@@ -36,51 +45,62 @@ public class InitMonster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 타겟이 없으면
+        // 설정된 타겟이 없으면
         if (_target == null)
         {
             searchTarget();
         }
 
-        // 타겟이 있으면...
+        // 설정된 타겟이 있으면...
         if (_target != null)
         {
 
         }
     }
 
-    void searchTarget() // 주변 캐릭터 찾기
+    /// <summary>
+    /// 몬스터 주변 캐릭터 찾기
+    /// </summary>
+    void searchTarget()
     {
-        // 주변의 오브젝트 불러오기
+        // 몬스터 주변의 오브젝트 불러오기
         Collider[] colls = Physics.OverlapSphere(transform.position, 200.0f);
 
-        // 주변에 오브젝트가 있으면..
+        // 몬스터 주변에 오브젝트가 있으면..
         for (int i = 0; i < colls.Length; i++)
         {
             Collider tmpColl = colls[i];
 
             // 캐릭터가 맞으면, 타겟 설정
-            if (tmpColl.gameObject.name.Equals(_target_name))
+            if (tmpColl.gameObject.name.Equals(_targetName))
             {
-                // 타겟 오브젝트 넣어주기
+                // 타겟 오브젝트에 넣어주기
                 _target = tmpColl.gameObject;
                 break;
             }
         }
     }
 
-    public float distanceToTarget() // 목표까지의 거리 구하기
+    /// <summary>
+    /// 몬스터와 타겟까지의 거리 구하기
+    /// </summary>
+    public float distanceToTarget()
     {
         return Vector3.Distance(transform.position, target.transform.position);
     }
 
-    public void moveToTarget() // 타겟으로 이동하기
+    /// <summary>
+    /// 몬스터를 타겟으로 이동하기
+    /// </summary>
+    public void moveToTarget()
     {
-        // Debug.Log("### MonsterPhase1Run.OnStateUpdate ###");
+        // Debug.Log("### InitMonster.moveToTarget ###");
+        
+        // 몬스터가 타겟을 바라보기
         transform.LookAt(target.transform.position);
-        // 타겟에 접근하기
+        // 몬스터를 타겟에 접근하기
         transform.position =
-        Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * move_speed);
+        Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * moveSpeed);
     }
 
 }

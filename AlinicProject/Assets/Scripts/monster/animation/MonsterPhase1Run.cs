@@ -16,7 +16,6 @@ public class MonsterPhase1Run : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
         _monster.moveToTarget();
         if (_monster.getDistanceToTarget() <= 1.5f)
         {

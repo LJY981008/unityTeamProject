@@ -8,7 +8,6 @@ public class MonsterPhase1Atk : StateMachineBehaviour
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _monster = FindObjectOfType<InitMonster>();
-        animator.SetInteger("indexAni", 2);
     }
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -17,6 +16,6 @@ public class MonsterPhase1Atk : StateMachineBehaviour
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
+        Debug.Log("test");
     }
 }

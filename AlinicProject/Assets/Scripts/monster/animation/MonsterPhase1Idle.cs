@@ -5,20 +5,20 @@ using UnityEngine;
 public class MonsterPhase1Idle : StateMachineBehaviour
 {
 
-    InitMonster monster;
+    InitMonster _monster;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        monster = animator.GetComponent<InitMonster>();
+        _monster = FindObjectOfType<InitMonster>();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (monster.target != null)
+        // 타겟이 있으면... 이동 처리
+        if (_monster.target != null)
         {
-            // 타겟이 있으면... 이동 처리
             animator.SetInteger("indexAni", 1);
         }
     }

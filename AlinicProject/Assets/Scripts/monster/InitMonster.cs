@@ -25,7 +25,7 @@ public class InitMonster : MonoBehaviour
         set { _target = value; }
     }
 
-    public float moveSpeed
+    public float speedRun
     {
         get { return _speedRun; }
         set { _speedRun = value; }

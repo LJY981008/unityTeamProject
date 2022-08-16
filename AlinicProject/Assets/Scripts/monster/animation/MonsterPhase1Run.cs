@@ -5,19 +5,19 @@ using UnityEngine;
 public class MonsterPhase1Run : StateMachineBehaviour
 {
 
-    InitMonster monster;
+    InitMonster _monster;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        monster = animator.GetComponent<InitMonster>();
+        _monster = FindObjectOfType<InitMonster>();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
 
-        monster.moveToTarget();
+        _monster.moveToTarget();
 
     }
 

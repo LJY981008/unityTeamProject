@@ -100,7 +100,7 @@ public class InitMonster : MonoBehaviour
         transform.LookAt(target.transform.position);
         // 몬스터를 타겟에 접근하기
         transform.position =
-        Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * moveSpeed);
+        Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * speedRun);
     }
 
 }

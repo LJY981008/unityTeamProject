@@ -84,7 +84,7 @@ public class InitMonster : MonoBehaviour
     /// <summary>
     /// 몬스터와 타겟까지의 거리 구하기
     /// </summary>
-    public float distanceToTarget()
+    public float getDistanceToTarget()
     {
         return Vector3.Distance(transform.position, target.transform.position);
     }

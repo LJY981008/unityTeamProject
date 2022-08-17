@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class MonsterPhase1TestSkl1 : StateMachineBehaviour
 {
+    InitMonsterTest _initmonster;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
+        _initmonster = FindObjectOfType<InitMonsterTest>();
+        Debug.Log("onstateenter - skill");
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

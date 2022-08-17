@@ -34,4 +34,6 @@ public class InitBossTest : MonoBehaviour
     {
         return Vector3.Distance(transform.position, player.transform.position);
     }
+
+    
 }

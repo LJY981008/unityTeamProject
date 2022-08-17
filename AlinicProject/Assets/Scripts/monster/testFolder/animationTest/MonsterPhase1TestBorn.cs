@@ -10,6 +10,7 @@ public class MonsterPhase1TestBorn : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _initmonster = FindObjectOfType<InitMonsterTest>();
+        _initmonster.initLatelyTime();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

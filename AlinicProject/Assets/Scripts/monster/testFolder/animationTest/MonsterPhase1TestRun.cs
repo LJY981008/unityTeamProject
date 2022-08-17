@@ -17,27 +17,8 @@ public class MonsterPhase1TestRun : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _initmonster.moveToTarget();
-        if(_initmonster.getDistanceToTarget() <= 2.0f) 
-        {
-            animator.SetTrigger("atkTrigger_"+ _initmonster.randomInt);
-        }
-        if (_initmonster.hp >= 2.0f)
-        {
-            if (!_initmonster.isDelay)
-            {
-                animator.SetInteger("aniInt",5);
-                Debug.Log("false = "+_initmonster.isDelay);
-                _initmonster.isDelay = true;
-                Debug.Log("skill");
-                _initmonster.StartCoroutine("usingSkill");
-            }
-            else
-            {
-                animator.SetInteger("aniInt", 2);
-                Debug.Log("true = " + _initmonster.isDelay);
-                Debug.Log("delay");
-            }
-        }
+        //Debug.Log(Time.time);
+        _initmonster.useSkillOrAttack(animator);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

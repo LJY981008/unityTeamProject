@@ -23,10 +23,7 @@ public class MonsterPhase1TestIdle : StateMachineBehaviour
         if (_initmonster.target != null)
         {
             animator.SetInteger("aniInt", 2);
-            if (_initmonster.getDistanceToTarget() <= 2.0f)
-            {
-                animator.SetTrigger("atkTrigger_"+ _initmonster.randomInt);
-            }
+            _initmonster.useSkillOrAttack(animator);
         }
     }
 

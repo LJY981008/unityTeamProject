@@ -14,11 +14,6 @@ public class InitMonsterTest : MonoBehaviour
     private float _speedRun;
 
     int _randomInt;
-    public float hp = 0.0f;
-    public bool isDelay;
-    public float delayTime = 10.0f;
-
-    int _skillTrigger = 0;
 
     public GameObject target
     {
@@ -43,6 +38,14 @@ public class InitMonsterTest : MonoBehaviour
         get { return skillTrigger; }
         set { skillTrigger = value; }
     }
+
+    float _latelyCastSkillTime;
+    public float latelyCastSkillTime
+    {
+        get { return _latelyCastSkillTime; }
+        set { _latelyCastSkillTime = value; }
+    }
+
     private void Awake()
     {
         _speedRun = 15.0f;
@@ -50,13 +53,12 @@ public class InitMonsterTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
     
     // Update is called once per frame
     void Update()
     {
-        hp = hp + Time.deltaTime * 0.1f;
         // 타겟이 없을때는 검색함수 실행
         if(_target == null)
         {
@@ -105,14 +107,34 @@ public class InitMonsterTest : MonoBehaviour
         Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * speedRun);
     }
 
-    IEnumerator hpTest()
+    public float initLatelyTime()
     {
-        yield return new WaitForSeconds(1.0f);
-        
+        return latelyCastSkillTime = Time.time;
     }
-    IEnumerator usingSkill()
+    public float getDistanceOfTime(float a, float b)
     {
-        yield return new WaitForSecondsRealtime(delayTime);
-        isDelay = false;
+        return a - b;
     }
+    public void castSkill()
+    {
+        Debug.Log("skill casted");
+        latelyCastSkillTime = Time.time;
+    }
+    public void useSkillOrAttack(Animator ani)
+    {
+        if (getDistanceOfTime(Time.time, latelyCastSkillTime) >= 15.0f)
+        {
+            ani.SetTrigger("skillTrigger_1");
+            castSkill();
+        }
+        else
+        {
+            if (getDistanceToTarget() <= 2.0f)
+            {
+                ani.SetTrigger("atkTrigger_" + randomInt);
+            }
+        }
+    }
+
+
 }

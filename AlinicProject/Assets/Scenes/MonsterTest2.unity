@@ -225,6 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb067c91e68927a4db48e78641491a8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trigger: 0
 --- !u!1 &1018434469
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +245,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!136 &1018434470
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -349,6 +350,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 113730, guid: d52b132e2f789fd489b089f82f3611b8, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 113730, guid: d52b132e2f789fd489b089f82f3611b8, type: 3}
+      propertyPath: m_TagString
+      value: Monster
+      objectReference: {fileID: 0}
+    - target: {fileID: 144852, guid: d52b132e2f789fd489b089f82f3611b8, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 422962, guid: d52b132e2f789fd489b089f82f3611b8, type: 3}
@@ -357,7 +366,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 422962, guid: d52b132e2f789fd489b089f82f3611b8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 422962, guid: d52b132e2f789fd489b089f82f3611b8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -365,7 +374,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 422962, guid: d52b132e2f789fd489b089f82f3611b8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 422962, guid: d52b132e2f789fd489b089f82f3611b8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -524,3 +533,21 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
+--- !u!1 &1887274773 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 113730, guid: d52b132e2f789fd489b089f82f3611b8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1323632175}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1887274775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1887274773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fa250ff94e3535408d22e66873ff371, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -14,7 +14,7 @@ public class InitPlayerTest : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        _speedMove = 1.5f;
+        _speedMove = 5.5f;
     }
     void Start()
     {

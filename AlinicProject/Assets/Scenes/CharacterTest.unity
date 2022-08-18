@@ -496,7 +496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca3ca42d47a2f144bf711adeeb42197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playableCharactor: []
+  playableWeapons: []
 --- !u!4 &1185130321
 Transform:
   m_ObjectHideFlags: 0

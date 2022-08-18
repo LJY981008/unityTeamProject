@@ -10,35 +10,71 @@ public class Ex_GameManager : MonoBehaviour
 {
     public static Ex_GameManager instance;
 
-    private string[] listWeapon = { "Rifle", "Pistol" };    // 무기 목록
+    private string[] listWeapon = { "Rifle", "Pistol", "ShotGun" };    // 무기 목록
 
-    PlayerUpper playerUpper;    // 상체 스크립트 
-    GameObject playableWeapon;  // 현재 사용 중인 무기
+    public int[] saveAmmo;                          // 사용하고 저장된 탄 
+    int gunIndex = 1;                               // 기본총 값
 
+    GameObject playableWeapon;                      // 현재 사용 중인 무기
     void Awake()
     {
         if (instance == null) instance = this;
     }
     private void Start()
     {
-        CreatePlayableWeapon(listWeapon[1]);   // 기본 무기를 권총으로
+        SelectWeapon(gunIndex);    // 기본무기 권총
     }
     private void Update()
     {
+       if((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && PlayerUpper.instance.ammo[gunIndex] > 0)
+        {
+            PlayerUpper.instance.FireGun(gunIndex);
+        }
+        else
+        {
+            PlayerUpper.instance.IdleGun();
+        }
+        
         //키 다운으로 무기 선택
-        if (Input.GetKeyDown("1"))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Debug.Log("1번 무기 : " + listWeapon[0]);
-            Destroy(playableWeapon);
-            //주무기 고르기 작성
+            //라이플
+            gunIndex = 0;
+            SelectWeapon(gunIndex);
         }
-        else if (Input.GetKeyDown("2"))
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            Debug.Log("2번무기 : " + listWeapon[1]);
-            Destroy(playableWeapon);
-            CreatePlayableWeapon(listWeapon[1]);
+            //권총
+            gunIndex = 1;
+            SelectWeapon(gunIndex);
         }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            //샷건
+            gunIndex = 2;
+            SelectWeapon(gunIndex);
+        }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            PlayerUpper.instance.ReloadGun(gunIndex);
+        }
+
+
     }
+
+
+    public void SelectWeapon(int index)
+    {
+        
+        if (playableWeapon != null)
+        {
+            saveAmmo = PlayerUpper.instance.ammo;           // 남은 탄약 저장
+            DestroyImmediate(playableWeapon);           // 이전 무기 오브젝트 및 컴포넌드 제거
+        }
+        CreatePlayableWeapon(listWeapon[index]);        // 선택한 무기 생성
+        PlayerUpper.instance.ammo = saveAmmo;           // 이전 탄약 유지
+    }
+
 
     // 원하는 무기 씬에 생성
     public void CreatePlayableWeapon(string weaponName)
@@ -47,7 +83,9 @@ public class Ex_GameManager : MonoBehaviour
         if (selectWeapon != null)
         {
             playableWeapon = Instantiate(selectWeapon, Vector3.zero, Quaternion.identity);
-            playerUpper = playableWeapon.AddComponent<PlayerUpper>();
+            
+            PlayerUpper player = playableWeapon.AddComponent<PlayerUpper>();
+            
         }
         else
         {

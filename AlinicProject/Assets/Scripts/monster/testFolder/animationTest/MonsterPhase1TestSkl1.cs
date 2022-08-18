@@ -15,13 +15,14 @@ public class MonsterPhase1TestSkl1 : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
+
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
+        // 카운트 초기화
+        _initmonster.initLatelyTime();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

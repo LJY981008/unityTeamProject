@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InitMonsterTest : MonoBehaviour
@@ -14,7 +12,6 @@ public class InitMonsterTest : MonoBehaviour
     private float _speedRun;
 
     int _randomInt;
-
     public GameObject target
     {
         get { return _target; }
@@ -48,33 +45,34 @@ public class InitMonsterTest : MonoBehaviour
 
     private void Awake()
     {
-        _speedRun = 15.0f;
+        _speedRun = 10.0f;
     }
     // Start is called before the first frame update
     void Start()
     {
         
     }
-    
+
     // Update is called once per frame
     void Update()
     {
         // 타겟이 없을때는 검색함수 실행
-        if(_target == null)
+        if (_target == null)
         {
-            Debug.Log("searching...");
+            //Debug.Log("searching...");
             searchTarget();
         }
         //타겟이 존재할때 
-        else if(_target != null)
+        else if (_target != null)
         {
-            Debug.Log("player detected");
+            //Debug.Log("player detected");
             //moveToTarget();
         }
     }
     public void searchTarget()
     {
-        Debug.Log("searchTarget()");
+
+        //Debug.Log("searchTarget()");
         // 몬스터 주변의 오브젝트 불러오기
         Collider[] colls = Physics.OverlapSphere(transform.position, 300.0f);
         // 몬스터 주변에 오브젝트가 있으면..
@@ -109,6 +107,7 @@ public class InitMonsterTest : MonoBehaviour
 
     public float initLatelyTime()
     {
+        // 스킬 사용 시간 초기화
         return latelyCastSkillTime = Time.time;
     }
     public float getDistanceOfTime(float a, float b)
@@ -118,23 +117,5 @@ public class InitMonsterTest : MonoBehaviour
     public void castSkill()
     {
         Debug.Log("skill casted");
-        latelyCastSkillTime = Time.time;
     }
-    public void useSkillOrAttack(Animator ani)
-    {
-        if (getDistanceOfTime(Time.time, latelyCastSkillTime) >= 15.0f)
-        {
-            ani.SetTrigger("skillTrigger_1");
-            castSkill();
-        }
-        else
-        {
-            if (getDistanceToTarget() <= 2.0f)
-            {
-                ani.SetTrigger("atkTrigger_" + randomInt);
-            }
-        }
-    }
-
-
 }

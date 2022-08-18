@@ -24,8 +24,10 @@ public class InitBossTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // 타겟과의 거리가 120 이상일때
         if (getDistanceToTarget() <= 120f)
         {
+            // 1_Model 활성화
             childT.gameObject.SetActive(true);
         }
     }

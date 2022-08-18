@@ -16,9 +16,13 @@ public class MonsterPhase1TestRun : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // 타겟을 바라보고 이동
         _initmonster.moveToTarget();
-        //Debug.Log(Time.time);
-        _initmonster.useSkillOrAttack(animator);
+        // 거리가 10.0f 이하거나 같을때 Idle으로 전환
+        if(_initmonster.getDistanceToTarget() <= 10.0f)
+        {
+            animator.SetInteger("aniInt", 1);
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

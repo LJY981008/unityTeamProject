@@ -11,7 +11,7 @@ public class PlayerUpper : MonoBehaviour
     public static PlayerUpper instance;
 
     public int[] maxAmmo = { 30, 12, 12 };
-    public int[] ammo = { 30, 12, 12 };
+    public int[] ammo;
 
     private Animator animator;
 
@@ -19,6 +19,7 @@ public class PlayerUpper : MonoBehaviour
     {
         if (instance == null) instance = this;
         animator = GetComponent<Animator>();
+        ammo = new int[3];
     }
 
     // 발사
@@ -43,7 +44,7 @@ public class PlayerUpper : MonoBehaviour
         }
         else
         {
-            Debug.Log("탄이 가득참 : " + ammo[index]);
+            Debug.Log("탄이 가득참 : " + ammo);
         }
     }
     // 탄감소

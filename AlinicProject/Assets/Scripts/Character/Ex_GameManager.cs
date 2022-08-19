@@ -19,6 +19,7 @@ public class Ex_GameManager : MonoBehaviour
     void Awake()
     {
         if (instance == null) instance = this;
+        saveAmmo = new int[3];
     }
     private void Start()
     {
@@ -68,11 +69,11 @@ public class Ex_GameManager : MonoBehaviour
         
         if (playableWeapon != null)
         {
-            saveAmmo = PlayerUpper.instance.ammo;           // 남은 탄약 저장
+            saveAmmo[index] = PlayerUpper.instance.ammo[gunIndex];           // 남은 탄약 저장
             DestroyImmediate(playableWeapon);           // 이전 무기 오브젝트 및 컴포넌드 제거
         }
         CreatePlayableWeapon(listWeapon[index]);        // 선택한 무기 생성
-        PlayerUpper.instance.ammo = saveAmmo;           // 이전 탄약 유지
+        PlayerUpper.instance.ammo[gunIndex] = saveAmmo[index];           // 이전 탄약 유지
     }
 
 
@@ -83,9 +84,7 @@ public class Ex_GameManager : MonoBehaviour
         if (selectWeapon != null)
         {
             playableWeapon = Instantiate(selectWeapon, Vector3.zero, Quaternion.identity);
-            
             PlayerUpper player = playableWeapon.AddComponent<PlayerUpper>();
-            
         }
         else
         {

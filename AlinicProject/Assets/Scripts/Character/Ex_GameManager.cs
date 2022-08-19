@@ -9,12 +9,11 @@ using UnityEngine;
 public class Ex_GameManager : MonoBehaviour
 {
     public static Ex_GameManager instance;
+    public int[] saveAmmo;                          // 사용하고 저장된 탄 
+    public int gunIndex = 1;                        // 기본총 값
 
     private string[] listWeapon = { "Rifle", "Pistol", "ShotGun" };    // 무기 목록
-
-    public int[] saveAmmo;                          // 사용하고 저장된 탄 
-    int gunIndex = 1;                               // 기본총 값
-
+    
     GameObject playableWeapon;                      // 현재 사용 중인 무기
     void Awake()
     {
@@ -84,7 +83,7 @@ public class Ex_GameManager : MonoBehaviour
         if (selectWeapon != null)
         {
             playableWeapon = Instantiate(selectWeapon, Vector3.zero, Quaternion.identity);
-            PlayerUpper player = playableWeapon.AddComponent<PlayerUpper>();
+            playableWeapon.AddComponent<PlayerUpper>();
         }
         else
         {

@@ -14,21 +14,21 @@ public class PlayerUpper : MonoBehaviour
     public int[] ammo;
 
     private Animator animator;
-
+    public AudioSource audioSource;
+    List<AudioSource> reloadAudioSource;
     private void Awake()
     {
         if (instance == null) instance = this;
-        animator = GetComponent<Animator>();
         ammo = new int[3];
+        animator = GetComponent<Animator>();
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
     }
-
     // 발사
     public void FireGun(int index)
     {
-        // 탄약갯수가 모자라면 작동안하는 이벤트 작성
         animator.SetBool("isFire", true);
-        
-    }
+    }   
     // 대기, 
     public void IdleGun()
     {
@@ -58,5 +58,12 @@ public class PlayerUpper : MonoBehaviour
     {
         ammo[index] = maxAmmo[index];
         Debug.Log("장전완료" + ammo[index]);
+    }
+    public void PlayAudio(AudioClip clip)
+    {
+        audioSource.clip = clip;
+        audioSource.Play();
+        
+        Debug.Log(clip.name + "클립명");
     }
 }

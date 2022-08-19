@@ -9,9 +9,12 @@ public class FireState : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         string objName = animator.name.Replace("(Clone)", "");
+        AudioClip fireClip;
+        fireClip = Ex_AudioManager.instance.GetFireClip(objName);
+        PlayerUpper.instance.PlayAudio(fireClip);
         switch (objName)
         {
-            case "Rifle":
+            case "Rifle":;
                 PlayerUpper.instance.UseAmmo(0);
                 break;
             case "Pistol":
@@ -24,6 +27,7 @@ public class FireState : StateMachineBehaviour
                 Debug.Log("Åº¾È‰ç¾î");
                 break;
         }
+
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

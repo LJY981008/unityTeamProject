@@ -4,24 +4,25 @@ using UnityEngine;
 
 public class ReloadState : StateMachineBehaviour
 {
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        AudioClip audioClip;
+        string objName = animator.name.Replace("(Clone)", "");
+        audioClip = Ex_AudioManager.instance.GetReloadClip(objName);
+        PlayerUpper.instance.PlayAudio(audioClip);
+    }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     // 장전 중에 발사하면 장전 취소, 애니메이션이 끝나면 idle로 전환
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(animator.GetBool("isFire") == true)
+        if(stateInfo.normalizedTime > 1.0f)
         {
             animator.SetBool("isReload", false);
         }
-        else if(stateInfo.normalizedTime > 1.0f)
-        {
-            animator.SetBool("isReload", false);
-        }
+        
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

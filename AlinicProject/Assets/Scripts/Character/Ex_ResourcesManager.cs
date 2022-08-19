@@ -10,17 +10,19 @@ public class Ex_ResourcesManager : MonoBehaviour
 {
     public static Ex_ResourcesManager instance;
     public List<GameObject> playableWeapons;    // 무기리소스 리스트
+    public List<AudioClip> pistolAudioClip;
 
     void Awake()
     {
         if (instance == null) instance = this;
 
         // 리소스로 저장된 무기들을 불러와서 리스트에 저장 
-        GameObject[] characters = Resources.LoadAll<GameObject>("Charactor/Weapons/Prefabs");
-        foreach (var obj in characters)
+        GameObject[] objGuns = Resources.LoadAll<GameObject>("Charactor/Weapons/Prefabs");
+        foreach (var obj in objGuns)
         {
             playableWeapons.Add(obj);
         }
+
     }
 
     // 불러온 무기 리스트에서 원하는 무기 선택

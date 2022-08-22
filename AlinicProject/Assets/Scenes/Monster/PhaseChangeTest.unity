@@ -237,6 +237,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossT1_1_Ironreaver
       objectReference: {fileID: 0}
+    - target: {fileID: 144852, guid: d52b132e2f789fd489b089f82f3611b8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 422962, guid: d52b132e2f789fd489b089f82f3611b8, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -316,9 +320,17 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 149638, guid: b5c89d895e6e1a344a7a79a1d8f4c70a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 168468, guid: b5c89d895e6e1a344a7a79a1d8f4c70a, type: 3}
       propertyPath: m_Name
       value: BossT1_2_Ironreaver
+      objectReference: {fileID: 0}
+    - target: {fileID: 190016, guid: b5c89d895e6e1a344a7a79a1d8f4c70a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 436830, guid: b5c89d895e6e1a344a7a79a1d8f4c70a, type: 3}
       propertyPath: m_RootOrder
@@ -364,6 +376,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9580100, guid: b5c89d895e6e1a344a7a79a1d8f4c70a, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: c012add2f0756af42b3e6bfe6b30b71d, type: 3}
     - target: {fileID: 9580100, guid: b5c89d895e6e1a344a7a79a1d8f4c70a, type: 3}
       propertyPath: m_Controller
       value: 

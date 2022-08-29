@@ -19,6 +19,7 @@ public class Ex_GameManager : MonoBehaviour
     {
         if (instance == null) instance = this;
         saveAmmo = new int[3];
+        Debug.Log("ㅎㅇ");
     }
     private void Start()
     {
@@ -26,10 +27,12 @@ public class Ex_GameManager : MonoBehaviour
     }
     private void Update()
     {
-       if((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && PlayerUpper.instance.ammo[gunIndex] > 0)
+        //좌클릭
+        if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && PlayerUpper.instance.ammo[gunIndex] > 0)
         {
             PlayerUpper.instance.FireGun(gunIndex);
         }
+        //우클릭
         else
         {
             PlayerUpper.instance.IdleGun();

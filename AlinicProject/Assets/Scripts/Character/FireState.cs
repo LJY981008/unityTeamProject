@@ -15,13 +15,13 @@ public class FireState : StateMachineBehaviour
         switch (objName)
         {
             case "Rifle":;
-                PlayerUpper.instance.UseAmmo(0);
+                PlayerUpper.instance.shot(0);
                 break;
             case "Pistol":
-                PlayerUpper.instance.UseAmmo(1);
+                PlayerUpper.instance.shot(1);
                 break;
             case "ShotGun":
-                PlayerUpper.instance.UseAmmo(2);
+                PlayerUpper.instance.shot(2);
                 break;
             default:
                 Debug.Log("Åº¾È‰ç¾î");

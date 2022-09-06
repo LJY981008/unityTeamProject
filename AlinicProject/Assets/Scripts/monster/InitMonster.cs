@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEditor;
 using UnityEngine;
 using static UnityEditor.FilePathAttribute;
 
@@ -11,6 +12,60 @@ using static UnityEditor.FilePathAttribute;
 
 public class InitMonster : MonoBehaviour
 {
+
+    /// <summary>
+    /// 현재 페이즈 상태를 담는 변수
+    /// 0 : 1페이즈
+    /// 1 : 2페이즈
+    /// 2 : 3페이즈
+    /// </summary>
+    private int _phaseState;
+
+    /// <summary>
+    /// 현재 페이즈 상태를 담는 변수
+    /// set : 상태 변경 시 현재 생명력을 페이즈별 생명력으로 주입 시켜준다.
+    /// </summary>
+    public int phaseState
+    {
+        get { return _phaseState; }
+    }
+
+    /// <summary>
+    /// 현재 페이즈를 변경한다.
+    /// </summary>
+    /// <param name="state">페이즈</param>
+    /// <returns></returns>
+    public Boolean setPhaseState(int state)
+    {
+        if(state == 0
+            && state == 1
+            && state == 2)
+        {
+            _phaseState = state;
+            monsterHp = PHASE_HP[state];
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// 페이즈별 체력을 담는 배열 변수
+    /// </summary>
+    private static int[] PHASE_HP = { 10000, 20000, 30000 };
+
+    /// <summary>
+    /// 몬스터의 현재 체력을 담을 변수
+    /// </summary>
+    private int _monsterHp;
+
+    /// <summary>
+    /// 몬스터의 현재 체력을 담을 변수
+    /// </summary>
+    public int monsterHp
+    {
+        get { return _monsterHp; }
+        set { _monsterHp = value;}
+    }
 
     // 이펙트 관련 변수
     public GameObject[] Effects;
@@ -46,6 +101,11 @@ public class InitMonster : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        // 초기 페이즈 설정
+        setPhaseState(0);
+
+        // 미사일 이펙트 설정
         effectToSpawn = Effects[0];
     }
 
@@ -116,8 +176,13 @@ public class InitMonster : MonoBehaviour
         Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * speedRun);
     }
 
+    /// <summary>
+    /// 손미사일 공격
+    /// </summary>
     void attackHandRazer()
     {
+
+        //TODO: 손미사일이 나가는 위치 : 3페이즈 bone046 처리해줘야 함
         GameObject Effects;
 
         if (_target != null)
@@ -131,7 +196,9 @@ public class InitMonster : MonoBehaviour
         }
     }
 
-    // 투사체 Quaternion 구하는 함수.
+    /// <summary>
+    /// 투사체 Quaternion 구하는 함수.
+    /// </summary>
     Quaternion getRotation(GameObject obj, Vector3 destination)
     {
         Vector3 direction = destination - obj.transform.position;
@@ -143,10 +210,11 @@ public class InitMonster : MonoBehaviour
     /// 몬스터에게 피해를 입힐 때 사용하는 메소드.
     /// </summary>
     /// <param name="amountOfDamage">피해량 수치</param>
-    public void onDamage(int amountOfDamage) 
+    public void onDamage(int amountOfDamage)
     {
-        
-        //TODO: 몬스터가 피해를 받을 때 처리해야 함
+        monsterHp = monsterHp - amountOfDamage;
+
+        //TODO: 몬스터가 피해를 받고 페이즈 변경 처리
 
     }
 

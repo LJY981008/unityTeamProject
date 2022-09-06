@@ -19,8 +19,7 @@ public class CharResourcesManager : MonoBehaviour
     {
         if (playerChar == null)
             playerChar = new List<GameObject>();
-        GameObject[] plChar = Resources.LoadAll<GameObject>("Character/Adventure_Character/Prefabs");
-        //GameObject plChar = Resources.Load<GameObject>("Character/Adventure_Character/Prefabs/Man");
+        GameObject[] plChar = Resources.LoadAll<GameObject>("Charactor/Adventure_Character/Prefabs");
         // 캐릭터 폴더 안에 있는 모든 에섯을 메모리에 로드
         foreach(var obj in plChar) // 캐릭터 리스트에 저장
         {

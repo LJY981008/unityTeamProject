@@ -16,6 +16,8 @@ public class PlayerChar : MonoBehaviour
     [Header("Input KeyCodes")]
     [SerializeField]
     private KeyCode keyCodeRun = KeyCode.LeftShift; // 달리기 키
+    private KeyCode keyCodeJump = KeyCode.Space;    // 점프 키
+    //
     private Rotate rotate; // 마우스 이동으로 카메라 회전
     private Movement movement; // 키보드 입력으로 플레이어 이동, 점프
     private Status status; // 이동속도 등의 플레이어 정보
@@ -34,9 +36,11 @@ public class PlayerChar : MonoBehaviour
     {
         Rotate();
         Move();
+        Jump();
     }
         void Rotate()
     {
+        // 플레이어의 시점 이동
         MouseX = Input.GetAxisRaw("Mouse X");
         MouseY = Input.GetAxisRaw("Mouse Y");
 
@@ -56,5 +60,12 @@ public class PlayerChar : MonoBehaviour
             movement.MSpeed = isRun == true ? status.RunSpeed : status.WalkSpeed;
         }
         movement.Move(new Vector3(x, 0, z));
+    }
+    void Jump()
+    {
+        if (Input.GetKeyDown(keyCodeJump))
+        {
+            movement.Jump();
+        }
     }
 }

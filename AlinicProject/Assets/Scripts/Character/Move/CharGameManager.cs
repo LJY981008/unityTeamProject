@@ -18,21 +18,18 @@ public class CharGameManager : MonoBehaviour
     }
     void Start()
     {
-        CreateCharacter("Man");
+        CreateCharacter("Man_Full");
     }
     public void CreateCharacter(string _name)
     {
+        // 캐릭터를 생성하는 코드를 작성
         GameObject tmpPlayerChar = CharResourcesManager.instance.GetCharacter(_name);
         if (tmpPlayerChar != null)
         {
             //playerChar = Instantiate(tmpPlayerChar, Vector3.zero, Quaternion.identity);
+            // 캐릭터 게임오브젝트를 리스트에서 불러오는 코드
             playerChar = GameObject.Instantiate<GameObject>(tmpPlayerChar);
             player = playerChar.AddComponent<PlayerChar>();
-            // 카메라에게 무엇이 플에이어의 스크립트인지 알려주는 코드
-            // PlayerCamera.instance.PLAYER = player;
-            // 플레이어가 생성될때 플레이어의 위치를 얻는 코드
-            //PlayerCamera.instance.PLAYEROLDPOS = player.transform.position;
-            // 카메라의 위치를 알려주는 코드
         }
         else
         {

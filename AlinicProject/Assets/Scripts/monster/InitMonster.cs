@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using static UnityEditor.FilePathAttribute;
 
 /// <summary>
 /// 몬스터의 관한 전반적인 코드를 담는 클래스
@@ -9,6 +11,11 @@ using UnityEngine;
 
 public class InitMonster : MonoBehaviour
 {
+
+    // 이펙트 관련 변수
+    public GameObject[] Effects;
+    private GameObject effectToSpawn;
+
 
     // 목표물을 담을 변수
     private GameObject _target;
@@ -39,12 +46,18 @@ public class InitMonster : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        effectToSpawn = Effects[0];
     }
 
     // Update is called once per frame
     void Update()
     {
+        // 미사일 날리기 예제
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            attackHandRazer();
+        }
+
         // 설정된 타겟이 없으면
         if (_target == null)
         {
@@ -101,6 +114,40 @@ public class InitMonster : MonoBehaviour
         // 몬스터를 타겟에 접근하기
         transform.position =
         Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * speedRun);
+    }
+
+    void attackHandRazer()
+    {
+        GameObject Effects;
+
+        if (_target != null)
+        {
+            Effects = Instantiate(effectToSpawn, transform.position, Quaternion.identity);
+            Effects.transform.localRotation = getRotation(gameObject, target.transform.position);
+        }
+        else
+        {
+            Debug.Log("No Target");
+        }
+    }
+
+    // 투사체 Quaternion 구하는 함수.
+    Quaternion getRotation(GameObject obj, Vector3 destination)
+    {
+        Vector3 direction = destination - obj.transform.position;
+        return Quaternion.LookRotation(direction);
+    }
+
+
+    /// <summary>
+    /// 몬스터에게 피해를 입힐 때 사용하는 메소드.
+    /// </summary>
+    /// <param name="amountOfDamage">피해량 수치</param>
+    public void onDamage(int amountOfDamage) 
+    {
+        
+        //TODO: 몬스터가 피해를 받을 때 처리해야 함
+
     }
 
 }

@@ -123,6 +123,26 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &245546107 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 126560, guid: 7f94a9267b8a5b04597fdf9b2c388193,
+    type: 3}
+  m_PrefabInstance: {fileID: 1426430951}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &245546108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245546107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31edc37d1c13b1542a74b63927dd3a12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Effects:
+  - {fileID: 2570534919409470622, guid: 426991814e5f63448a304ebbb4dda10a, type: 3}
 --- !u!1 &866033348
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,7 +466,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1133614990}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -140.4, y: 4.6, z: -42.4}
+  m_LocalPosition: {x: 1.1, y: 4.6, z: -5.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -518,24 +538,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f94a9267b8a5b04597fdf9b2c388193, type: 3}
---- !u!1 &1573703885 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 147226, guid: 7f94a9267b8a5b04597fdf9b2c388193,
-    type: 3}
-  m_PrefabInstance: {fileID: 1426430951}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1573703888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1573703885}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31edc37d1c13b1542a74b63927dd3a12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1976515552 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 162054, guid: 7f94a9267b8a5b04597fdf9b2c388193,

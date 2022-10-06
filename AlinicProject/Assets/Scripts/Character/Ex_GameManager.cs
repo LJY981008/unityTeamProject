@@ -27,6 +27,7 @@ public class Ex_GameManager : MonoBehaviour
     }
     private void Update()
     {
+        PlayerUpper.MoveRotate(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"));
         //좌클릭
         if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && PlayerUpper.instance.ammo[gunIndex] > 0)
         {
@@ -72,6 +73,7 @@ public class Ex_GameManager : MonoBehaviour
         if (playableWeapon != null)
         {
             saveAmmo[index] = PlayerUpper.instance.ammo[gunIndex];           // 남은 탄약 저장
+            CameraController.SettingCam(gameObject);
             DestroyImmediate(playableWeapon);           // 이전 무기 오브젝트 및 컴포넌드 제거
         }
         CreatePlayableWeapon(listWeapon[index]);        // 선택한 무기 생성

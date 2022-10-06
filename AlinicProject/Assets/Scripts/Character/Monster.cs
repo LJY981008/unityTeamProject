@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster : MonoBehaviour, IDamageable
+public class Monster : MonoBehaviour
 {
-    public void OnDamage(float damage, Vector3 hitPoint, Vector3 hitNormal)
-    {
-        Debug.Log("몬스터");
-    }
 
+    public void OnDamage(float damege)
+    {
+        Debug.Log($"{damege} : 맞았슈");
+    }
    
 }

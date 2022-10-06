@@ -14,26 +14,24 @@ public class PlayerUpper : MonoBehaviour
 
     private MuzzleState muzzleState;        //이펙트 정보
     private AudioSource audioSource;        // 사운드
-    private LineRenderer bulletLineRenderer; // 총알의 궤적
     private Animator animator;
     private int[] maxAmmo = { 30, 12, 12 };
     private float fireDistance = 50f; // 사정거리
-    private GameObject muzzlePivot;   // 총구 피봇 오브젝트
+    private Transform muzzlePivot;   // 총구 피봇 오브젝트
     private Vector3 firePos;        //총구 위치
+    private float rotateY = 0.0f;
+    private float rotateX = 0.0f;
 
     private void Awake()
     {
         if (instance == null) instance = this;
-        muzzlePivot = transform.GetChild(2).gameObject;
         animator = GetComponent<Animator>();
-        bulletLineRenderer = gameObject.AddComponent<LineRenderer>();
         audioSource = gameObject.AddComponent<AudioSource>();
-        muzzleState = muzzlePivot.GetComponent<MuzzleState>();
-
+        CameraController.SettingCam(gameObject);
         audioSource.playOnAwake = false;
-        bulletLineRenderer.positionCount = 2;   // 궤적에 사용할 점 갯수, 총구위치와 총알이 닿은 위치
-        bulletLineRenderer.enabled = false;
         ammo = new int[3];
+        muzzlePivot = FindFireSpot(transform, "Muzzle Pivot");
+        muzzleState = muzzlePivot.GetComponent<MuzzleState>();
 
     }
     private void Update()
@@ -87,49 +85,36 @@ public class PlayerUpper : MonoBehaviour
     }
     public void shot(int index)
     {
-        firePos = muzzlePivot.transform.position;
-        RaycastHit hit;
-        Vector3 hitPos = Vector3.zero;
+        firePos = muzzlePivot.position;
+        GameObject ammo;
+        Bullet bullet;
+        //RaycastHit hit;
+        //Vector3 hitPos = Vector3.zero;
 
-        if(Physics.Raycast(firePos, muzzlePivot.transform.forward, out hit, fireDistance))
-        {
-            IDamageable target = hit.collider.GetComponent<IDamageable>();
-            if(target != null)
-            {
-                Debug.Log("맞음");
-                target.OnDamage(gunData.damage, hit.point, hit.normal);
-            }
-            else
-            {
-                Debug.Log("안맞음");
-            }
-            hitPos = hit.point;
-        }
-        else
-        {
-            Debug.Log("엘스");
-            hitPos = muzzlePivot.transform.position + muzzlePivot.transform.forward * fireDistance;
-        }
-        StartCoroutine(ShotEffect(hitPos));
+        //StartCoroutine(ShotEffect(hitPos));
+        ObjectPoolManager.GetBullet(transform ,firePos);
         UseAmmo(index);
     }
-    // 이펙트
-    private IEnumerator ShotEffect(Vector3 hitPosition)
+
+    public Transform FindFireSpot(Transform _t, string name)
     {
-        // 이펙트 발생 호출 작성
-
-        // 총구 위치 저장
-        firePos = transform.localPosition + muzzleState.GetMuzzlePos();
-        // 선의 시작은 총구
-        bulletLineRenderer.SetPosition(0, firePos);
-        // 선의 끝은 충돌 위치
-        bulletLineRenderer.SetPosition(1, hitPosition);
-        // 활성화하여 궤적을 그림
-        bulletLineRenderer.enabled = true;
-
-        // 처리대기
-        yield return new WaitForSeconds(0.03f);
-
-        bulletLineRenderer.enabled = false;
+        if (_t.name.Equals(name))
+            return _t;
+        for (int i = 0; i < _t.childCount; i++)
+        {
+            Transform findTr = FindFireSpot(_t.GetChild(i), name);
+            if (findTr != null)
+                return findTr;
+        }
+        return null;
+    }
+    public static void MoveRotate(float rotateSizeX, float rotateSizeY)
+    {
+        instance.rotateY += rotateSizeY;
+        instance.rotateX += -rotateSizeX;
+        instance.rotateX = Mathf.Clamp(instance.rotateX, -40, 40);
+        Quaternion playerQuat = Quaternion.Euler(new Vector3(instance.rotateX, instance.rotateY, 0.0f));
+        instance.transform.rotation = Quaternion.Slerp(instance.transform.rotation, playerQuat, Time.deltaTime * 500f);
+        
     }
 }

@@ -904,7 +904,6 @@ Transform:
   m_Children:
   - {fileID: 4796108190710067703}
   - {fileID: 4796108192448699243}
-  - {fileID: 4120726833334925793}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1562,7 +1561,8 @@ Transform:
   m_LocalPosition: {x: -0.00014072895, y: -0.00736526, z: -0.30165374}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4120726833334925793}
   m_Father: {fileID: 4796108188332260609}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2055,7 +2055,7 @@ GameObject:
   - component: {fileID: 4120726833334925793}
   - component: {fileID: 480034310682228504}
   m_Layer: 0
-  m_Name: muzzlePivot
+  m_Name: Muzzle Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2068,14 +2068,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4814553194026442311}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -0.125, y: -0.1, z: -1.16}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4796108194066236157}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_Father: {fileID: 4796108190485472679}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &480034310682228504
 MonoBehaviour:
   m_ObjectHideFlags: 0

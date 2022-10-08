@@ -19,8 +19,9 @@ public class CameraController : MonoBehaviour
     // 카메라 위치 설정
     public static void SettingCam(GameObject player)
     {
-        Quaternion defaultAngle = new Quaternion(0.0f, 180.0f, 0.0f, 0.0f);
-        instance.transform.rotation = defaultAngle;
+        ;
+        Quaternion l = Quaternion.Euler(new Vector3(0, 180, 0));
+        instance.transform.localRotation = l;
         instance.transform.parent = player.transform;
         instance.transform.localPosition = Vector3.zero;
     }

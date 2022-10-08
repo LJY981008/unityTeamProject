@@ -8,8 +8,11 @@ public class ObjectPoolManager : MonoBehaviour
 
     [SerializeField]
     private GameObject poolingBullet;
-    Queue<Bullet> poolingBulletQueue = new Queue<Bullet>();
+    Queue<MoveParticle> poolingBulletQueue = new Queue<MoveParticle>();
+    private GameObject poolingGun;
+    Queue<PlayerUpper> poolingGunQueue = new Queue<PlayerUpper>();
 
+    private GameObject ammo;
 
     private void Awake()
     {
@@ -20,7 +23,29 @@ public class ObjectPoolManager : MonoBehaviour
     {
         BulletInitialize(10);
     }
-    // 큐 활성화
+
+    private void GunInitialize()
+    {
+        List<GameObject> listGuns = Ex_ResourcesManager.instance.playableWeapons;
+        foreach (GameObject obj in listGuns)
+        {
+            poolingGunQueue.Enqueue(CreateNewGun(obj));
+        }
+    }
+    private PlayerUpper CreateNewGun(GameObject obj)
+    {
+        var newObj = Instantiate<GameObject>(obj).AddComponent<PlayerUpper>();
+        newObj.gameObject.SetActive(false);
+        newObj.transform.SetParent(transform);
+        return newObj;
+    }
+    // 조건문으로 원하는 총 나올때까지
+    /*private static PlayerUpper GetGun(string gunName)
+    {
+        //var instance.poolingGunQueue.Dequeue();
+    }*/
+
+    // 총알 풀링
     private void BulletInitialize(int index)
     {
         for(int i = 0; i < index; i++)
@@ -28,14 +53,15 @@ public class ObjectPoolManager : MonoBehaviour
             poolingBulletQueue.Enqueue(CreateNewBullet());
         }
     }
-    private Bullet CreateNewBullet()
+    private MoveParticle CreateNewBullet()
     {
-        var obj = Instantiate<GameObject>(Ex_ResourcesManager.ammo).GetComponent<Bullet>();
-        obj.gameObject.SetActive(false);
-        obj.transform.SetParent(transform);
-        return obj;
+        ammo = Ex_ResourcesManager.ammo;
+        var newObj = Instantiate<GameObject>(ammo).GetComponent<MoveParticle>();
+        newObj.gameObject.SetActive(false);
+        newObj.transform.SetParent(transform);
+        return newObj;
     }
-    public static Bullet GetBullet(Transform gun, Vector3 spawnPos)
+    public static MoveParticle GetBullet(Vector3 spawnPos)
     {
         if(instance.poolingBulletQueue.Count > 0)
         {
@@ -54,7 +80,7 @@ public class ObjectPoolManager : MonoBehaviour
             return newBullet;
         }
     }
-    public static void ReturnBullet(Bullet bullet)
+    public static void ReturnBullet(MoveParticle bullet)
     {
         bullet.gameObject.SetActive(false);
         bullet.transform.SetParent(instance.transform);

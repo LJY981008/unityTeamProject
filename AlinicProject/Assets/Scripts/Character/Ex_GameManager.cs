@@ -11,15 +11,18 @@ public class Ex_GameManager : MonoBehaviour
     public static Ex_GameManager instance;
     public int[] saveAmmo;                          // 사용하고 저장된 탄 
     public int gunIndex = 1;                        // 기본총 값
-
+    
+    public Quaternion saveRotation;
+    public Vector3 savePos;
     private string[] listWeapon = { "Rifle", "Pistol", "ShotGun" };    // 무기 목록
     
     GameObject playableWeapon;                      // 현재 사용 중인 무기
     void Awake()
     {
         if (instance == null) instance = this;
+        saveRotation = Quaternion.identity;
+        savePos = Vector3.zero;
         saveAmmo = new int[3];
-        Debug.Log("ㅎㅇ");
     }
     private void Start()
     {
@@ -44,6 +47,7 @@ public class Ex_GameManager : MonoBehaviour
         {
             //라이플
             gunIndex = 0;
+            
             SelectWeapon(gunIndex);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -72,8 +76,10 @@ public class Ex_GameManager : MonoBehaviour
         
         if (playableWeapon != null)
         {
+            saveRotation = PlayerUpper.instance.transform.rotation;
+            savePos = PlayerUpper.instance.transform.position;
             saveAmmo[index] = PlayerUpper.instance.ammo[gunIndex];           // 남은 탄약 저장
-            CameraController.SettingCam(gameObject);
+            Camera.main.transform.SetParent(null);
             DestroyImmediate(playableWeapon);           // 이전 무기 오브젝트 및 컴포넌드 제거
         }
         CreatePlayableWeapon(listWeapon[index]);        // 선택한 무기 생성
@@ -87,8 +93,9 @@ public class Ex_GameManager : MonoBehaviour
         GameObject selectWeapon = Ex_ResourcesManager.instance.GetPlayableCharactor(weaponName);
         if (selectWeapon != null)
         {
-            playableWeapon = Instantiate(selectWeapon, Vector3.zero, Quaternion.identity);
+            playableWeapon = Instantiate(selectWeapon, savePos, saveRotation);
             playableWeapon.AddComponent<PlayerUpper>();
+            CameraController.SettingCam(playableWeapon);
         }
         else
         {

@@ -8,6 +8,17 @@ public class Bullet : MonoBehaviour
     public float bulletSpeed = 5.0f;
     public Transform gun;
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Monster"))
+        {
+            //ObjectPoolManager.ReturnBullet(this);
+        }
+        else
+        {
+            //ObjectPoolManager.ReturnBullet(this);
+        }
+    }
     private void OnEnable()
     {
         startPos = transform.position;
@@ -15,17 +26,18 @@ public class Bullet : MonoBehaviour
         transform.forward = gun.forward;
     }
 
-    void Update()
+    /*void Update()
     {
         if (Vector3.Distance(startPos, transform.position) > 10)
         {
             Debug.Log("10¿Ãµø");
-            ObjectPoolManager.ReturnBullet(this);
+            //ObjectPoolManager.ReturnBullet(this);
         }
         else
         {
-            
             transform.Translate(-(transform.forward * bulletSpeed * Time.deltaTime), Space.World);
         }
-    }
+    }*/
+    
+    
 }

@@ -22,7 +22,13 @@ public class PlayerUpper : MonoBehaviour
     private float rotateY = 0.0f;
     private float rotateX = 0.0f;
 
+    private SpawnParticle a;
+
     private void Awake()
+    {
+        transform.rotation = Ex_GameManager.instance.saveRotation;
+    }
+    private void Start()
     {
         if (instance == null) instance = this;
         animator = GetComponent<Animator>();
@@ -32,7 +38,8 @@ public class PlayerUpper : MonoBehaviour
         ammo = new int[3];
         muzzlePivot = FindFireSpot(transform, "Muzzle Pivot");
         muzzleState = muzzlePivot.GetComponent<MuzzleState>();
-
+        a = GameObject.Find("Scene").GetComponent<SpawnParticle>();
+        a.firePoint = muzzlePivot.gameObject;
     }
     private void Update()
     {
@@ -67,32 +74,22 @@ public class PlayerUpper : MonoBehaviour
     public void UseAmmo(int index)
     {
         ammo[index]--;
-        Debug.Log("잔탄 : " + ammo[index]);
     }
     // 탄 장전
     public void ReloadAmmo(int index)
     {
         ammo[index] = maxAmmo[index];
-        Debug.Log("장전완료" + ammo[index]);
     }
     // 오디오 재생
     public void PlayAudio(AudioClip clip)
     {
         audioSource.clip = clip;
         audioSource.Play();
-        
-        Debug.Log(clip.name + "클립명");
     }
     public void shot(int index)
     {
         firePos = muzzlePivot.position;
-        GameObject ammo;
-        Bullet bullet;
-        //RaycastHit hit;
-        //Vector3 hitPos = Vector3.zero;
-
-        //StartCoroutine(ShotEffect(hitPos));
-        ObjectPoolManager.GetBullet(transform ,firePos);
+        a.SetEffect();
         UseAmmo(index);
     }
 
@@ -115,6 +112,6 @@ public class PlayerUpper : MonoBehaviour
         instance.rotateX = Mathf.Clamp(instance.rotateX, -40, 40);
         Quaternion playerQuat = Quaternion.Euler(new Vector3(instance.rotateX, instance.rotateY, 0.0f));
         instance.transform.rotation = Quaternion.Slerp(instance.transform.rotation, playerQuat, Time.deltaTime * 500f);
-        
+
     }
 }

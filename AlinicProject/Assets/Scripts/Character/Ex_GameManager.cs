@@ -65,6 +65,11 @@ public class Ex_GameManager : MonoBehaviour
         {
             playableWeapon.ReloadGun(gunIndex);
         }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            UIManager.instance.SetBuffBody("Magazine");
+            UIManager.instance.SetBuffIcon("Large");
+        }
 
     }
     public void SelectWeapon()
@@ -80,7 +85,7 @@ public class Ex_GameManager : MonoBehaviour
     // 원하는 무기 씬에 생성
     public void CreatePlayableWeapon(string weaponName)
     {
-        GameObject selectWeapon = Ex_ResourcesManager.instance.GetPlayableCharactor(weaponName);
+        GameObject selectWeapon = Ex_ResourcesManager.instance.GetPlayableWeapon(weaponName);
         if (selectWeapon != null)
         {
             playableWeapon = ObjectPoolManager.GetGun(weaponName, savePos);

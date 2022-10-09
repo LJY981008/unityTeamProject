@@ -10,6 +10,6 @@ public class PlayerBody : MonoBehaviour
     public void OnDamage(float damege)
     {
         currentHP -= damege;
-        UIManager.UpdateHpState(maxHP, currentHP);
+        UIManager.instance.UpdateHpState(maxHP, currentHP);
     }
 }

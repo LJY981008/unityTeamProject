@@ -61,7 +61,7 @@ public class ObjectPoolManager : MonoBehaviour
     }
     private MoveParticle CreateNewBullet()
     {
-        ammo = Ex_ResourcesManager.ammo;
+        ammo = Ex_ResourcesManager.instance.ammo;
         var newObj = Instantiate<GameObject>(ammo).GetComponent<MoveParticle>();
         newObj.transform.localPosition = Vector3.zero;
         newObj.transform.localRotation = Quaternion.identity;

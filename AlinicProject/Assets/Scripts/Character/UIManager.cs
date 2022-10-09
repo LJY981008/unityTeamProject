@@ -12,20 +12,38 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI textMaxAmmo;
     public TextMeshProUGUI textCurrentAmmo;
     public Image imageHp;
-
     public List<Image> imageWeapons;
-    Image selectWeapon;
+    public Image imageBuffPanel;
+    public Image imageBuffBody;
+    public Image imageBuffIcon;
+    public TextMeshProUGUI textBuffDuration;
 
-
+    private float buffDuration;
+    private Image selectWeapon;
+    private Vector3 bodyGunImagePos;
+    private Vector3 bodyMagazineImagePos;
+    private float time;
     private void Awake()
     {
         instance = this;
+        buffDuration = -1;
+        time = 0;
+        bodyGunImagePos = new Vector3(7.0f, 0.0f, 0.0f);
+        bodyMagazineImagePos = new Vector3(7.0f, 35.0f, 0.0f);
     }
-    public static void UpdateHpState(float max, float current)
+    private void Update()
     {
-        instance.imageHp.fillAmount = current / max;
+        if(buffDuration > -1) {
+            SetBuffDuration();
+        }
+    }
+    // 체력 증감 UI 적용
+    public void UpdateHpState(float max, float current)
+    {
+        imageHp.fillAmount = current / max;
     }
 
+    // 선택한 총 표시
     public void SelectWeaponActive(string gunName)
     {
         if(selectWeapon != null)
@@ -38,6 +56,35 @@ public class UIManager : MonoBehaviour
         foreach (var image in imageWeapons)
         {
             image.gameObject.SetActive(false);
+        }
+    }
+
+    public void SetBuffBody(string body)
+    {
+        buffDuration = 20;
+        imageBuffPanel.gameObject.SetActive(true);
+        imageBuffBody.sprite = Ex_ResourcesManager.instance.GetBuffBodySprite(body);
+        if (body.Equals("Magazine"))
+        {
+            imageBuffIcon.rectTransform.anchoredPosition = bodyMagazineImagePos;
+        }
+        else
+        {
+            imageBuffIcon.rectTransform.anchoredPosition = bodyGunImagePos;
+        }
+    }
+    public void SetBuffIcon(string icon)
+    {
+        imageBuffIcon.sprite = Ex_ResourcesManager.instance.GetBuffIconSprite(icon);
+    }
+    public void SetBuffDuration()
+    {
+        textBuffDuration.text = buffDuration.ToString();
+        time += Time.deltaTime;
+        if (time >= 1)
+        {
+            buffDuration--;
+            time = 0;
         }
     }
 

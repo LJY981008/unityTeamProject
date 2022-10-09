@@ -20,17 +20,12 @@ public class ObjectPoolManager : MonoBehaviour
         BulletInitialize(10);
         GunInitialize();
     }
-    private void Start()
-    {
-        
-    }
     // gun 오브젝트 스폰
     private void GunInitialize()
     {
         List<GameObject> listGuns = Ex_ResourcesManager.instance.playableWeapons;
         foreach (GameObject obj in listGuns)
         {
-            Debug.Log(obj.name);
             listPoolingGun.Add(CreateNewGun(obj));
         }
     }
@@ -46,7 +41,6 @@ public class ObjectPoolManager : MonoBehaviour
     {
 
         var obj = instance.listPoolingGun.Find(o => o.name.Contains(weaponName));
-        Debug.Log(obj.name);
         obj.transform.position = spawnPos;
         obj.gameObject.SetActive(true);
         return obj;

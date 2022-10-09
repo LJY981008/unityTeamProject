@@ -15,7 +15,7 @@ public class Ex_GameManager : MonoBehaviour
     public GameObject playerBox;
     public GameObject sceneBox;
 
-    private string[] listWeapon = { "Rifle", "Pistol", "ShotGun" };    // 무기 목록
+    private string[] listWeapon = { "Rifle", "Pistol", "Shotgun" };    // 무기 목록
     private PlayerUpper playableWeapon;                      // 현재 사용 중인 무기
     private PlayerBody body;
 

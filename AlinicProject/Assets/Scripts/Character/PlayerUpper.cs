@@ -32,6 +32,7 @@ public class PlayerUpper : MonoBehaviour
         {
             UIManager.instance.textMaxAmmo.text = gunData.maxAmmo.ToString();
             UIManager.instance.textCurrentAmmo.text = gunData.currentAmmo.ToString();
+            UIManager.instance.SelectWeaponActive(transform.name.Replace("(Clone)", ""));
         }
         transform.localPosition = Vector3.zero;
         transform.localRotation = l;

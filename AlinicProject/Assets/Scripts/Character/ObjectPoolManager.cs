@@ -8,64 +8,77 @@ public class ObjectPoolManager : MonoBehaviour
 
     [SerializeField]
     private GameObject poolingBullet;
-    Queue<MoveParticle> poolingBulletQueue = new Queue<MoveParticle>();
+    Queue<MoveParticle> QueuepoolingBullet = new Queue<MoveParticle>();
     private GameObject poolingGun;
-    Queue<PlayerUpper> poolingGunQueue = new Queue<PlayerUpper>();
-
+    List<PlayerUpper> listPoolingGun = new List<PlayerUpper>();
+    private GameObject playerBox;
     private GameObject ammo;
-
     private void Awake()
     {
-        if (instance == null) instance = this;
-        
+        instance = this;
+        playerBox = Ex_GameManager.instance.playerBox;
+        BulletInitialize(10);
+        GunInitialize();
     }
     private void Start()
     {
-        BulletInitialize(10);
+        
     }
-
+    // gun 오브젝트 스폰
     private void GunInitialize()
     {
         List<GameObject> listGuns = Ex_ResourcesManager.instance.playableWeapons;
         foreach (GameObject obj in listGuns)
         {
-            poolingGunQueue.Enqueue(CreateNewGun(obj));
+            Debug.Log(obj.name);
+            listPoolingGun.Add(CreateNewGun(obj));
         }
     }
     private PlayerUpper CreateNewGun(GameObject obj)
     {
-        var newObj = Instantiate<GameObject>(obj).AddComponent<PlayerUpper>();
+        var newObj = Instantiate<GameObject>(obj, Vector3.zero, Quaternion.identity).GetComponent<PlayerUpper>();
         newObj.gameObject.SetActive(false);
-        newObj.transform.SetParent(transform);
+        newObj.transform.SetParent(instance.playerBox.transform);
         return newObj;
     }
-    // 조건문으로 원하는 총 나올때까지
-    /*private static PlayerUpper GetGun(string gunName)
+
+    public static PlayerUpper GetGun(string weaponName, Vector3 spawnPos)
     {
-        //var instance.poolingGunQueue.Dequeue();
-    }*/
+
+        var obj = instance.listPoolingGun.Find(o => o.name.Contains(weaponName));
+        Debug.Log(obj.name);
+        obj.transform.position = spawnPos;
+        obj.gameObject.SetActive(true);
+        return obj;
+    }
+    public static void ReturnGun(PlayerUpper player)
+    {
+        player.gameObject.SetActive(false);
+    }
 
     // 총알 풀링
     private void BulletInitialize(int index)
     {
         for(int i = 0; i < index; i++)
         {
-            poolingBulletQueue.Enqueue(CreateNewBullet());
+            QueuepoolingBullet.Enqueue(CreateNewBullet());
         }
     }
     private MoveParticle CreateNewBullet()
     {
         ammo = Ex_ResourcesManager.ammo;
         var newObj = Instantiate<GameObject>(ammo).GetComponent<MoveParticle>();
+        newObj.transform.localPosition = Vector3.zero;
+        newObj.transform.localRotation = Quaternion.identity;
         newObj.gameObject.SetActive(false);
-        newObj.transform.SetParent(transform);
+        newObj.transform.SetParent(null);
         return newObj;
     }
     public static MoveParticle GetBullet(Vector3 spawnPos)
     {
-        if(instance.poolingBulletQueue.Count > 0)
+        if(instance.QueuepoolingBullet.Count > 0)
         {
-            var bullet = instance.poolingBulletQueue.Dequeue();
+            var bullet = instance.QueuepoolingBullet.Dequeue();
             bullet.transform.position = spawnPos;
             bullet.transform.SetParent(null);
             bullet.gameObject.SetActive(true);
@@ -83,7 +96,6 @@ public class ObjectPoolManager : MonoBehaviour
     public static void ReturnBullet(MoveParticle bullet)
     {
         bullet.gameObject.SetActive(false);
-        bullet.transform.SetParent(instance.transform);
-        instance.poolingBulletQueue.Enqueue(bullet);
+        instance.QueuepoolingBullet.Enqueue(bullet);
     }
 }

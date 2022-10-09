@@ -11,22 +11,9 @@ public class FireState : StateMachineBehaviour
         string objName = animator.name.Replace("(Clone)", "");
         AudioClip fireClip;
         fireClip = Ex_AudioManager.instance.GetFireClip(objName);
-        PlayerUpper.instance.PlayAudio(fireClip);
-        switch (objName)
-        {
-            case "Rifle":;
-                PlayerUpper.instance.shot(0);
-                break;
-            case "Pistol":
-                PlayerUpper.instance.shot(1);
-                break;
-            case "ShotGun":
-                PlayerUpper.instance.shot(2);
-                break;
-            default:
-                Debug.Log("Åº¾È‰ç¾î");
-                break;
-        }
+        PlayerUpper player = animator.GetComponent<PlayerUpper>();
+        player.PlayAudio(fireClip);
+        player.shot();
 
     }
 

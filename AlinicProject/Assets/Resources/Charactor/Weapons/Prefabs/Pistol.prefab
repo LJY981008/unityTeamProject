@@ -852,7 +852,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6294084473825075164}
-  - component: {fileID: 2533434783874590224}
   m_Layer: 0
   m_Name: Muzzle Pivot
   m_TagString: Untagged
@@ -875,19 +874,6 @@ Transform:
   m_Father: {fileID: 2547718863680625318}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2533434783874590224
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4389866845461408842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75354865a844b7543bd773307cb1cb3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  muzzlePos: {x: 0, y: 0, z: 0}
 --- !u!1 &4574635346821339131
 GameObject:
   m_ObjectHideFlags: 0
@@ -1538,6 +1524,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8572747730520003331}
   - component: {fileID: 4914350790047701514}
+  - component: {fileID: 904316674580805929}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -1582,6 +1569,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &904316674580805929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6889425441924042706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 728b3252acf326b489c290a8f458e522, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gunData: {fileID: 11400000, guid: 08c1889d815285b428d32eaf26a4a64a, type: 2}
 --- !u!1 &6964384834666690191
 GameObject:
   m_ObjectHideFlags: 0

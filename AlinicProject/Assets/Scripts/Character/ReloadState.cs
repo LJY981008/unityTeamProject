@@ -11,7 +11,8 @@ public class ReloadState : StateMachineBehaviour
         AudioClip audioClip;
         string objName = animator.name.Replace("(Clone)", "");
         audioClip = Ex_AudioManager.instance.GetReloadClip(objName);
-        PlayerUpper.instance.PlayAudio(audioClip);
+        PlayerUpper player = animator.GetComponent<PlayerUpper>();
+        player.PlayAudio(audioClip);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -30,21 +31,8 @@ public class ReloadState : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         string objName = animator.name.Replace("(Clone)", "");
-        switch (objName)
-        {
-            case "Rifle":
-                PlayerUpper.instance.ReloadAmmo(0);
-                break;
-            case "Pistol":
-                PlayerUpper.instance.ReloadAmmo(1);
-                break;
-            case "ShotGun":
-                PlayerUpper.instance.ReloadAmmo(2);
-                break;
-            default:
-                Debug.Log("Åº¾È‰ç¾î");
-                break;
-        }
+        PlayerUpper player = animator.GetComponent<PlayerUpper>();
+        player.ReloadAmmo();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

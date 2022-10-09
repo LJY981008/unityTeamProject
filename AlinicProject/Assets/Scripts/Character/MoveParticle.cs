@@ -8,21 +8,29 @@ public class MoveParticle : MonoBehaviour
     public float fireRate;
     public GameObject muzzlePrefab;
     public GameObject hitPrefab;
-    public Transform gun;
+    public GameObject playerBox;
     private float saveSpeed;
+    public Vector3 startPos;
+    private Vector3 thisFoward;
+    private Vector3 focusCenter;
+    private Vector3 shotEnd;
     private void Awake()
     {
         saveSpeed = speed;
+        playerBox = Ex_GameManager.instance.playerBox;
+    }
+    private void Start()
+    {
+        
     }
     void OnEnable()
     {
+        startPos = transform.position;
         speed = saveSpeed;
-        gun = PlayerUpper.instance.transform;
-        transform.forward = gun.forward;
         if (muzzlePrefab != null)
         {
             var muzzleVFX = Instantiate(muzzlePrefab, transform.position, Quaternion.identity);
-            muzzleVFX.transform.forward = gameObject.transform.forward;
+            muzzleVFX.transform.forward = playerBox.transform.forward;
             var psMuzzle = muzzleVFX.GetComponent<ParticleSystem>();
             if (psMuzzle != null)
             {
@@ -38,9 +46,15 @@ public class MoveParticle : MonoBehaviour
 
     void Update()
     {
+        //focusCenter = new Vector3(Camera.main.pixelHeight / 2, Camera.main.pixelWidth / 2);
+        
+        if(Vector3.Distance(startPos, transform.position) > 50)
+        {
+            ObjectPoolManager.ReturnBullet(this);
+        }
         if (speed != 0)
         {
-            transform.position -= transform.forward * (speed * Time.deltaTime);
+            transform.position += playerBox.transform.forward * (speed * Time.deltaTime);
         }
         else
         {

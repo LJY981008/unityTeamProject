@@ -20,10 +20,8 @@ public class SpawnParticle : MonoBehaviour
 
         if (firePoint != null)
         {
-            ObjectPoolManager.GetBullet(firePoint.transform.position);
-            transform.localRotation = firePoint.transform.rotation;
-           /* Effects = Instantiate(effectToSpawn, firePoint.transform.position, Quaternion.identity);
-            Effects.transform.localRotation = firePoint.transform.rotation;*/
+            Effects = ObjectPoolManager.GetBullet(firePoint.transform.position).gameObject;
+            Effects.transform.localRotation = firePoint.transform.rotation;
         }
         else
         {

@@ -15,17 +15,9 @@ public class Ex_ResourcesManager : MonoBehaviour
     public static GameObject ammo;
     void Awake()
     {
-        if (instance == null) instance = this;
-
-        // 리소스로 저장된 무기들을 불러와서 리스트에 저장 
-        //ammo = Resources.Load<GameObject>("Charactor/Weapons/Prefabs/Ammo");
-        GameObject[] objGuns = Resources.LoadAll<GameObject>("Charactor/Weapons/Prefabs");
-        foreach (var obj in objGuns)
-        {
-            playableWeapons.Add(obj);
-        }
+        instance = this;
         LoadAmmo();
-
+        LoadGuns();
     }
 
     // 불러온 무기 리스트에서 원하는 무기 선택
@@ -37,19 +29,17 @@ public class Ex_ResourcesManager : MonoBehaviour
         return null;
     }
 
+    public void LoadGuns()
+    {
+        GameObject[] objGuns = Resources.LoadAll<GameObject>("Charactor/Weapons/Prefabs");
+        foreach (var obj in objGuns)
+        {
+            playableWeapons.Add(obj);
+        }
+    }
     public void LoadAmmo()
     {
-        //GameObject[] objAmmo = Resources.LoadAll<GameObject>("Effect/Prefabs/");
         ammo = Resources.Load<GameObject>("Effect/Prefabs/Shoot_01");
-        /*foreach (var obj in objAmmo)
-        {
-            gunAmmos.Add(obj);
-        }*/
-    }
-
-    public List<GameObject> GetAmmo()
-    {
-        return gunAmmos;
     }
     
    

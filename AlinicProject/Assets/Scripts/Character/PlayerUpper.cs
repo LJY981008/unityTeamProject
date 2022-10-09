@@ -8,49 +8,47 @@ using UnityEngine;
  */
 public class PlayerUpper : MonoBehaviour
 {
-    [HideInInspector] public static PlayerUpper instance;
-    [HideInInspector] public int[] ammo;
     public GunData gunData;
 
-    private MuzzleState muzzleState;        //이펙트 정보
     private AudioSource audioSource;        // 사운드
     private Animator animator;
-    private int[] maxAmmo = { 30, 12, 12 };
     private float fireDistance = 50f; // 사정거리
     private Transform muzzlePivot;   // 총구 피봇 오브젝트
     private Vector3 firePos;        //총구 위치
-    private float rotateY = 0.0f;
-    private float rotateX = 0.0f;
-
-    private SpawnParticle a;
-
+   
+    private Quaternion l = Quaternion.Euler(new Vector3(0, 180, 0));
+    private SpawnParticle spawnParticle;
     private void Awake()
     {
-        transform.rotation = Ex_GameManager.instance.saveRotation;
-    }
-    private void Start()
-    {
-        if (instance == null) instance = this;
         animator = GetComponent<Animator>();
         audioSource = gameObject.AddComponent<AudioSource>();
-        CameraController.SettingCam(gameObject);
-        audioSource.playOnAwake = false;
-        ammo = new int[3];
         muzzlePivot = FindFireSpot(transform, "Muzzle Pivot");
-        muzzleState = muzzlePivot.GetComponent<MuzzleState>();
-        a = GameObject.Find("Scene").GetComponent<SpawnParticle>();
-        a.firePoint = muzzlePivot.gameObject;
+        spawnParticle = Ex_GameManager.instance.GetComponent<SpawnParticle>();
+        gunData.currentAmmo = gunData.maxAmmo;
     }
-    private void Update()
+    private void OnEnable()
     {
-        
+        if (UIManager.instance != null)
+        {
+            UIManager.instance.textMaxAmmo.text = gunData.maxAmmo.ToString();
+            UIManager.instance.textCurrentAmmo.text = gunData.currentAmmo.ToString();
+        }
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = l;
+        audioSource.playOnAwake = false;
+        spawnParticle.firePoint = muzzlePivot.gameObject;
     }
-
-
     // 발사
     public void FireGun(int index)
     {
-        animator.SetBool("isFire", true);
+        if (gunData.currentAmmo > 0)
+        {
+            animator.SetBool("isFire", true);
+        }
+        else
+        {
+            Debug.Log("탄없음");
+        }
     }   
     // 대기, 
     public void IdleGun()
@@ -61,24 +59,26 @@ public class PlayerUpper : MonoBehaviour
     public void ReloadGun(int index)
     {
         // 탄약이 가득차있을 때는 작동안하는 이벤트 작성
-        if (ammo[index] < maxAmmo[index])
+        if (gunData.currentAmmo < gunData.maxAmmo)
         {
             animator.SetBool("isReload", true);
         }
         else
         {
-            Debug.Log("탄이 가득참 : " + ammo);
+            Debug.Log("탄이 가득참");
         }
     }
     // 탄감소
-    public void UseAmmo(int index)
+    public void UseAmmo()
     {
-        ammo[index]--;
+        gunData.currentAmmo--;
+        UIManager.instance.textCurrentAmmo.text = gunData.currentAmmo.ToString();
     }
     // 탄 장전
-    public void ReloadAmmo(int index)
+    public void ReloadAmmo()
     {
-        ammo[index] = maxAmmo[index];
+        gunData.currentAmmo = gunData.maxAmmo;
+        UIManager.instance.textCurrentAmmo.text = gunData.currentAmmo.ToString();
     }
     // 오디오 재생
     public void PlayAudio(AudioClip clip)
@@ -86,11 +86,12 @@ public class PlayerUpper : MonoBehaviour
         audioSource.clip = clip;
         audioSource.Play();
     }
-    public void shot(int index)
+    public void shot()
     {
         firePos = muzzlePivot.position;
-        a.SetEffect();
-        UseAmmo(index);
+        spawnParticle.firePoint = muzzlePivot.gameObject;
+        spawnParticle.SetEffect();
+        UseAmmo();
     }
 
     public Transform FindFireSpot(Transform _t, string name)
@@ -105,13 +106,6 @@ public class PlayerUpper : MonoBehaviour
         }
         return null;
     }
-    public static void MoveRotate(float rotateSizeX, float rotateSizeY)
-    {
-        instance.rotateY += rotateSizeY;
-        instance.rotateX += -rotateSizeX;
-        instance.rotateX = Mathf.Clamp(instance.rotateX, -40, 40);
-        Quaternion playerQuat = Quaternion.Euler(new Vector3(instance.rotateX, instance.rotateY, 0.0f));
-        instance.transform.rotation = Quaternion.Slerp(instance.transform.rotation, playerQuat, Time.deltaTime * 500f);
-
-    }
+    //이거 박스로 옮기기
+   
 }

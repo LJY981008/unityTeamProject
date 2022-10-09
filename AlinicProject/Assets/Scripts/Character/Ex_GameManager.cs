@@ -9,93 +9,82 @@ using UnityEngine;
 public class Ex_GameManager : MonoBehaviour
 {
     public static Ex_GameManager instance;
-    public int[] saveAmmo;                          // 사용하고 저장된 탄 
     public int gunIndex = 1;                        // 기본총 값
-    
     public Quaternion saveRotation;
     public Vector3 savePos;
+    public GameObject playerBox;
+    public GameObject sceneBox;
+
     private string[] listWeapon = { "Rifle", "Pistol", "ShotGun" };    // 무기 목록
-    
-    GameObject playableWeapon;                      // 현재 사용 중인 무기
+    private PlayerUpper playableWeapon;                      // 현재 사용 중인 무기
+    private PlayerBody body;
+
     void Awake()
     {
-        if (instance == null) instance = this;
+        instance = this;
         saveRotation = Quaternion.identity;
         savePos = Vector3.zero;
-        saveAmmo = new int[3];
+        body = playerBox.GetComponent<PlayerBody>();
     }
     private void Start()
     {
-        SelectWeapon(gunIndex);    // 기본무기 권총
+        SelectWeapon();    // 기본무기 권총
     }
     private void Update()
     {
-        PlayerUpper.MoveRotate(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"));
+        PlayerUtill.instance.MoveRotate(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"));
         //좌클릭
-        if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) && PlayerUpper.instance.ammo[gunIndex] > 0)
+        if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)))
         {
-            PlayerUpper.instance.FireGun(gunIndex);
+            playableWeapon.FireGun(gunIndex);
         }
         //우클릭
         else
         {
-            PlayerUpper.instance.IdleGun();
+            playableWeapon.IdleGun();
         }
         
         //키 다운으로 무기 선택
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1) && gunIndex != 0)
         {
-            //라이플
             gunIndex = 0;
-            
-            SelectWeapon(gunIndex);
+            SelectWeapon();
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && gunIndex != 1)
         {
             //권총
             gunIndex = 1;
-            SelectWeapon(gunIndex);
+            SelectWeapon();
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        else if (Input.GetKeyDown(KeyCode.Alpha3) && gunIndex != 2)
         {
             //샷건
             gunIndex = 2;
-            SelectWeapon(gunIndex);
+            SelectWeapon();
         }
         else if (Input.GetKeyDown(KeyCode.R))
         {
-            PlayerUpper.instance.ReloadGun(gunIndex);
+            playableWeapon.ReloadGun(gunIndex);
         }
 
-
     }
-
-
-    public void SelectWeapon(int index)
+    public void SelectWeapon()
     {
-        
         if (playableWeapon != null)
         {
-            saveRotation = PlayerUpper.instance.transform.rotation;
-            savePos = PlayerUpper.instance.transform.position;
-            saveAmmo[index] = PlayerUpper.instance.ammo[gunIndex];           // 남은 탄약 저장
-            Camera.main.transform.SetParent(null);
-            DestroyImmediate(playableWeapon);           // 이전 무기 오브젝트 및 컴포넌드 제거
+            saveRotation = playableWeapon.transform.rotation;
+            savePos = playableWeapon.transform.position;
+            ObjectPoolManager.ReturnGun(playableWeapon);           // 이전 무기 오브젝트 및 컴포넌드 제거
         }
-        CreatePlayableWeapon(listWeapon[index]);        // 선택한 무기 생성
-        PlayerUpper.instance.ammo[gunIndex] = saveAmmo[index];           // 이전 탄약 유지
+        CreatePlayableWeapon(listWeapon[gunIndex]);        // 선택한 무기 생성
     }
-
-
     // 원하는 무기 씬에 생성
     public void CreatePlayableWeapon(string weaponName)
     {
         GameObject selectWeapon = Ex_ResourcesManager.instance.GetPlayableCharactor(weaponName);
         if (selectWeapon != null)
         {
-            playableWeapon = Instantiate(selectWeapon, savePos, saveRotation);
-            playableWeapon.AddComponent<PlayerUpper>();
-            CameraController.SettingCam(playableWeapon);
+            playableWeapon = ObjectPoolManager.GetGun(weaponName, savePos);
         }
         else
         {

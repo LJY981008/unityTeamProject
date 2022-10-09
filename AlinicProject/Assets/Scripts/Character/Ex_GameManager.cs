@@ -17,14 +17,13 @@ public class Ex_GameManager : MonoBehaviour
 
     private string[] listWeapon = { "Rifle", "Pistol", "Shotgun" };    // 무기 목록
     private PlayerUpper playableWeapon;                      // 현재 사용 중인 무기
-    private PlayerBody body;
 
     void Awake()
     {
         instance = this;
         saveRotation = Quaternion.identity;
         savePos = Vector3.zero;
-        body = playerBox.GetComponent<PlayerBody>();
+        
     }
     private void Start()
     {

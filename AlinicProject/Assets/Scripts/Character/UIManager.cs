@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI textMaxAmmo;
     public TextMeshProUGUI textCurrentAmmo;
     public Image imageHp;
-    // 0,1 라이플 2,3 피스톨 4,5 샷건
+
     public List<Image> imageWeapons;
     Image selectWeapon;
 

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ObjectPoolManager : MonoBehaviour
 {
+    [HideInInspector]
     public static ObjectPoolManager instance;
-
     [SerializeField]
     private GameObject poolingBullet;
     Queue<MoveParticle> QueuepoolingBullet = new Queue<MoveParticle>();
@@ -13,12 +13,13 @@ public class ObjectPoolManager : MonoBehaviour
     List<PlayerUpper> listPoolingGun = new List<PlayerUpper>();
     private GameObject playerBox;
     private GameObject ammo;
+
     private void Awake()
     {
         instance = this;
         playerBox = Ex_GameManager.instance.playerBox;
-        BulletInitialize(10);
         GunInitialize();
+        BulletInitialize(10);
     }
     // gun 오브젝트 스폰
     private void GunInitialize()
@@ -26,10 +27,10 @@ public class ObjectPoolManager : MonoBehaviour
         List<GameObject> listGuns = Ex_ResourcesManager.instance.playableWeapons;
         foreach (GameObject obj in listGuns)
         {
-            listPoolingGun.Add(CreateNewGun(obj));
+            instance.listPoolingGun.Add(instance.CreateNewGun(obj));
         }
     }
-    private PlayerUpper CreateNewGun(GameObject obj)
+    public PlayerUpper CreateNewGun(GameObject obj)
     {
         var newObj = Instantiate<GameObject>(obj, Vector3.zero, Quaternion.identity).GetComponent<PlayerUpper>();
         newObj.gameObject.SetActive(false);
@@ -55,7 +56,7 @@ public class ObjectPoolManager : MonoBehaviour
     {
         for(int i = 0; i < index; i++)
         {
-            QueuepoolingBullet.Enqueue(CreateNewBullet());
+            instance.QueuepoolingBullet.Enqueue(instance.CreateNewBullet());
         }
     }
     private MoveParticle CreateNewBullet()

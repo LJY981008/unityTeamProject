@@ -8,18 +8,19 @@ using UnityEngine;
  */
 public class Ex_ResourcesManager : MonoBehaviour
 {
+    [HideInInspector]
     public static Ex_ResourcesManager instance;
     public List<GameObject> playableWeapons;    // 무기리소스 리스트
     public List<AudioClip> pistolAudioClip;
     public static List<GameObject> gunAmmos;
     public static GameObject ammo;
-    void Awake()
+
+    private void Awake()
     {
         instance = this;
         LoadAmmo();
         LoadGuns();
     }
-
     // 불러온 무기 리스트에서 원하는 무기 선택
     public GameObject GetPlayableCharactor(string weaponName)
     {
@@ -28,7 +29,6 @@ public class Ex_ResourcesManager : MonoBehaviour
         }
         return null;
     }
-
     public void LoadGuns()
     {
         GameObject[] objGuns = Resources.LoadAll<GameObject>("Charactor/Weapons/Prefabs");

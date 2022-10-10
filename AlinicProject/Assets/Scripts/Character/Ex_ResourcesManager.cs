@@ -12,16 +12,18 @@ public class Ex_ResourcesManager : MonoBehaviour
     [HideInInspector]
     public static Ex_ResourcesManager instance;
     public List<GameObject> playableWeapons;    // 무기리소스 리스트
-    public List<AudioClip> pistolAudioClip;
-    public List<GameObject> gunAmmos;
-    public GameObject ammo;
-    public List<Sprite> spriteBuffBody;
-    public List<Sprite> spriteBuffIcon;
+    public List<AudioClip> weaponAudioClips;    // 무기 사운드 리스트
+    public List<GameObject> gunAmmos;           // 총알 이펙트 리스트   당장은 미사용
+    public GameObject ammo;                     // 총알 이펙트 필요시 gunAmmos 리스트로 교체
+    public List<Sprite> spriteBuffBody;         // 버프 이미 (무기 버프 or 탄창 버프)
+    public List<Sprite> spriteBuffIcon;         // 버프 아이콘 (적용되는 버프 종류)
+    public GameObject buffItem;
 
     string pathWeapons = "Charactor/Weapons/Prefabs";
     string pathEffects = "Effect/Prefabs/Shoot_01";
     string pathBuffIconSprite = "Image/Buff Image/Icon";
     string pathBuffBodySprite = "Image/Buff Image/Body";
+    string pathBuffItem = "Buff Item/Test Buff Item";
     private void Awake()
     {
         instance = this;
@@ -29,6 +31,7 @@ public class Ex_ResourcesManager : MonoBehaviour
         LoadGuns();
         LoadBuffIcon();
         LoadBuffBody();
+        LoadBuffItem();
     }
     // 무기 선택
     public GameObject GetPlayableWeapon(string weaponName)
@@ -44,6 +47,10 @@ public class Ex_ResourcesManager : MonoBehaviour
     public Sprite GetBuffIconSprite(string icon)
     {
         return spriteBuffIcon.Find(o => o.name.Contains(icon));
+    }
+    public GameObject GetBuffItem()
+    {
+        return buffItem;
     }
     // 총 리소스
     public void LoadGuns()
@@ -78,6 +85,11 @@ public class Ex_ResourcesManager : MonoBehaviour
             spriteBuffBody.Add(obj);
             Debug.Log(obj.name);
         }
+    }
+    // 버프 오브젝트
+    public void LoadBuffItem()
+    {
+        buffItem = Resources.Load<GameObject>(pathBuffItem);
     }
    
 }

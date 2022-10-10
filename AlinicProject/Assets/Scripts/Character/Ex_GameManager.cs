@@ -67,10 +67,9 @@ public class Ex_GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            UIManager.instance.SetBuffBody("Magazine");
-            UIManager.instance.SetBuffIcon("Large");
+            GameObject obj = Instantiate<GameObject>(Ex_ResourcesManager.instance.buffItem);
+            obj.transform.position = PlayerUtill.GetRandomMapPos(playerBox.transform.position);
         }
-
     }
     public void SelectWeapon()
     {

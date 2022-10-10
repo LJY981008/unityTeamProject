@@ -61,4 +61,14 @@ public class PlayerUtill : MonoBehaviour
         }
         return Vector3.zero;
     }
+    public static Vector3 GetShotEndPos()
+    {
+        RaycastHit hitInfo;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity))
+        {
+            return hitInfo.point;
+        }
+        return Vector3.zero;
+    }
 }

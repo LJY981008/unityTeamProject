@@ -10,7 +10,7 @@ public class FireState : StateMachineBehaviour
     {
         string objName = animator.name.Replace("(Clone)", "");
         AudioClip fireClip;
-        fireClip = Ex_AudioManager.instance.GetFireClip(objName);
+        fireClip = AudioManager.instance.GetFireClip(objName);
         PlayerUpper player = animator.GetComponent<PlayerUpper>();
         player.PlayAudio(fireClip);
         player.shot();

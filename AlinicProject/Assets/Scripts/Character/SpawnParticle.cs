@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnParticle : MonoBehaviour
 {
-    public GameObject firePoint;
+    [HideInInspector] public GameObject firePoint;
     public GameObject[] Effects;
     //public RotateToMouse rotateToMouse;
     private GameObject effectToSpawn;

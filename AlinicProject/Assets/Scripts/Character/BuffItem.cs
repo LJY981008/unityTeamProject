@@ -6,8 +6,8 @@ public class BuffItem : MonoBehaviour
 {
     float rotateSpeed = 50f;
     float boundSpeed = 0.3f;
-    float boundMinLocation = -0.4f;
-    float boundMaxLocation = 0.1f;
+    float boundMinLocation = 0.2f;
+    float boundMaxLocation = 0.6f;
     Vector3 boundDirection;
     private void Start()
     {
@@ -26,6 +26,7 @@ public class BuffItem : MonoBehaviour
         if (other.transform.CompareTag("Player"))
         {
             // 없어지고, 버프적용
+            UIManager.instance.imageBuffPanel.gameObject.SetActive(true);
             UIManager.instance.SetBuffBody("Magazine");
             UIManager.instance.SetBuffIcon("Large");
         }

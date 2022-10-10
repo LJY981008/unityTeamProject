@@ -10,7 +10,7 @@ public class ReloadState : StateMachineBehaviour
     {
         AudioClip audioClip;
         string objName = animator.name.Replace("(Clone)", "");
-        audioClip = Ex_AudioManager.instance.GetReloadClip(objName);
+        audioClip = AudioManager.instance.GetReloadClip(objName);
         PlayerUpper player = animator.GetComponent<PlayerUpper>();
         player.PlayAudio(audioClip);
     }

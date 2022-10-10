@@ -8,22 +8,22 @@ public class CameraController : MonoBehaviour
     private Vector3 offset;
     public GameObject playerBox;
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         instance = this;
+        
+    }
+    private void Start()
+    {
+        offset = new Vector3(-0.2f, 0.0f, 0.2f);
         SettingCam(playerBox);
     }
-
-    void Update()
-    {
-    }
-
     // 카메라 위치 설정
     public void SettingCam(GameObject player)
     {
         Quaternion l = Quaternion.Euler(new Vector3(0, 0, 0));
         instance.transform.localRotation = l;
         instance.transform.parent = player.transform;
-        instance.transform.localPosition = new Vector3(-0.2f, 0.0f, 0.2f);
+        instance.transform.localPosition = offset;
     }
 }

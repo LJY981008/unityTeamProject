@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class ObjectPoolManager : MonoBehaviour
 {
-    [HideInInspector]
+
     public static ObjectPoolManager instance;
-    [SerializeField]
-    private GameObject poolingBullet;
     Queue<MoveParticle> QueuepoolingBullet = new Queue<MoveParticle>();
-    private GameObject poolingGun;
     List<PlayerUpper> listPoolingGun = new List<PlayerUpper>();
     private GameObject playerBox;
     private GameObject ammo;
@@ -17,14 +14,14 @@ public class ObjectPoolManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        playerBox = Ex_GameManager.instance.playerBox;
+        playerBox = GameManager.instance.playerBox;
         GunInitialize();
         BulletInitialize(10);
     }
     // gun 오브젝트 스폰
     private void GunInitialize()
     {
-        List<GameObject> listGuns = Ex_ResourcesManager.instance.playableWeapons;
+        List<GameObject> listGuns = ResourcesManager.instance.playableWeapons;
         foreach (GameObject obj in listGuns)
         {
             instance.listPoolingGun.Add(instance.CreateNewGun(obj));
@@ -38,11 +35,11 @@ public class ObjectPoolManager : MonoBehaviour
         return newObj;
     }
 
-    public static PlayerUpper GetGun(string weaponName, Vector3 spawnPos)
+    public static PlayerUpper GetGun(string weaponName)
     {
 
         var obj = instance.listPoolingGun.Find(o => o.name.Contains(weaponName));
-        obj.transform.position = spawnPos;
+        obj.transform.localPosition = Vector3.zero;
         obj.gameObject.SetActive(true);
         return obj;
     }
@@ -61,7 +58,7 @@ public class ObjectPoolManager : MonoBehaviour
     }
     private MoveParticle CreateNewBullet()
     {
-        ammo = Ex_ResourcesManager.instance.ammo;
+        ammo = ResourcesManager.instance.ammo;
         var newObj = Instantiate<GameObject>(ammo).GetComponent<MoveParticle>();
         newObj.transform.localPosition = Vector3.zero;
         newObj.transform.localRotation = Quaternion.identity;

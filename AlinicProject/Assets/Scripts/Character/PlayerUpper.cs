@@ -23,7 +23,7 @@ public class PlayerUpper : MonoBehaviour
         animator = GetComponent<Animator>();
         audioSource = gameObject.AddComponent<AudioSource>();
         muzzlePivot = FindFireSpot(transform, "Muzzle Pivot");
-        spawnParticle = Ex_GameManager.instance.GetComponent<SpawnParticle>();
+        spawnParticle = GameManager.instance.GetComponent<SpawnParticle>();
         gunData.currentAmmo = gunData.maxAmmo;
     }
     private void OnEnable()

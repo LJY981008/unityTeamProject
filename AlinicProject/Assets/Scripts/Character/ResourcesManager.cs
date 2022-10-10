@@ -7,17 +7,17 @@ using UnityEngine.UI;
  * 마지막 수정 : 2022-08-17
  * 내용 : 리소스매니저. 무기 리소스들 불러오기, 원하는 무기 리소스 선택
  */
-public class Ex_ResourcesManager : MonoBehaviour
+public class ResourcesManager : MonoBehaviour
 {
-    [HideInInspector]
-    public static Ex_ResourcesManager instance;
-    public List<GameObject> playableWeapons;    // 무기리소스 리스트
-    public List<AudioClip> weaponAudioClips;    // 무기 사운드 리스트
-    public List<GameObject> gunAmmos;           // 총알 이펙트 리스트   당장은 미사용
-    public GameObject ammo;                     // 총알 이펙트 필요시 gunAmmos 리스트로 교체
-    public List<Sprite> spriteBuffBody;         // 버프 이미 (무기 버프 or 탄창 버프)
-    public List<Sprite> spriteBuffIcon;         // 버프 아이콘 (적용되는 버프 종류)
-    public GameObject buffItem;
+
+    [HideInInspector] public static ResourcesManager instance;
+    [HideInInspector] public List<GameObject> playableWeapons;    // 무기리소스 리스트
+    [HideInInspector] public List<AudioClip> weaponAudioClips;    // 무기 사운드 리스트
+    [HideInInspector] public List<GameObject> gunAmmos;           // 총알 이펙트 리스트   당장은 미사용
+    [HideInInspector] public GameObject ammo;                     // 총알 이펙트 필요시 gunAmmos 리스트로 교체
+    [HideInInspector] public List<Sprite> spriteBuffBody;         // 버프 이미 (무기 버프 or 탄창 버프)
+    [HideInInspector] public List<Sprite> spriteBuffIcon;         // 버프 아이콘 (적용되는 버프 종류)
+    [HideInInspector] public GameObject buffItem;
 
     string pathWeapons = "Charactor/Weapons/Prefabs";
     string pathEffects = "Effect/Prefabs/Shoot_01";
@@ -73,7 +73,6 @@ public class Ex_ResourcesManager : MonoBehaviour
         foreach (var obj in objIcons)
         {
             spriteBuffIcon.Add(obj);
-            Debug.Log(obj.name);
         }
     }
     // 버프 종류 리스트

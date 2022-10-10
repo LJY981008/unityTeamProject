@@ -6,14 +6,11 @@ using UnityEngine;
  * 마지막 수정 : 2022-08-17
  * 내용 : 게임매니저. 무기 생성, 무기 변경
  */
-public class Ex_GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public static Ex_GameManager instance;
-    public int gunIndex = 1;                        // 기본총 값
-    public Quaternion saveRotation;
-    public Vector3 savePos;
+    public static GameManager instance;
+    private int gunIndex = 1;                        // 기본총 값
     public GameObject playerBox;
-    public GameObject sceneBox;
 
     private string[] listWeapon = { "Rifle", "Pistol", "Shotgun" };    // 무기 목록
     private PlayerUpper playableWeapon;                      // 현재 사용 중인 무기
@@ -21,9 +18,8 @@ public class Ex_GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        saveRotation = Quaternion.identity;
-        savePos = Vector3.zero;
-        
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
     private void Start()
     {
@@ -67,7 +63,7 @@ public class Ex_GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GameObject obj = Instantiate<GameObject>(Ex_ResourcesManager.instance.buffItem);
+            GameObject obj = Instantiate<GameObject>(ResourcesManager.instance.buffItem);
             obj.transform.position = PlayerUtill.GetRandomMapPos(playerBox.transform.position);
         }
     }
@@ -75,8 +71,6 @@ public class Ex_GameManager : MonoBehaviour
     {
         if (playableWeapon != null)
         {
-            saveRotation = playableWeapon.transform.rotation;
-            savePos = playableWeapon.transform.position;
             ObjectPoolManager.ReturnGun(playableWeapon);           // 이전 무기 오브젝트 및 컴포넌드 제거
         }
         CreatePlayableWeapon(listWeapon[gunIndex]);        // 선택한 무기 생성
@@ -84,10 +78,10 @@ public class Ex_GameManager : MonoBehaviour
     // 원하는 무기 씬에 생성
     public void CreatePlayableWeapon(string weaponName)
     {
-        GameObject selectWeapon = Ex_ResourcesManager.instance.GetPlayableWeapon(weaponName);
+        GameObject selectWeapon = ResourcesManager.instance.GetPlayableWeapon(weaponName);
         if (selectWeapon != null)
         {
-            playableWeapon = ObjectPoolManager.GetGun(weaponName, savePos);
+            playableWeapon = ObjectPoolManager.GetGun(weaponName);
         }
         else
         {

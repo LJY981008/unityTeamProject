@@ -36,6 +36,10 @@ public class UIManager : MonoBehaviour
         if(buffDuration > -1) {
             SetBuffDuration();
         }
+        else
+        {
+            imageBuffPanel.gameObject.SetActive(false);
+        }
     }
     // 체력 증감 UI 적용
     public void UpdateHpState(float max, float current)
@@ -63,7 +67,7 @@ public class UIManager : MonoBehaviour
     {
         buffDuration = 20;
         imageBuffPanel.gameObject.SetActive(true);
-        imageBuffBody.sprite = Ex_ResourcesManager.instance.GetBuffBodySprite(body);
+        imageBuffBody.sprite = ResourcesManager.instance.GetBuffBodySprite(body);
         if (body.Equals("Magazine"))
         {
             imageBuffIcon.rectTransform.anchoredPosition = bodyMagazineImagePos;
@@ -75,7 +79,7 @@ public class UIManager : MonoBehaviour
     }
     public void SetBuffIcon(string icon)
     {
-        imageBuffIcon.sprite = Ex_ResourcesManager.instance.GetBuffIconSprite(icon);
+        imageBuffIcon.sprite = ResourcesManager.instance.GetBuffIconSprite(icon);
     }
     public void SetBuffDuration()
     {

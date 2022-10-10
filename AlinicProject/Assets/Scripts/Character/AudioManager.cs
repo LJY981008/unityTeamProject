@@ -2,15 +2,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Ex_AudioManager : MonoBehaviour
+public class AudioManager : MonoBehaviour
 {
-    public static Ex_AudioManager instance;
+    public static AudioManager instance;
 
     List<AudioClip> anyAudioClipList = new List<AudioClip>();   // 모든 오디오 클립 리소스 리스트
 
     private void Awake()
     {
-        if (instance == null) instance = this;
+        instance = this;
         // 모든 오디오 클립 호출
         AudioClip[] audioClip = Resources.LoadAll<AudioClip>("Charactor/Weapons/Sounds");
         foreach (AudioClip clip in audioClip)

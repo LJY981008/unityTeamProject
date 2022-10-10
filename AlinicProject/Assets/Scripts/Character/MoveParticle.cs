@@ -11,17 +11,12 @@ public class MoveParticle : MonoBehaviour
     public GameObject playerBox;
     private float saveSpeed;
     public Vector3 startPos;
-    private Vector3 thisFoward;
-    private Vector3 focusCenter;
-    private Vector3 shotEnd;
+    public Vector3 endPos;
     private void Awake()
     {
+        speed = 100f;
         saveSpeed = speed;
-        playerBox = Ex_GameManager.instance.playerBox;
-    }
-    private void Start()
-    {
-        
+        playerBox = GameManager.instance.playerBox;
     }
     void OnEnable()
     {
@@ -42,18 +37,19 @@ public class MoveParticle : MonoBehaviour
                 Destroy(muzzleVFX, psChild.main.duration);
             }
         }
+        endPos = PlayerUtill.GetShotEndPos();
     }
 
     void Update()
     {
-        //focusCenter = new Vector3(Camera.main.pixelHeight / 2, Camera.main.pixelWidth / 2);
-        
-        if(Vector3.Distance(startPos, transform.position) > 50)
+        if(Vector3.Distance(startPos, transform.position) > 100)
         {
             ObjectPoolManager.ReturnBullet(this);
         }
         if (speed != 0)
         {
+            //if (endPos == Vector3.zero) transform.position += playerBox.transform.forward * (speed * Time.deltaTime);
+            //else transform.position += endPos.normalized * (speed * Time.deltaTime);
             transform.position += playerBox.transform.forward * (speed * Time.deltaTime);
         }
         else

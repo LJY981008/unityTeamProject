@@ -34,8 +34,8 @@ public class PlayerChar : MonoBehaviour
     }
     void Update()
     {
-        Rotate();
         Move();
+        Rotate();
         Jump();
     }
         void Rotate()

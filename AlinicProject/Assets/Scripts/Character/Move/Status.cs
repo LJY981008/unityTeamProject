@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * 작성자 : 임석현
+ * 마지막 수정 : 2022-08-22
+ * 내용 : 캐릭터 달리기 걷기 조작
+ */
 public class Status : MonoBehaviour 
 {
     public static Status instance;

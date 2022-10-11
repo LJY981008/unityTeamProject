@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BossScript : MonoBehaviour
 {
+    public static BossScript instance;
     GameObject _target;
     public Transform PhaseOneBoss, PhaseOneModel, PhaseTwoBoss, PhaseTwoModel, PhaseThreeBoss, PhaseThreeModel;
     Animator ani;
@@ -12,6 +13,7 @@ public class BossScript : MonoBehaviour
     Phase1Script phase1Script;
     Vector3 _deadPosition;
     public GameObject ironreaver01;
+    List<Transform> childTs;
     public GameObject target
     {
         get { return _target; }
@@ -29,14 +31,24 @@ public class BossScript : MonoBehaviour
     }
     private void Awake()
     {
+        if (instance == null)
+            instance = this;
+
+
+        childTs = new List<Transform>();
+        for (int i = 0; i < 3; i++)
+        {
+            childTs.Add(transform.GetChild(i));
+        }
+
         triggerInt = 1;
         target = GameObject.Find("Player");
-        PhaseOneBoss = ResourceManager.instance.childTs[0];
-        PhaseOneModel = ResourceManager.instance.childTs[0].Find("1_Model");
-        PhaseTwoBoss = ResourceManager.instance.childTs[1];
-        PhaseTwoModel = ResourceManager.instance.childTs[1].Find("2_Model");
-        PhaseThreeBoss = ResourceManager.instance.childTs[2];
-        PhaseThreeModel = ResourceManager.instance.childTs[2].Find("3_Model");
+        PhaseOneBoss = childTs[0];
+        PhaseOneModel = childTs[0].Find("1_Model");
+        PhaseTwoBoss = childTs[1];
+        PhaseTwoModel = childTs[1].Find("2_Model");
+        PhaseThreeBoss = childTs[2];
+        PhaseThreeModel = childTs[2].Find("3_Model");
         ani = PhaseOneModel.GetComponent<Animator>();
         ironreaver01 = PhaseTwoModel.Find("ironreaver01").gameObject;
     }
@@ -49,6 +61,7 @@ public class BossScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // 범위내에 진입했을때 보스 출현
         if(getDistanceToTarget() <= 50.0f)
         {
             Debug.Log("distanceTest");

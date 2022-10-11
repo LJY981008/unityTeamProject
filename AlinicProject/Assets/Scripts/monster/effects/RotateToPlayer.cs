@@ -16,7 +16,7 @@ public class RotateToPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RotateToMouseDirection(gameObject, RazerEffectTestScript.instance.player.transform.position);
+        RotateToMouseDirection(gameObject, BossScript.instance.target.transform.position);
     }
 
     void RotateToMouseDirection(GameObject obj, Vector3 destination)

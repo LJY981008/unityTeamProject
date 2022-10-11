@@ -14,6 +14,7 @@ public class Phase1RunScript : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // 페이즈1 타겟위치추적함수 - 여기주석풀면 따라가서 공격함
         phase1Script.moveToTarget();
         if(phase1Script.getDistanceToTarget() <= 7.0f)
         {

@@ -30,7 +30,7 @@ public class RazerEffectTestScript : MonoBehaviour
         {
             mobAni.SetInteger("aniInt", 1);
         }
-        playerPos = player.transform.position;
+        playerPos = BossScript.instance.target.transform.position;
     }
 
     public void testEffect()

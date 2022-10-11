@@ -27,8 +27,8 @@ public class BuffItem : MonoBehaviour
         {
             // 없어지고, 버프적용
             UIManager.instance.imageBuffPanel.gameObject.SetActive(true);
-            UIManager.instance.SetBuffBody("Magazine");
-            UIManager.instance.SetBuffIcon("Large");
+            UIManager.instance.SetBuffBody("Magazine"); // Magazine or Gun
+            UIManager.instance.SetBuffIcon("Large");    // 
         }
     }
 }

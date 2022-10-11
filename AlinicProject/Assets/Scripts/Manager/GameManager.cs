@@ -9,24 +9,39 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+
     private int gunIndex = 1;                        // 기본총 값
     public GameObject playerBox;
-
+    PlayerChar playerChar;
+    GameObject playerDowner;
     private string[] listWeapon = { "Rifle", "Pistol", "Shotgun" };    // 무기 목록
     private PlayerUpper playableWeapon;                      // 현재 사용 중인 무기
 
+    [Header("Input KeyCodes")]
+    [SerializeField]
+    private KeyCode keyCodeRun = KeyCode.LeftShift; // 달리기 키
+    private KeyCode keyCodeJump = KeyCode.Space;    // 점프 키
+    private Movement movement; // 키보드 입력으로 플레이어 이동, 점프
+    private Status status; // 이동속도 등의 플레이어 정보
+    private float x, z;
     void Awake()
     {
         instance = this;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        movement = playerBox.GetComponent<Movement>();
+        status = playerBox.GetComponent<Status>();
     }
     private void Start()
     {
+        CreateCharacter("Man_Full");
         SelectWeapon();    // 기본무기 권총
+        playerDowner.transform.localPosition = Vector3.zero;
     }
     private void Update()
     {
+        Move();
+        Jump();
         PlayerUtill.instance.MoveRotate(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"));
         //좌클릭
         if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)))
@@ -61,7 +76,7 @@ public class GameManager : MonoBehaviour
         {
             playableWeapon.ReloadGun(gunIndex);
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             GameObject obj = Instantiate<GameObject>(ResourcesManager.instance.buffItem);
             obj.transform.position = PlayerUtill.GetRandomMapPos(playerBox.transform.position);
@@ -86,6 +101,47 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("Create실패");
+        }
+    }
+    public void CreateCharacter(string _name)
+    {
+        // 캐릭터를 생성하는 코드를 작성
+        GameObject tmpPlayerChar = ResourcesManager.instance.GetChar("Man_Full");
+        
+        if (tmpPlayerChar != null)
+        {
+            //playerChar = Instantiate(tmpPlayerChar, Vector3.zero, Quaternion.identity);
+            // 캐릭터 게임오브젝트를 리스트에서 불러오는 코드
+            playerDowner = GameObject.Instantiate<GameObject>(tmpPlayerChar, Vector3.zero, Quaternion.identity,playerBox.transform);
+            /*playerDowner.transform.localPosition = Vector3.zero;
+            playerDowner.transform.localRotation = Quaternion.identity;
+            playerDowner.transform.SetParent(playerBox.transform);*/
+        }
+        else
+        {
+            Debug.Log("생성 실패");
+        }
+    }
+    void Move()
+    {
+        // 플레이어 이동
+        x = Input.GetAxisRaw("Horizontal");
+        z = Input.GetAxisRaw("Vertical");
+        // 이동중 일 때 (걷기 or 뛰기)
+        if (x != 0 || z != 0)
+        {
+            bool isRun = false;
+            // 옆이나 뒤로 이동할 대는 달릴 수 없다.
+            if (z > 0) isRun = Input.GetKey(keyCodeRun);
+            movement.MSpeed = isRun == true ? status.RunSpeed : status.WalkSpeed;
+        }
+        movement.Move(new Vector3(x, 0, z));
+    }
+    void Jump()
+    {
+        if (Input.GetKeyDown(keyCodeJump))
+        {
+            movement.Jump();
         }
     }
 }

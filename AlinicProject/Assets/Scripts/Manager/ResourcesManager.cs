@@ -18,16 +18,19 @@ public class ResourcesManager : MonoBehaviour
     [HideInInspector] public List<Sprite> spriteBuffBody;         // 버프 이미 (무기 버프 or 탄창 버프)
     [HideInInspector] public List<Sprite> spriteBuffIcon;         // 버프 아이콘 (적용되는 버프 종류)
     [HideInInspector] public GameObject buffItem;
+    [HideInInspector] public List<GameObject> playerChar;
 
     string pathWeapons = "Charactor/Weapons/Prefabs";
     string pathEffects = "Effect/Prefabs/Shoot_01";
     string pathBuffIconSprite = "Image/Buff Image/Icon";
     string pathBuffBodySprite = "Image/Buff Image/Body";
     string pathBuffItem = "Buff Item/Test Buff Item";
+    string pathChar = "Charactor/Adventure_Character/Prefabs";
     private void Awake()
     {
         instance = this;
         LoadAmmo();
+        CharacterLoad();
         LoadGuns();
         LoadBuffIcon();
         LoadBuffBody();
@@ -90,5 +93,25 @@ public class ResourcesManager : MonoBehaviour
     {
         buffItem = Resources.Load<GameObject>(pathBuffItem);
     }
-   
+    public void CharacterLoad()
+    {
+        if (playerChar == null)
+            playerChar = new List<GameObject>();
+        GameObject[] plChar = Resources.LoadAll<GameObject>(pathChar);
+        // 캐릭터 폴더 안에 있는 모든 에섯을 메모리에 로드
+        foreach (var obj in plChar) // 캐릭터 리스트에 저장
+        {
+            playerChar.Add(obj);
+        }
+    }
+    public GameObject GetChar(string _name)
+    {
+        foreach (var charObj in playerChar)
+        {
+            if (charObj.name.Equals(_name))
+                return charObj;
+        }
+        return null;
+    }
+    public void aa() { }
 }

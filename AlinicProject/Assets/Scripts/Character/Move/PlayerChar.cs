@@ -18,33 +18,20 @@ public class PlayerChar : MonoBehaviour
     private KeyCode keyCodeRun = KeyCode.LeftShift; // 달리기 키
     private KeyCode keyCodeJump = KeyCode.Space;    // 점프 키
     //
-    private Rotate rotate; // 마우스 이동으로 카메라 회전
     private Movement movement; // 키보드 입력으로 플레이어 이동, 점프
     private Status status; // 이동속도 등의 플레이어 정보
-    private float MouseX, MouseY, x, z;
+    private float x, z;
     void Awake()
     {
         if (instance == null) instance = this;
         //커서를 보이지 않게 설정하고, 현제 위치에 고정시킨다.
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        rotate = GetComponent<Rotate>();
         movement = GetComponent<Movement>();
         status = GetComponent<Status>();
     }
     void Update()
     {
         Move();
-        Rotate();
         Jump();
-    }
-        void Rotate()
-    {
-        // 플레이어의 시점 이동
-        MouseX = Input.GetAxisRaw("Mouse X");
-        MouseY = Input.GetAxisRaw("Mouse Y");
-
-        rotate.Rotate_(MouseX, MouseY);
     }
     void Move()
     {

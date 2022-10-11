@@ -38,6 +38,7 @@ public class PlayerUpper : MonoBehaviour
         transform.localRotation = l;
         audioSource.playOnAwake = false;
         spawnParticle.firePoint = muzzlePivot.gameObject;
+        GameManager.instance.CurrentDamage = gunData.damage;
     }
     // 발사
     public void FireGun(int index)

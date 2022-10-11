@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     private int gunIndex = 1;                        // ±âº»ÃÑ °ª
+
+    public float CurrentDamage;
     public GameObject playerBox;
     PlayerChar playerChar;
     GameObject playerDowner;

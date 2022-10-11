@@ -78,6 +78,11 @@ public class MoveParticle : MonoBehaviour
                 Destroy(hitVFX, psChild.main.duration);
             }
         }
+        if (co.collider.CompareTag("Monster"))
+        {
+            InitMonster monster = co.collider.gameObject.GetComponent<InitMonster>();
+            monster.onDamage((int)GameManager.instance.CurrentDamage);
+        }
         ObjectPoolManager.ReturnBullet(this);
     }
 }

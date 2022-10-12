@@ -10,7 +10,6 @@ public class Phase3Atk2Script : StateMachineBehaviour
     {
         phase3Script = FindObjectOfType<Phase3Script>();
         animator.transform.LookAt(phase3Script.target.transform.position);
-        RazerEffectTestScript.instance.StartMissileCor();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ public class BossScript : MonoBehaviour
     Vector3 _deadPosition;
     public GameObject ironreaver01;
     List<Transform> childTs;
+
+
     public GameObject target
     {
         get { return _target; }
@@ -28,6 +31,11 @@ public class BossScript : MonoBehaviour
     public Vector3 deadPosition
     {
         get { return _deadPosition; }
+    }
+
+    public Animator bossAni
+    {
+        get { return ani; }
     }
     private void Awake()
     {

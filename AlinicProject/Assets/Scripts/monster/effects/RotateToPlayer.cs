@@ -22,7 +22,7 @@ public class RotateToPlayer : MonoBehaviour
     void RotateToMouseDirection(GameObject obj, Vector3 destination)
     {
         direction = destination - obj.transform.position;
-        Debug.Log(direction);
+        //Debug.Log(direction);
         rotation = Quaternion.LookRotation(direction);
         obj.transform.localRotation = Quaternion.Lerp(obj.transform.rotation, rotation, 1);
     }

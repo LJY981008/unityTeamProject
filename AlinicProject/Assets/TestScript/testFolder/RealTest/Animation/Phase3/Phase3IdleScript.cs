@@ -21,33 +21,28 @@ public class Phase3IdleScript : StateMachineBehaviour
         {
             if (phase3Script.getDistanceToTarget() <= 7.0f)
             {
-                Debug.Log("1");
                 if (phase3Script.getDistanceOfTime(Time.time, phase3Script.latelyCastSkillTime) >= 15.0f)
                 {
-                    Debug.Log("2");
                     if (phase3Script.getDistanceOfTime(Time.time, phase3Script.latelyCastSkillOneTime) >= 20.0f
                         && phase3Script.getDistanceOfTime(Time.time, phase3Script.latelyCastSkillTwoTime) >= 20.0f)
                     {
-                        Debug.Log("3");
                         animator.SetInteger("aniInt", randomskillInt);
                     }
                     else
                     {
                         if(phase3Script.getDistanceOfTime(Time.time, phase3Script.latelyCastSkillOneTime) >= 20.0f)
                         {
-                            Debug.Log("4");
                             animator.SetInteger("aniInt", 7);
                         }
                         else if(phase3Script.getDistanceOfTime(Time.time, phase3Script.latelyCastSkillTwoTime) >= 20.0f)
                         {
-                            Debug.Log("5");
                             animator.SetInteger("aniInt", 8);
                         }
                     }
                 }
                 else
                 {
-                    animator.SetInteger("aniInt", randomInt);
+                    animator.SetInteger("aniInt", 4/*randomInt*/);
                 }
             }
             else

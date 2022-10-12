@@ -16,9 +16,9 @@ public class Phase2IdleScript : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (phase2Script.target != null)
+        if (InitMonster.Instance.target != null)
         {
-            if (phase2Script.getDistanceToTarget() <= 7.0f)
+            if (InitMonster.Instance.getDistanceToTarget() <= 7.0f)
             {
                 animator.SetInteger("aniInt", randomInt);
             }

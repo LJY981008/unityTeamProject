@@ -7,6 +7,7 @@ TagManager:
   - Monster
   - Character
   - Terrain
+  - hudDamageText
   layers:
   - Default
   - TransparentFX

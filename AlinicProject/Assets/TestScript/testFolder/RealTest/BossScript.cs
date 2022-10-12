@@ -72,7 +72,7 @@ public class BossScript : MonoBehaviour
         // 범위내에 진입했을때 보스 출현
         if(getDistanceToTarget() <= 50.0f)
         {
-            Debug.Log("distanceTest");
+            // Debug.Log("distanceTest");
             if(_triggerInt == 1)
             {
                 PhaseOneBoss.gameObject.SetActive(true);
@@ -157,4 +157,30 @@ public class BossScript : MonoBehaviour
             ani = PhaseThreeModel.GetComponent<Animator>();
         }
     }
+
+
+    /// <summary>
+    /// 1페이즈 종료
+    /// </summary>
+    public void closePhase1()
+    {
+        ani.SetInteger("aniInt", 6);
+    }
+
+    /// <summary>
+    /// 2페이즈 종료
+    /// </summary>
+    public void closePhase2()
+    {
+        ani.SetInteger("aniInt", 5);
+    }
+
+    /// <summary>
+    /// 3페이즈 종료
+    /// </summary>
+    public void closePhase3()
+    {
+        ani.SetInteger("aniInt", 9);
+    }
+
 }

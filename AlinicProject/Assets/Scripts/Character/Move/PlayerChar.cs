@@ -25,8 +25,8 @@ public class PlayerChar : MonoBehaviour
     {
         if (instance == null) instance = this;
         //커서를 보이지 않게 설정하고, 현제 위치에 고정시킨다.
-        movement = GetComponent<Movement>();
-        status = GetComponent<Status>();
+        movement = instance.GetComponent<Movement>();
+        status = instance.GetComponent<Status>();
     }
     void Update()
     {
@@ -44,15 +44,15 @@ public class PlayerChar : MonoBehaviour
             bool isRun = false;
             // 옆이나 뒤로 이동할 대는 달릴 수 없다.
             if ( z > 0 ) isRun = Input.GetKey(keyCodeRun);
-            movement.MSpeed = isRun == true ? status.RunSpeed : status.WalkSpeed;
+            instance.movement.MSpeed = isRun == true ? status.RunSpeed : status.WalkSpeed;
         }
-        movement.Move(new Vector3(x, 0, z));
+        instance.movement.Move(new Vector3(x, 0, z));
     }
     void Jump()
     {
         if (Input.GetKeyDown(keyCodeJump))
         {
-            movement.Jump();
+            instance.movement.Jump();
         }
     }
 }

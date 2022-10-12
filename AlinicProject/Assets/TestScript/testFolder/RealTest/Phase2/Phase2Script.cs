@@ -33,7 +33,16 @@ public class Phase2Script : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        InitMonster.Instance.searchTarget();
+
+        if (_target == null)
+        {
+            searchTarget();
+        }
+        else if (_target != null)
+        {
+
+        }
+
     }
 
     public void searchTarget()

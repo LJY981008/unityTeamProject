@@ -37,7 +37,7 @@ public class InitMonster : MonoBehaviour
     /// true : 타겟을 설정한다.
     /// false : 설정하지 않는다.
     /// </summary>
-    bool isSettingTarget = false;
+    bool isSettingTarget = true;
 
     /// <summary>
     /// true : 무적
@@ -200,6 +200,7 @@ public class InitMonster : MonoBehaviour
     {
         if(isSettingTarget)
         {
+            if(isDebugging) { Debug.Log("### 타겟이 설정됨"); }
             _target = gObj;
         }
     }
@@ -232,7 +233,7 @@ public class InitMonster : MonoBehaviour
     void attackHandRazer()
     {
 
-        //TODO: 손미사일이 나가는 위치 : 3페이즈 bone046 처리해줘야 함
+        //
         GameObject Effects;
 
         if (_target != null)
@@ -265,10 +266,15 @@ public class InitMonster : MonoBehaviour
 
         if(isInvincibility) { return; }
 
+        if(target == null)
+        {
+            settingTarget(GameObject.FindGameObjectWithTag("Character"));
+        }
+
         showDamageText(amountOfDamage);
         monsterHp = monsterHp - amountOfDamage;
 
-        //TODO: 몬스터가 피해를 받고 페이즈 변경 처리
+        // 몬스터가 피해를 받고 페이즈 변경 처리
         if(monsterHp <= 0 && !isInvincibility)
         {
             startInvincibility();

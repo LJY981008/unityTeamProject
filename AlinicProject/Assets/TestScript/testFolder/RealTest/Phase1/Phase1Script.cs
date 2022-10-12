@@ -33,8 +33,15 @@ public class Phase1Script : MonoBehaviour
     void Update()
     {
 
-        InitMonster.Instance.searchTarget();
-        
+        if (_target == null)
+        {
+            searchTarget();
+        }
+        else if (_target != null)
+        {
+
+        }
+
     }
 
     public void searchTarget()
@@ -51,7 +58,8 @@ public class Phase1Script : MonoBehaviour
             {
                 // 타겟 오브젝트에 넣어주기
                 target = tmpColl.gameObject;
-                Debug.Log(target);
+                InitMonster.Instance.target = tmpColl.gameObject;
+                // Debug.Log(target);
                 break;
             }
         }

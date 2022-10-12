@@ -18,9 +18,9 @@ public class Phase1IdleScript : StateMachineBehaviour
     {
         
 
-        if(InitMonster.Instance.target != null)
+        if(phase1Script.target != null)
         {
-            if(InitMonster.Instance.getDistanceToTarget() <= 7.0f)
+            if(phase1Script.getDistanceToTarget() <= 7.0f)
             {
                 if(phase1Script.getDistanceOfTime(Time.time, phase1Script.latelyCastSkillTime) >= 15.0f)
                 {

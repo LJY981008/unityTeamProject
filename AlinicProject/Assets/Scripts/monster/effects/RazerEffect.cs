@@ -62,7 +62,6 @@ public class RazerEffect : MonoBehaviour
                 Destroy(hitVFX, psChild.main.duration);
             }
 
-            //TODO: 캐릭터 피해처리 해야 됨
             //InitMonster monster = collision.gameObject.GetComponent<InitMonster>();
             //monster.onDamage(50);
         }

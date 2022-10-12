@@ -10,8 +10,8 @@ public class Phase3IdleScript : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         phase3Script = FindObjectOfType<Phase3Script>();
-        randomInt = Random.Range(3, 7);
-        randomskillInt = Random.Range(7,9);
+        randomInt = Random.Range(3, 6);
+        randomskillInt = Random.Range(6,8);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -19,31 +19,31 @@ public class Phase3IdleScript : StateMachineBehaviour
     {
         if (phase3Script.target != null)
         {
-            if (phase3Script.getDistanceToTarget() <= 7.0f)
+            if (phase3Script.getDistanceToTarget() <= 15.0f)
             {
-                 animator.SetInteger("aniInt", 4/*randomInt*/);
+                 animator.SetInteger("aniInt", randomInt);
             }
             else
             {
                 animator.SetInteger("aniInt", 2);
             }
 
-            if (phase3Script.getDistanceOfTime(Time.time, phase3Script.latelyCastSkillTime) >= 15.0f)
+            if (phase3Script.getDistanceOfTime(Time.time, phase3Script.latelyCastSkillTime) >= 10.0f)
             {
-                if (phase3Script.getDistanceOfTime(Time.time, phase3Script.latelyCastSkillOneTime) >= 20.0f
-                    && phase3Script.getDistanceOfTime(Time.time, phase3Script.latelyCastSkillTwoTime) >= 20.0f)
+                if (phase3Script.getDistanceOfTime(Time.time, phase3Script.latelyCastSkillOneTime) >= 10.0f
+                    && phase3Script.getDistanceOfTime(Time.time, phase3Script.latelyCastSkillTwoTime) >= 10.0f)
                 {
                     animator.SetInteger("aniInt", randomskillInt);
                 }
                 else
                 {
-                    if (phase3Script.getDistanceOfTime(Time.time, phase3Script.latelyCastSkillOneTime) >= 20.0f)
+                    if (phase3Script.getDistanceOfTime(Time.time, phase3Script.latelyCastSkillOneTime) >= 15.0f)
+                    {
+                        animator.SetInteger("aniInt", 6);
+                    }
+                    else if (phase3Script.getDistanceOfTime(Time.time, phase3Script.latelyCastSkillTwoTime) >= 15.0f)
                     {
                         animator.SetInteger("aniInt", 7);
-                    }
-                    else if (phase3Script.getDistanceOfTime(Time.time, phase3Script.latelyCastSkillTwoTime) >= 20.0f)
-                    {
-                        animator.SetInteger("aniInt", 8);
                     }
                 }
             }

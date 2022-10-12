@@ -15,7 +15,7 @@ public class Phase3RunScript : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         phase3Script.moveToTarget();
-        if (phase3Script.getDistanceToTarget() <= 7.0f)
+        if (phase3Script.getDistanceToTarget() <= 15.0f)
         {
             Debug.Log("close");
             animator.SetInteger("aniInt", 1);

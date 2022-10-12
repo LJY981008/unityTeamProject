@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Reflection;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RazerEffectTestScript : MonoBehaviour
@@ -12,17 +13,16 @@ public class RazerEffectTestScript : MonoBehaviour
     public GameObject player;
     public RotateToPlayer rotateToPlayer;
     Vector3 playerPos;
-    float a;
 
     [SerializeField] GameObject missile;
     [SerializeField] GameObject MuzzleEffect;
-    [SerializeField] Transform missilePoint;
+    [SerializeField] RotateToPlayer rotateToPlayerforMissileLeft;
+    [SerializeField] RotateToPlayer rotateToPlayerforMissileRight;
 
     private void Awake()
     {
         if (instance == null)
             instance = this;
-        a = 0.5f;
     }
     // Start is called before the first frame update
     void Start()
@@ -74,15 +74,17 @@ public class RazerEffectTestScript : MonoBehaviour
 
     IEnumerator MissileCor()
     {
-        yield return new WaitForSeconds(1.5f);
-        ShootMissile();
+        yield return new WaitForSeconds(2.7f);
+        ShootMissile(rotateToPlayerforMissileLeft.transform.position, rotateToPlayerforMissileRight);
+        ShootMissile(rotateToPlayerforMissileRight.transform.position, rotateToPlayerforMissileLeft);
     }
 
-    public void ShootMissile()
+
+    public void ShootMissile(Vector3 pos, RotateToPlayer missileMuzzle)
     {
-        var muzzlePos = Instantiate(MuzzleEffect, missilePoint.transform.position, Quaternion.identity);
-        muzzlePos.transform.forward = missilePoint.gameObject.transform.forward;
-        var targetMissile = Instantiate(missile, missilePoint.transform.position, Quaternion.identity);
-        targetMissile.transform.localRotation = rotateToPlayer.GetRotation();
+        var muzzlePos = Instantiate(MuzzleEffect, pos, Quaternion.identity);
+        muzzlePos.transform.forward = missileMuzzle.gameObject.transform.forward;
+        var targetMissile = Instantiate(missile, pos, Quaternion.identity);
+        targetMissile.transform.localRotation = missileMuzzle.GetRotation();
     }
 }

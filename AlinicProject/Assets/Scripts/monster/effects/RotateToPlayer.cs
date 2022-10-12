@@ -16,14 +16,14 @@ public class RotateToPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RotateToMouseDirection(gameObject, BossScript.instance.target.transform.position);
+        RotateToMouseDirection(gameObject, BossScript.instance.targetPos);
     }
 
     void RotateToMouseDirection(GameObject obj, Vector3 destination)
     {
         direction = destination - obj.transform.position;
         //Debug.Log(direction);
-        rotation = Quaternion.LookRotation(direction);
+        rotation = Quaternion.LookRotation(direction.normalized);
         obj.transform.localRotation = Quaternion.Lerp(obj.transform.rotation, rotation, 1);
     }
 

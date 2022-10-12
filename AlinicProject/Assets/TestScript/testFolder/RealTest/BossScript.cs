@@ -15,6 +15,7 @@ public class BossScript : MonoBehaviour
     Vector3 _deadPosition;
     public GameObject ironreaver01;
     List<Transform> childTs;
+    Vector3 _targetPos;
 
 
     public GameObject target
@@ -36,6 +37,11 @@ public class BossScript : MonoBehaviour
     public Animator bossAni
     {
         get { return ani; }
+    }
+
+    public Vector3 targetPos
+    {
+        get { return _targetPos; }
     }
     private void Awake()
     {
@@ -107,6 +113,8 @@ public class BossScript : MonoBehaviour
 
             PhaseThreeBoss.gameObject.SetActive(true);
         }
+
+        _targetPos = _target.transform.position;
     }
 
     public float getDistanceToTarget()

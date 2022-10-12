@@ -6,17 +6,18 @@ public class MissileScript : MonoBehaviour
 {
     [SerializeField] float speed;
     [SerializeField] GameObject hitEffect;
-    
+    Vector3 pos;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position += transform.forward * (Time.deltaTime * speed);
+        transform.position += transform.forward * (speed * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -27,12 +28,15 @@ public class MissileScript : MonoBehaviour
         if(hitEffect != null)
         {
             var Effect = Instantiate(hitEffect, cp.point, rot);
-            /*var effectPart = Effect.GetComponent<ParticleSystem>();
-            if(effectPart != null)
-            {
-                Destroy(effectPart, effectPart.main.duration);
-            }*/
         }
-        Destroy(gameObject);
+        if (!collision.collider.CompareTag("Monster"))
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Debug.Log(collision.collider.gameObject.name);
+        }
+            
     }
 }

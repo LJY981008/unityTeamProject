@@ -9,6 +9,7 @@ public class Phase3Script : MonoBehaviour
     private string _targetName = "Player";
     private float _speedRun;
     private float _latelyCastSkillTime, _latelyCastSkillOneTime, _latelyCastSkillTwoTime;
+    Vector3 targetPos;
 
     public GameObject target
     {
@@ -55,7 +56,7 @@ public class Phase3Script : MonoBehaviour
         }
         else if (_target != null)
         {
-
+            targetPos = target.transform.position;
         }
 
     }

@@ -10,7 +10,7 @@ public class Phase3Skl2Script : StateMachineBehaviour
     {
         phase3Script = FindObjectOfType<Phase3Script>();
         animator.transform.LookAt(phase3Script.target.transform.position);
-        RazerEffectTestScript.instance.StartMissileCor();
+        
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -22,9 +22,7 @@ public class Phase3Skl2Script : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("OnStateExit - skill2");
-        phase3Script.initSkillTime();
-        phase3Script.initSkillTwoTime();
+        
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

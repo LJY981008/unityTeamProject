@@ -1,0 +1,11 @@
+
+AlinicProject/Assets/Scenes/CharacterMoveTest.unity
+AlinicProject/Assets/Scripts/Character/BuffItem.cs
+AlinicProject/Assets/Scripts/Character/PlayerBody.cs
+AlinicProject/Assets/Scripts/Manager/AudioManager.cs
+AlinicProject/Assets/Scripts/Manager/CameraController.cs
+AlinicProject/Assets/Scripts/Manager/GameManager.cs
+AlinicProject/Assets/Scripts/Manager/ObjectPoolManager.cs
+AlinicProject/Assets/Scripts/Manager/PlayerUtill.cs
+AlinicProject/Assets/Scripts/Manager/ResourcesManager.cs
+AlinicProject/Assets/Scripts/Manager/UIManager.cs

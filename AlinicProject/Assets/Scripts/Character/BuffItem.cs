@@ -25,7 +25,7 @@ public class BuffItem : MonoBehaviour
     {
         if (other.transform.CompareTag("Player"))
         {
-            // ¾ø¾îÁö°í, ¹öÇÁÀû¿ë
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             UIManager.instance.imageBuffPanel.gameObject.SetActive(true);
             UIManager.instance.SetBuffBody("Magazine"); // Magazine or Gun
             UIManager.instance.SetBuffIcon("Large");    // 

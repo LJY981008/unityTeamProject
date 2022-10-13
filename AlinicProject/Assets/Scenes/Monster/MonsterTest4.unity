@@ -148,6 +148,19 @@ MonoBehaviour:
   PhaseThreeBoss: {fileID: 0}
   PhaseThreeModel: {fileID: 0}
   ironreaver01: {fileID: 0}
+--- !u!114 &438703969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438703963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31edc37d1c13b1542a74b63927dd3a12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Effects: []
 --- !u!4 &444649769 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 443506, guid: 11d01b61db6c08a48abe1762a7f89ae4,
@@ -849,24 +862,6 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1863417250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 080e750a1873b4844b2e8458efb8abb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &1863417254 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 190520, guid: 11d01b61db6c08a48abe1762a7f89ae4,
-    type: 3}
-  m_PrefabInstance: {fileID: 1863417249}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1863417258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1863417254}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 080e750a1873b4844b2e8458efb8abb5, type: 3}

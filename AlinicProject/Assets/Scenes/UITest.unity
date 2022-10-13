@@ -1243,7 +1243,7 @@ GameObject:
   - component: {fileID: 491959939}
   - component: {fileID: 491959938}
   m_Layer: 5
-  m_Name: Image
+  m_Name: MidLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1266,7 +1266,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -18.568}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 12.800049, y: 0}
+  m_AnchoredPosition: {x: 16.1, y: -0.0000076294}
   m_SizeDelta: {x: 12.4417, y: 171.5059}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &491959938
@@ -1289,7 +1289,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300040, guid: 56d84991286850f428b4e7df0cca7380, type: 3}
+  m_Sprite: {fileID: 21300008, guid: 56d84991286850f428b4e7df0cca7380, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2889,7 +2889,7 @@ GameObject:
   - component: {fileID: 1123949753}
   - component: {fileID: 1123949752}
   m_Layer: 5
-  m_Name: Text (Legacy) (1)
+  m_Name: Ammo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5175,7 +5175,7 @@ GameObject:
   - component: {fileID: 2087200273}
   - component: {fileID: 2087200272}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: MaxAmmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5198,7 +5198,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 132, y: 0}
+  m_AnchoredPosition: {x: 106.6, y: -0.0000076294}
   m_SizeDelta: {x: 114.0384, y: 146.3965}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2087200272

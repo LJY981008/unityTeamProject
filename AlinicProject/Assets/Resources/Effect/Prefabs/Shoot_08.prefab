@@ -101,6 +101,9 @@ MonoBehaviour:
     type: 3}
   hitPrefab: {fileID: 1602903705253745958, guid: 07b14ede2220655498f1a0c63e552774,
     type: 3}
+  playerBox: {fileID: 0}
+  startPos: {x: 0, y: 0, z: 0}
+  endPos: {x: 0, y: 0, z: 0}
 --- !u!1001 &8971999949845159206
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -59,30 +59,34 @@ public class MoveParticle : MonoBehaviour
     }
     void OnCollisionEnter(Collision co)
     {
-        speed = 0;
-        ContactPoint contact = co.contacts[0];
-        Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
-        Vector3 pos = contact.point;
+        if (!co.collider.CompareTag("Player"))
+        {
+            Debug.Log(co.collider.tag);
+            speed = 0;
+            ContactPoint contact = co.contacts[0];
+            Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
+            Vector3 pos = contact.point;
 
-        if (hitPrefab != null)
-        {
-            var hitVFX = Instantiate(hitPrefab, pos, rot);
-            var psHit = hitVFX.GetComponent<ParticleSystem>();
-            if (psHit != null)
+            if (hitPrefab != null)
             {
-                Destroy(hitVFX, psHit.main.duration);
+                var hitVFX = Instantiate(hitPrefab, pos, rot);
+                var psHit = hitVFX.GetComponent<ParticleSystem>();
+                if (psHit != null)
+                {
+                    Destroy(hitVFX, psHit.main.duration);
+                }
+                else
+                {
+                    var psChild = hitVFX.transform.GetChild(0).GetComponent<ParticleSystem>();
+                    Destroy(hitVFX, psChild.main.duration);
+                }
             }
-            else
+            if (co.collider.CompareTag("Monster"))
             {
-                var psChild = hitVFX.transform.GetChild(0).GetComponent<ParticleSystem>();
-                Destroy(hitVFX, psChild.main.duration);
+                InitMonster monster = co.collider.gameObject.GetComponent<InitMonster>();
+                monster.onDamage((int)GameManager.instance.CurrentDamage);
             }
+            ObjectPoolManager.ReturnBullet(this);
         }
-        if (co.collider.CompareTag("Monster"))
-        {
-            InitMonster monster = co.collider.gameObject.GetComponent<InitMonster>();
-            monster.onDamage((int)GameManager.instance.CurrentDamage);
-        }
-        ObjectPoolManager.ReturnBullet(this);
     }
 }

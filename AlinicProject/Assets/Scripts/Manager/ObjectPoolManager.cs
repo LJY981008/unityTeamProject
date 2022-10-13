@@ -37,9 +37,9 @@ public class ObjectPoolManager : MonoBehaviour
 
     public static PlayerUpper GetGun(string weaponName)
     {
-
+        Vector3 spawnPos = new Vector3(0.0f, 1.6f, 0.0f);
         var obj = instance.listPoolingGun.Find(o => o.name.Contains(weaponName));
-        obj.transform.localPosition = Vector3.zero;
+        obj.transform.localPosition = spawnPos;
         obj.gameObject.SetActive(true);
         return obj;
     }

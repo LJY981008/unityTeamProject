@@ -15,7 +15,7 @@ public class CameraController : MonoBehaviour
     }
     private void Start()
     {
-        offset = new Vector3(-0.2f, 0.0f, 0.2f);
+        offset = new Vector3(-0.3f, 1.7f, -0.1f);
         SettingCam(playerBox);
     }
     // 카메라 위치 설정

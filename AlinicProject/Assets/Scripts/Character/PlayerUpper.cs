@@ -15,16 +15,18 @@ public class PlayerUpper : MonoBehaviour
     private float fireDistance = 50f; // 사정거리
     private Transform muzzlePivot;   // 총구 피봇 오브젝트
     private Vector3 firePos;        //총구 위치
-   
+    Vector3 spawnPos;
     private Quaternion l = Quaternion.Euler(new Vector3(0, 180, 0));
     private SpawnParticle spawnParticle;
     private void Awake()
     {
+        spawnPos = new Vector3(0.0f, 1.6f, 0.0f);
         animator = GetComponent<Animator>();
         audioSource = gameObject.AddComponent<AudioSource>();
         muzzlePivot = FindFireSpot(transform, "Muzzle Pivot");
         spawnParticle = GameManager.instance.GetComponent<SpawnParticle>();
         gunData.currentAmmo = gunData.maxAmmo;
+        
     }
     private void OnEnable()
     {
@@ -34,7 +36,7 @@ public class PlayerUpper : MonoBehaviour
             UIManager.instance.textCurrentAmmo.text = gunData.currentAmmo.ToString();
             UIManager.instance.SelectWeaponActive(transform.name.Replace("(Clone)", ""));
         }
-        transform.localPosition = Vector3.zero;
+        transform.localPosition = spawnPos;
         transform.localRotation = l;
         audioSource.playOnAwake = false;
         spawnParticle.firePoint = muzzlePivot.gameObject;

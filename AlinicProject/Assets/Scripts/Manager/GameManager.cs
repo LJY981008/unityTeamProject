@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour
         {
             //playerChar = Instantiate(tmpPlayerChar, Vector3.zero, Quaternion.identity);
             // 캐릭터 게임오브젝트를 리스트에서 불러오는 코드
-            playerDowner = GameObject.Instantiate<GameObject>(tmpPlayerChar, Vector3.zero, Quaternion.identity,playerBox.transform);
+            playerDowner = GameObject.Instantiate<GameObject>(tmpPlayerChar, Vector3.zero, Quaternion.identity, playerBox.transform);
             /*playerDowner.transform.localPosition = Vector3.zero;
             playerDowner.transform.localRotation = Quaternion.identity;
             playerDowner.transform.SetParent(playerBox.transform);*/

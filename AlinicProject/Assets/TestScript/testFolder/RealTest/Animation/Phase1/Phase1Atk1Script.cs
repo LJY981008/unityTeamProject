@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class Phase1Atk1Script : StateMachineBehaviour
 {
+    MonsterAttack monsterAttack;
+
     Phase1Script phase1Script;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         phase1Script = FindObjectOfType<Phase1Script>();
         animator.transform.LookAt(phase1Script.target.transform.position);
+
+        monsterAttack = new MonsterAttack(20, 5);
+        monsterAttack.startAttack();
+
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -21,7 +28,7 @@ public class Phase1Atk1Script : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
+        monsterAttack.endAttack();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

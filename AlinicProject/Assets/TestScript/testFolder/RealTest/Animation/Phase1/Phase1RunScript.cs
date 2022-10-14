@@ -16,7 +16,7 @@ public class Phase1RunScript : StateMachineBehaviour
     {
         // 페이즈1 타겟위치추적함수 - 여기주석풀면 따라가서 공격함
         phase1Script.moveToTarget();
-        if(phase1Script.getDistanceToTarget() <= 7.0f)
+        if(phase1Script.getDistanceToTarget() <= 14.0f)
         {
             animator.SetInteger("aniInt", 1);
         }

@@ -53,6 +53,11 @@ public class InitMonster : MonoBehaviour
     bool isDebugging = true;
 
     /// <summary>
+    /// true : 관리자 키 활성화
+    /// </summary>
+    bool isAdminMod = true;
+
+    /// <summary>
     /// 현재 페이즈 상태를 담는 변수
     /// 0 : 1페이즈
     /// 1 : 2페이즈
@@ -160,10 +165,14 @@ public class InitMonster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
+        if(isAdminMod)
         {
-            onDamage(50);
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                onDamage(50);
+            }
         }
+        
     }
 
     /// <summary>
@@ -211,6 +220,14 @@ public class InitMonster : MonoBehaviour
     public float getDistanceToTarget()
     {
         return Vector3.Distance(transform.position, target.transform.position);
+    }
+
+    /// <summary>
+    /// 몬스터와 타겟까지의 거리 구하기
+    /// </summary>
+    public float getDistanceToTarget(GameObject obj)
+    {
+        return Vector3.Distance(obj.transform.position, target.transform.position);
     }
 
     /// <summary>
@@ -351,4 +368,5 @@ public class InitMonster : MonoBehaviour
         }
         isInvincibility = false;
     }
+
 }

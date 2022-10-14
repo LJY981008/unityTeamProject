@@ -20,9 +20,9 @@ public class Phase1IdleScript : StateMachineBehaviour
 
         if(phase1Script.target != null)
         {
-            if(phase1Script.getDistanceToTarget() <= 7.0f)
+            if(phase1Script.getDistanceToTarget() <= 15.0f)
             {
-                if(phase1Script.getDistanceOfTime(Time.time, phase1Script.latelyCastSkillTime) >= 15.0f)
+                if(phase1Script.getDistanceOfTime(Time.time, phase1Script.latelyCastSkillTime) >= 14.0f)
                 {
                     animator.SetInteger("aniInt", 5);
                 }

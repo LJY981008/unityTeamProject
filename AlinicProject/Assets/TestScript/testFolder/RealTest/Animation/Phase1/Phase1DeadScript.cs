@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class Phase1DeadScript : StateMachineBehaviour
 {
-    Phase1Script phase1Script;
     BossScript bossScript;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         bossScript = FindObjectOfType<BossScript>();
-        phase1Script = FindObjectOfType<Phase1Script>();
         bossScript.rememberDeadPosition();
     }
 

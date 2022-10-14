@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class Phase1IdleScript : StateMachineBehaviour
 {
-    Phase1Script phase1Script;
     int randomInt;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         randomInt = Random.Range(3, 5);
-        phase1Script = FindObjectOfType<Phase1Script>();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -18,11 +16,11 @@ public class Phase1IdleScript : StateMachineBehaviour
     {
         
 
-        if(phase1Script.target != null)
+        if(InitMonster.Instance.target != null)
         {
-            if(phase1Script.getDistanceToTarget() <= 13.0f)
+            if(InitMonster.Instance.getDistanceToTarget() <= 13.0f)
             {
-                if(phase1Script.getDistanceOfTime(Time.time, phase1Script.latelyCastSkillTime) >= 13.0f)
+                if(BossScript.instance.getDistanceOfTime(Time.time, BossScript.instance.latelyCastSkillTime) >= 13.0f)
                 {
                     animator.SetInteger("aniInt", 5);
                 }

@@ -5,13 +5,10 @@ using UnityEngine;
 public class Phase3Skl2Script : StateMachineBehaviour
 {
     MonsterAttack monsterAttack;
-
-    Phase3Script phase3Script;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        phase3Script = FindObjectOfType<Phase3Script>();
-        animator.transform.LookAt(phase3Script.target.transform.position);
+        animator.transform.LookAt(InitMonster.Instance.target.transform.position);
 
         monsterAttack = new MonsterAttack(20, 5);
         monsterAttack.startAttack();

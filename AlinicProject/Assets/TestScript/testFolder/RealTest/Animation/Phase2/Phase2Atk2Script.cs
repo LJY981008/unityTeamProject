@@ -6,12 +6,10 @@ public class Phase2Atk2Script : StateMachineBehaviour
 {
     MonsterAttack monsterAttack;
 
-    Phase2Script phase2Script;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        phase2Script = FindObjectOfType<Phase2Script>();
-        animator.transform.LookAt(phase2Script.target.transform.position);
+        animator.transform.LookAt(InitMonster.Instance.target.transform.position);
 
         monsterAttack = new MonsterAttack(20, 5);
         monsterAttack.startAttack();

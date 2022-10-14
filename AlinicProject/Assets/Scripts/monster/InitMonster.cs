@@ -55,7 +55,7 @@ public class InitMonster : MonoBehaviour
     /// <summary>
     /// true : 관리자 키 활성화
     /// </summary>
-    bool isAdminMod = false;
+    bool isAdminMod = true;
 
     /// <summary>
     /// 현재 페이즈 상태를 담는 변수

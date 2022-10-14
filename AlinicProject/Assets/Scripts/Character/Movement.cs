@@ -21,6 +21,10 @@ public class Movement : MonoBehaviour
     {
         charaterController = GetComponent<CharacterController>();
     }
+    private void Start()
+    {
+        Minimap.instance.SetPlayerMapFocus(transform.rotation.eulerAngles);
+    }
     public float MSpeed
     {
         set => mSpeed = Mathf.Max(0, value);
@@ -36,6 +40,7 @@ public class Movement : MonoBehaviour
         }
         // 1초당 mForce 속력으로 이동
         charaterController.Move(mForce * Time.deltaTime);
+        Minimap.instance.MovePlayerMap(transform.position);
     }
     public void Move(Vector3 dir)
     {

@@ -28,6 +28,7 @@ public class Minimap : MonoBehaviour
         //좌우 x 상하 y
         movePos = subCoor(playerPos);
         map.localPosition = movePos;
+        Debug.Log(movePos + " : " + map.localPosition);
 
     }
     // 시작할 때 플레이어의 바라보는 방향 맞추는 함수

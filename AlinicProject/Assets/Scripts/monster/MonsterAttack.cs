@@ -8,7 +8,7 @@ using static UnityEngine.GraphicsBuffer;
 public class MonsterAttack
 {
 
-    private bool isDebugging = true;
+    private bool isDebugging = false;
 
     private GameObject _target;
     private string _targetName = "Player";

@@ -55,7 +55,7 @@ public class InitMonster : MonoBehaviour
     /// <summary>
     /// true : 관리자 키 활성화
     /// </summary>
-    bool isAdminMod = true;
+    bool isAdminMod = false;
 
     /// <summary>
     /// 현재 페이즈 상태를 담는 변수
@@ -125,7 +125,7 @@ public class InitMonster : MonoBehaviour
     private GameObject _target;
 
     // 목표물의 Name
-    private string _targetName = "Character";
+    private string _targetName = "Player";
 
     // Run 모션에서의 속도
     private float _speedRun;
@@ -285,7 +285,7 @@ public class InitMonster : MonoBehaviour
 
         if(target == null)
         {
-            settingTarget(GameObject.FindGameObjectWithTag("Character"));
+            settingTarget(GameObject.FindGameObjectWithTag("Player"));
         }
 
         showDamageText(amountOfDamage);

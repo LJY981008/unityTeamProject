@@ -18,7 +18,7 @@ public class Phase2IdleScript : StateMachineBehaviour
     {
         if (phase2Script.target != null)
         {
-            if (phase2Script.getDistanceToTarget() <= 7.0f)
+            if (phase2Script.getDistanceToTarget() <= 13.0f)
             {
                 animator.SetInteger("aniInt", randomInt);
             }

@@ -23,7 +23,7 @@ public class Phase2RunScript : StateMachineBehaviour
     {
         //bs.PhaseTwoModel.Find("ironreaver01").gameObject.SetActive(false);
         phase2Script.moveToTarget();
-        if (phase2Script.getDistanceToTarget() <= 7.0f)
+        if (phase2Script.getDistanceToTarget() <= 13.0f)
         {
             animator.SetInteger("aniInt", 1);
         }

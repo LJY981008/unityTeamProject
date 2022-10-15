@@ -29,7 +29,7 @@ public class Minimap : MonoBehaviour
     public void MovePlayerMap(Vector3 playerPos)
     {
         //좌우 x 상하 y
-        playerMovePos = subCoor(playerPos);
+        playerMovePos = subCoorPlayer(playerPos);
         map.localPosition = playerMovePos;
 
     }
@@ -47,27 +47,28 @@ public class Minimap : MonoBehaviour
         playerForcus.transform.rotation = Quaternion.Slerp(transform.rotation, playerQuat, Time.deltaTime * 500f);
 
     }
+    // 몬스터 위치 표시함수
+    public void MoveMonsterMap()
+    {
+        monsterMovePos = subCoorMonster(boss.transform.position);
+        monster.localPosition = monsterMovePos;
+    }
     // 좌표 치환 함수
     // 미니맵의 크기와 실제 크기의 비율을 맞춰주는 함수
-    public Vector3 subCoor(Vector3 pos)
+    public Vector3 subCoorPlayer(Vector3 pos)
     {
         Vector3 tmp = map.position;
         tmp.x = pos.x * ratio;
         tmp.y = pos.z * ratio;
+        Debug.Log(-tmp);
         return -tmp;
     }
-    public Vector3 subCoorMob(Vector3 pos)
+    public Vector3 subCoorMonster(Vector3 pos)
     {
         Vector3 tmp = monster.position;
-        tmp.y = pos.y * ratio;
-        tmp.x = pos.x * ratio;
+        tmp.x = pos.y * ratio;
+        tmp.y = -pos.x * ratio;
+        //Debug.Log(-tmp);
         return -tmp;
-    }
-
-    // 몬스터가 이동할 때 몬스터의 위치 * 1.28을 하여 그위치로 monster Image를 이동하는 함수 작성
-    public void MoveMonsterMap()
-    {
-        /*monsterMovePos = subCoorMob(monster.position);
-        monster.localPosition = monsterMovePos;*/
     }
 }

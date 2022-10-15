@@ -165,7 +165,8 @@ public class InitMonster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isAdminMod)
+        UIManager.instance.UpdateBossHp(monsterHp, PHASE_HP[phaseState]);
+        if (isAdminMod)
         {
             if (Input.GetKeyDown(KeyCode.M))
             {

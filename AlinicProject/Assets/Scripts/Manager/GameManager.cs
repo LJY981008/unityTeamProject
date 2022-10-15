@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     private int gunIndex = 1;                        // 기본총 값
 
     public float CurrentDamage;
-    public GameObject playerBox;
+    public PlayerBody playerBox;
     PlayerChar playerChar;
     GameObject playerDowner;
     private string[] listWeapon = { "Rifle", "Pistol", "Shotgun" };    // 무기 목록

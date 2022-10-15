@@ -8,7 +8,7 @@ public class ObjectPoolManager : MonoBehaviour
     public static ObjectPoolManager instance;
     Queue<MoveParticle> QueuepoolingBullet = new Queue<MoveParticle>();
     List<PlayerUpper> listPoolingGun = new List<PlayerUpper>();
-    private GameObject playerBox;
+    private PlayerBody playerBox;
     private GameObject ammo;
 
     private void Awake()

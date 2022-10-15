@@ -6,11 +6,15 @@ public class PlayerBody : MonoBehaviour
 {
     public float maxHP = 100;
     public float currentHP = 100;
-    
+
+    private void Update()
+    {
+        UIManager.instance.UpdateHpState(maxHP, currentHP);
+    }
     public void OnDamage(float damege)
     {
         currentHP -= damege;
-        UIManager.instance.UpdateHpState(maxHP, currentHP);
+        
     }
         private void OnTriggerExit(Collider other)
     {

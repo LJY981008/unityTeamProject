@@ -8,7 +8,7 @@ public class MoveParticle : MonoBehaviour
     public float fireRate;
     public GameObject muzzlePrefab;
     public GameObject hitPrefab;
-    public GameObject playerBox;
+    public PlayerBody playerBox;
     private float saveSpeed;
     public Vector3 startPos;
     public Vector3 endPos;

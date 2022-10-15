@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     public Image imageBuffBody;
     public Image imageBuffIcon;
     public TextMeshProUGUI textBuffDuration;
+    public Image bossHp;
 
     private float buffDuration;
     private Image selectWeapon;
@@ -44,7 +45,10 @@ public class UIManager : MonoBehaviour
     // 체력 증감 UI 적용
     public void UpdateHpState(float max, float current)
     {
-        imageHp.fillAmount = current / max;
+        if(imageHp.fillAmount > current / max)
+        {
+            imageHp.fillAmount -= Time.deltaTime * 0.1f;
+        }
     }
 
     // 선택한 총 표시
@@ -91,5 +95,12 @@ public class UIManager : MonoBehaviour
             time = 0;
         }
     }
-
+    public void UpdateBossHp(int currentHp, int maxHp)
+    {
+        
+        if (bossHp.fillAmount > currentHp / maxHp)
+        {
+            bossHp.fillAmount -= Time.deltaTime;
+        }
+    }
 }

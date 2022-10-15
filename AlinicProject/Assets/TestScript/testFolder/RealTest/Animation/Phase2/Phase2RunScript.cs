@@ -20,7 +20,7 @@ public class Phase2RunScript : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //bs.PhaseTwoModel.Find("ironreaver01").gameObject.SetActive(false);
-        InitMonster.Instance.moveToTarget();
+        BossScript.instance.moveToTarget(BossScript.instance.PhaseTwoModel);
         if (InitMonster.Instance.getDistanceToTarget() <= 13.0f)
         {
             animator.SetInteger("aniInt", 1);

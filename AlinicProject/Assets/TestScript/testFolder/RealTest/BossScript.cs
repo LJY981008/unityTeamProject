@@ -98,14 +98,14 @@ public class BossScript : MonoBehaviour
     void Update()
     {
         // 범위내에 진입했을때 보스 출현
-        if(InitMonster.Instance.getDistanceToTarget() <= 50.0f)
+        /*if(InitMonster.Instance.getDistanceToTarget() <= 50.0f)
         {
             // Debug.Log("distanceTest");
             if(_triggerInt == 1)
             {
                 PhaseOneBoss.gameObject.SetActive(true);
             }
-        }
+        }*/
 
         if (Input.GetKey(KeyCode.F6))
         {
@@ -231,6 +231,15 @@ public class BossScript : MonoBehaviour
         return currentTime - latelyTime;
     }
 
+    public void moveToTarget(Transform boss)
+    {
+        // Debug.Log("### InitMonster.moveToTarget ###");
 
+        // 몬스터가 타겟을 바라보기
+        boss.LookAt(InitMonster.Instance.target.transform.position);
+        // 몬스터를 타겟에 접근하기
+        transform.position =
+        Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * InitMonster.Instance.speedRun);
+    }
 
 }

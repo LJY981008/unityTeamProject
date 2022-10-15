@@ -13,7 +13,7 @@ public class Phase3RunScript : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        InitMonster.Instance.moveToTarget();
+        BossScript.instance.moveToTarget(BossScript.instance.PhaseThreeModel);
         if (InitMonster.Instance.getDistanceToTarget() <= 13.0f)
         {
             Debug.Log("close");

@@ -173,7 +173,7 @@ public class InitMonster : MonoBehaviour
                 onDamage(50);
             }
         }
-        
+        Debug.Log(monsterHp);
     }
 
     /// <summary>

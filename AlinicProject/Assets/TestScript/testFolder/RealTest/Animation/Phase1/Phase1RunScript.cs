@@ -14,7 +14,7 @@ public class Phase1RunScript : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         // 페이즈1 타겟위치추적함수 - 여기주석풀면 따라가서 공격함
-        InitMonster.Instance.moveToTarget();
+        BossScript.instance.moveToTarget(BossScript.instance.PhaseOneModel);
         if(InitMonster.Instance.getDistanceToTarget() <= 13.0f)
         {
             animator.SetInteger("aniInt", 1);

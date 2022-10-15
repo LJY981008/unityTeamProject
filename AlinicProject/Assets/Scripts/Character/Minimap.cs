@@ -8,9 +8,11 @@ public class Minimap : MonoBehaviour
     public static Minimap instance;
 
     public Image playerForcus;
-    public Image monster;
+    public RectTransform monster;
     public RectTransform map;
-    private Vector3 movePos;
+    private GameObject boss;
+    private Vector3 playerMovePos;
+    private Vector3 monsterMovePos;
     private float ratio;    // (map UI 해상도 / plane의 scale) 몫. 실제 이동량과 맵에서의 이동량을 맞추기 위함 
 
     private void Awake()
@@ -20,14 +22,15 @@ public class Minimap : MonoBehaviour
     void Start()
     {
         ratio = 1.28f;
+        boss = GameManager.instance.monster;
     }
     // 맵에서 이동하는 함수
     // 이동함수 안에서 갱신되는 플레이어의 포지션 받아오기 
     public void MovePlayerMap(Vector3 playerPos)
     {
         //좌우 x 상하 y
-        movePos = subCoor(playerPos);
-        map.localPosition = movePos;
+        playerMovePos = subCoor(playerPos);
+        map.localPosition = playerMovePos;
 
     }
     // 시작할 때 플레이어의 바라보는 방향 맞추는 함수
@@ -53,7 +56,18 @@ public class Minimap : MonoBehaviour
         tmp.y = pos.z * ratio;
         return -tmp;
     }
+    public Vector3 subCoorMob(Vector3 pos)
+    {
+        Vector3 tmp = monster.position;
+        tmp.y = pos.y * ratio;
+        tmp.x = pos.x * ratio;
+        return -tmp;
+    }
 
     // 몬스터가 이동할 때 몬스터의 위치 * 1.28을 하여 그위치로 monster Image를 이동하는 함수 작성
-
+    public void MoveMonsterMap()
+    {
+        /*monsterMovePos = subCoorMob(monster.position);
+        monster.localPosition = monsterMovePos;*/
+    }
 }

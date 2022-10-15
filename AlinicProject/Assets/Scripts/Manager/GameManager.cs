@@ -14,10 +14,13 @@ public class GameManager : MonoBehaviour
 
     public float CurrentDamage;
     public PlayerBody playerBox;
+    public GameObject monster;
+
     PlayerChar playerChar;
     GameObject playerDowner;
     private string[] listWeapon = { "Rifle", "Pistol", "Shotgun" };    // 무기 목록
     private PlayerUpper playableWeapon;                      // 현재 사용 중인 무기
+    private float disPlayerToMonster;
 
     [Header("Input KeyCodes")]
     [SerializeField]
@@ -42,6 +45,9 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
+        disPlayerToMonster = Vector3.Distance(playerBox.transform.position, monster.transform.position);
+        UIManager.instance.SetEnableBossHp(disPlayerToMonster);
+        Minimap.instance.MoveMonsterMap();
         Move();
         Jump();
         PlayerUtill.instance.MoveRotate(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"));

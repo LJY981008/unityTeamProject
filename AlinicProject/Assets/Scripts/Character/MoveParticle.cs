@@ -61,7 +61,7 @@ public class MoveParticle : MonoBehaviour
     {
         if (!co.collider.CompareTag("Player"))
         {
-            Debug.Log(co.collider.tag);
+            Debug.Log(co.collider.transform.root.tag);
             speed = 0;
             ContactPoint contact = co.contacts[0];
             Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
@@ -81,9 +81,9 @@ public class MoveParticle : MonoBehaviour
                     Destroy(hitVFX, psChild.main.duration);
                 }
             }
-            if (co.collider.CompareTag("Monster"))
+            if (co.collider.transform.root.CompareTag("Monster"))
             {
-                InitMonster monster = co.collider.gameObject.GetComponent<InitMonster>();
+                InitMonster monster = co.collider.transform.root.gameObject.GetComponent<InitMonster>();
                 monster.onDamage((int)GameManager.instance.CurrentDamage);
             }
             ObjectPoolManager.ReturnBullet(this);

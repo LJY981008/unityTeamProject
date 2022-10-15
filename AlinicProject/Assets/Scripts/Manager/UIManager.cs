@@ -17,21 +17,29 @@ public class UIManager : MonoBehaviour
     public Image imageBuffBody;
     public Image imageBuffIcon;
     public TextMeshProUGUI textBuffDuration;
-    public Image bossHp;
+    public Image bossHpFill;
+    public Image bossHpBackground;
 
     private float buffDuration;
     private Image selectWeapon;
     private Vector3 bodyGunImagePos;
     private Vector3 bodyMagazineImagePos;
     private float time;
+    private float saveBossHpAmount;
     private void Awake()
     {
         instance = this;
         buffDuration = -1;
         time = 0;
+        saveBossHpAmount = 1.0f;
         bodyGunImagePos = new Vector3(7.0f, 0.0f, 0.0f);
         bodyMagazineImagePos = new Vector3(7.0f, 35.0f, 0.0f);
     }
+    private void OnEnable()
+    {
+        bossHpFill.fillAmount = saveBossHpAmount;
+    }
+
     private void Update()
     {
         if(buffDuration > -1) {
@@ -97,10 +105,16 @@ public class UIManager : MonoBehaviour
     }
     public void UpdateBossHp(int currentHp, int maxHp)
     {
-        
-        if (bossHp.fillAmount > currentHp / maxHp)
+        float amount = ((float)currentHp / (float)maxHp);   
+        if (bossHpFill.fillAmount > amount)
         {
-            bossHp.fillAmount -= Time.deltaTime;
+            bossHpFill.fillAmount -= Time.deltaTime * 0.1f;
         }
+        saveBossHpAmount = amount;
+    }
+    public void SetEnableBossHp(float dis)
+    {
+        if (dis < 50f) bossHpBackground.gameObject.SetActive(true);
+        else if (dis >= 50f) bossHpBackground.gameObject.SetActive(false);
     }
 }

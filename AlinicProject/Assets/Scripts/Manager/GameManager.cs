@@ -15,8 +15,8 @@ public class GameManager : MonoBehaviour
     public float CurrentDamage;
     public PlayerBody playerBox;
     public GameObject monster;
-
-    PlayerChar playerChar;
+    public PlayerUpper playerUpper;
+    
     GameObject playerDowner;
     private string[] listWeapon = { "Rifle", "Pistol", "Shotgun" };    // 무기 목록
     private PlayerUpper playableWeapon;                      // 현재 사용 중인 무기
@@ -138,10 +138,17 @@ public class GameManager : MonoBehaviour
         // 이동중 일 때 (걷기 or 뛰기)
         if (x != 0 || z != 0)
         {
+            playableWeapon.IsMove(true);
             bool isRun = false;
             // 옆이나 뒤로 이동할 대는 달릴 수 없다.
             if (z > 0) isRun = Input.GetKey(keyCodeRun);
             movement.MSpeed = isRun == true ? status.RunSpeed : status.WalkSpeed;
+            playableWeapon.IsRun(isRun);
+        }
+        else
+        {
+            playableWeapon.IsMove(false);
+            playableWeapon.IsRun(false);
         }
         movement.Move(new Vector3(x, 0, z));
     }

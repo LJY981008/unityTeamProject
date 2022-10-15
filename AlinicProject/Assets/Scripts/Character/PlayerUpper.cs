@@ -45,13 +45,16 @@ public class PlayerUpper : MonoBehaviour
     // 발사
     public void FireGun(int index)
     {
-        if (gunData.currentAmmo > 0)
+        if (!animator.GetBool("isRun"))
         {
-            animator.SetBool("isFire", true);
-        }
-        else
-        {
-            Debug.Log("탄없음");
+            if (gunData.currentAmmo > 0)
+            {
+                animator.SetBool("isFire", true);
+            }
+            else
+            {
+                Debug.Log("탄없음");
+            }
         }
     }   
     // 대기, 
@@ -62,14 +65,17 @@ public class PlayerUpper : MonoBehaviour
     // 장전
     public void ReloadGun(int index)
     {
-        // 탄약이 가득차있을 때는 작동안하는 이벤트 작성
-        if (gunData.currentAmmo < gunData.maxAmmo)
+        if (!animator.GetBool("isRun"))
         {
-            animator.SetBool("isReload", true);
-        }
-        else
-        {
-            Debug.Log("탄이 가득참");
+            // 탄약이 가득차있을 때는 작동안하는 이벤트 작성
+            if (gunData.currentAmmo < gunData.maxAmmo)
+            {
+                animator.SetBool("isReload", true);
+            }
+            else
+            {
+                Debug.Log("탄이 가득참");
+            }
         }
     }
     // 탄감소
@@ -110,6 +116,12 @@ public class PlayerUpper : MonoBehaviour
         }
         return null;
     }
-    //이거 박스로 옮기기
-   
+    public void IsMove(bool trigger)
+    {
+        animator.SetBool("isMove", trigger);
+    }
+    public void IsRun(bool trigger)
+    {
+        animator.SetBool("isRun", trigger);
+    }
 }

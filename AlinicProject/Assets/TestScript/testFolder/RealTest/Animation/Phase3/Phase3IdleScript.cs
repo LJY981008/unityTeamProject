@@ -28,8 +28,8 @@ public class Phase3IdleScript : StateMachineBehaviour
 
             if (InitMonster.Instance.getDistanceOfTime(Time.time, InitMonster.Instance.latelyCastSkillTime) >= 10.0f)
             {
-                if (InitMonster.Instance.getDistanceOfTime(Time.time, InitMonster.Instance.latelyCastSkillOneTime) >= 10.0f
-                    && InitMonster.Instance.getDistanceOfTime(Time.time, InitMonster.Instance.latelyCastSkillTwoTime) >= 10.0f)
+                if (InitMonster.Instance.getDistanceOfTime(Time.time, InitMonster.Instance.latelyCastSkillOneTime) >= 15.0f
+                    && InitMonster.Instance.getDistanceOfTime(Time.time, InitMonster.Instance.latelyCastSkillTwoTime) >= 15.0f)
                 {
                     animator.SetInteger("aniInt", randomskillInt);
                 }

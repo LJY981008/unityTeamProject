@@ -8,6 +8,7 @@ public class Phase1DeadScript : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         InitMonster.Instance.rememberDeadPosition();
+        InitMonster.Instance.deadForward = InitMonster.Instance.PhaseOneModel.forward;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

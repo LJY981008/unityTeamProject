@@ -8,6 +8,7 @@ public class Phase2HitScript : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         InitMonster.Instance.rememberTwoDeadPosition();
+        InitMonster.Instance.deadForward = InitMonster.Instance.PhaseTwoModel.forward;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

@@ -148,6 +148,7 @@ public class InitMonster : MonoBehaviour
     private Animator ani;
     private Vector3 _deadPosition;
     private Vector3 _targetPos;
+    private Vector3 _deadForward;
 
     public Transform PhaseOneModel
     {
@@ -168,6 +169,11 @@ public class InitMonster : MonoBehaviour
     public Vector3 targetPos
     {
         get { return _targetPos; }
+    }
+    public Vector3 deadForward
+    {
+        set { _deadForward = value; }
+        get { return _deadForward; }
     }
 
     private float _latelyCastSkillTime, _latelyCastSkillOneTime, _latelyCastSkillTwoTime;
@@ -470,6 +476,7 @@ public class InitMonster : MonoBehaviour
         _PhaseOneBoss.gameObject.SetActive(false);
 
         _PhaseTwoBoss.gameObject.SetActive(true);
+        _PhaseTwoModel.forward = _deadForward;
     }
 
     void ActiveChangePhase3()
@@ -477,6 +484,7 @@ public class InitMonster : MonoBehaviour
         _PhaseTwoBoss.gameObject.SetActive(false);
 
         _PhaseThreeBoss.gameObject.SetActive(true);
+        _PhaseThreeModel.forward = _deadForward;
     }
 
     public void rememberDeadPosition()

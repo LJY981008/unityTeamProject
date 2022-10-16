@@ -33,7 +33,7 @@ public class RazerEffectTestScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playerPos = BossScript.instance.target.transform.position;
+        playerPos = InitMonster.Instance.target.transform.position;
     }
 
     public void testEffect()

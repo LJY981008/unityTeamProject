@@ -16,7 +16,7 @@ public class RotateToPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RotateToMouseDirection(gameObject, BossScript.instance.targetPos);
+        RotateToMouseDirection(gameObject, InitMonster.Instance.targetPos);
     }
 
     void RotateToMouseDirection(GameObject obj, Vector3 destination)

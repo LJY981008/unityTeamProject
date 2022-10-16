@@ -26,20 +26,20 @@ public class Phase3IdleScript : StateMachineBehaviour
                 animator.SetInteger("aniInt", 2);
             }
 
-            if (BossScript.instance.getDistanceOfTime(Time.time, BossScript.instance.latelyCastSkillTime) >= 10.0f)
+            if (InitMonster.Instance.getDistanceOfTime(Time.time, InitMonster.Instance.latelyCastSkillTime) >= 10.0f)
             {
-                if (BossScript.instance.getDistanceOfTime(Time.time, BossScript.instance.latelyCastSkillOneTime) >= 10.0f
-                    && BossScript.instance.getDistanceOfTime(Time.time, BossScript.instance.latelyCastSkillTwoTime) >= 10.0f)
+                if (InitMonster.Instance.getDistanceOfTime(Time.time, InitMonster.Instance.latelyCastSkillOneTime) >= 10.0f
+                    && InitMonster.Instance.getDistanceOfTime(Time.time, InitMonster.Instance.latelyCastSkillTwoTime) >= 10.0f)
                 {
                     animator.SetInteger("aniInt", randomskillInt);
                 }
                 else
                 {
-                    if (BossScript.instance.getDistanceOfTime(Time.time, BossScript.instance.latelyCastSkillOneTime) >= 15.0f)
+                    if (InitMonster.Instance.getDistanceOfTime(Time.time, InitMonster.Instance.latelyCastSkillOneTime) >= 15.0f)
                     {
                         animator.SetInteger("aniInt", 6);
                     }
-                    else if (BossScript.instance.getDistanceOfTime(Time.time, BossScript.instance.latelyCastSkillTwoTime) >= 15.0f)
+                    else if (InitMonster.Instance.getDistanceOfTime(Time.time, InitMonster.Instance.latelyCastSkillTwoTime) >= 15.0f)
                     {
                         animator.SetInteger("aniInt", 7);
                     }

@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class Phase2HitScript : StateMachineBehaviour
 {
-    BossScript bossScript;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        bossScript = FindObjectOfType<BossScript>();
-        bossScript.rememberTwoDeadPosition();
+        InitMonster.Instance.rememberTwoDeadPosition();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        bossScript.doInvoke2();
+        
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

@@ -5,14 +5,12 @@ using UnityEngine;
 
 public class Phase2RunScript : StateMachineBehaviour
 {
-    BossScript bs;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        bs = FindObjectOfType<BossScript>();
-        if(bs.ironreaver01 != null)
+        if(InitMonster.Instance.ironreaver01 != null)
         {
-            Destroy(bs.PhaseTwoModel.Find("ironreaver01").gameObject);
+            Destroy(InitMonster.Instance.PhaseTwoModel.Find("ironreaver01").gameObject);
         }
     }
 
@@ -20,7 +18,7 @@ public class Phase2RunScript : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //bs.PhaseTwoModel.Find("ironreaver01").gameObject.SetActive(false);
-        BossScript.instance.moveToTarget(BossScript.instance.PhaseTwoModel);
+        InitMonster.Instance.moveToTarget(InitMonster.Instance.PhaseTwoModel);
         if (InitMonster.Instance.getDistanceToTarget() <= 13.0f)
         {
             animator.SetInteger("aniInt", 1);

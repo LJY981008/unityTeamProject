@@ -23,8 +23,8 @@ public class Phase3Atk2Script : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Debug.Log("OnStateExit - skill2");
-        BossScript.instance.initSkillTime();
-        BossScript.instance.initSkillTwoTime();
+        InitMonster.Instance.initSkillTime();
+        InitMonster.Instance.initSkillTwoTime();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

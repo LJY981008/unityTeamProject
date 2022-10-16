@@ -60,7 +60,7 @@ public class Minimap : MonoBehaviour
         Vector3 tmp = map.position;
         tmp.x = pos.x * ratio;
         tmp.y = pos.z * ratio;
-        Debug.Log(-tmp);
+        //Debug.Log(-tmp);
         return -tmp;
     }
     public Vector3 subCoorMonster(Vector3 pos)

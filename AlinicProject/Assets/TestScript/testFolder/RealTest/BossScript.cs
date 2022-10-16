@@ -8,12 +8,12 @@ public class BossScript : MonoBehaviour
 {
     public static BossScript instance;
     GameObject _target;
-    public Transform PhaseOneBoss, PhaseOneModel, PhaseTwoBoss, PhaseTwoModel, PhaseThreeBoss, PhaseThreeModel;
-    Animator ani;
-    int _triggerInt;
-    Vector3 _deadPosition;
-    public GameObject ironreaver01;
+
     List<Transform> childTs;
+    public Transform PhaseOneBoss, PhaseOneModel, PhaseTwoBoss, PhaseTwoModel, PhaseThreeBoss, PhaseThreeModel;
+    public GameObject ironreaver01;
+    Animator ani;
+    Vector3 _deadPosition;
     Vector3 _targetPos;
 
     private float _latelyCastSkillTime, _latelyCastSkillOneTime, _latelyCastSkillTwoTime;
@@ -42,11 +42,6 @@ public class BossScript : MonoBehaviour
         set { _target = value; }
     }
 
-    public int triggerInt
-    {
-        get { return _triggerInt; }
-        set { _triggerInt = value; }
-    }
     public Vector3 deadPosition
     {
         get { return _deadPosition; }
@@ -65,16 +60,14 @@ public class BossScript : MonoBehaviour
     {
         if (instance == null)
             instance = this;
-
+        //target = GameObject.Find("Player");
 
         childTs = new List<Transform>();
         for (int i = 0; i < 3; i++)
         {
             childTs.Add(transform.GetChild(i));
         }
-
-        triggerInt = 1;
-        target = GameObject.Find("Player");
+        
         PhaseOneBoss = childTs[0];
         PhaseOneModel = childTs[0].Find("1_Model");
         PhaseTwoBoss = childTs[1];
@@ -83,7 +76,6 @@ public class BossScript : MonoBehaviour
         PhaseThreeModel = childTs[2].Find("3_Model");
         ani = PhaseOneModel.GetComponent<Animator>();
         ironreaver01 = PhaseTwoModel.Find("ironreaver01").gameObject;
-
 
         latelyCastSkillOneTime = -25.0f;
         latelyCastSkillTwoTime = -25.0f;
@@ -107,7 +99,7 @@ public class BossScript : MonoBehaviour
             }
         }*/
 
-        if (Input.GetKey(KeyCode.F6))
+        /*if (Input.GetKey(KeyCode.F6))
         {
             ani.SetInteger("aniInt", 6);
             //Debug.Log(_deadPosition);
@@ -122,41 +114,38 @@ public class BossScript : MonoBehaviour
         if (Input.GetKey(KeyCode.F8))
         {
             ani.SetInteger("aniInt", 9);
-        }
-        if (_triggerInt == 2)
-        {
-            PhaseOneBoss.gameObject.SetActive(false);
-
-            PhaseTwoBoss.gameObject.SetActive(true);
-        }
-        if(_triggerInt == 3)
-        {
-            PhaseTwoBoss.gameObject.SetActive(false);
-
-            PhaseThreeBoss.gameObject.SetActive(true);
-        }
+        }*/
 
         _targetPos = _target.transform.position;
     }
 
 
-    public void doInvoke()
+    
+
+    public void ActiveChangeInvoke()
     {
-        Invoke("makeBossDie", 5.5f);
-    }
-    void makeBossDie()
-    {
-        _triggerInt = 2;
+        Invoke("ActiveChangePhase2", 5.5f);
     }
 
-    public void doInvoke2()
+    public void ActiveChangeInvoke2()
     {
-        Invoke("makeBossDie2", 0.3f);
+        Invoke("ActiveChangePhase3", 0.3f);
     }
-    void makeBossDie2()
+
+    void ActiveChangePhase2()
     {
-        _triggerInt = 3;
+        PhaseOneBoss.gameObject.SetActive(false);
+
+        PhaseTwoBoss.gameObject.SetActive(true);
     }
+
+    void ActiveChangePhase3()
+    {
+        PhaseOneBoss.gameObject.SetActive(false);
+
+        PhaseTwoBoss.gameObject.SetActive(true);
+    }
+
 
     public void rememberDeadPosition()
     {

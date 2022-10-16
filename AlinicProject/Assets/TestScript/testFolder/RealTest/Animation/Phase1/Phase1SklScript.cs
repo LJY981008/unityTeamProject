@@ -20,7 +20,7 @@ public class Phase1SklScript : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Debug.Log("OnStateExit - skill");
-        BossScript.instance.initSkillTime();
+        InitMonster.Instance.initSkillTime();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

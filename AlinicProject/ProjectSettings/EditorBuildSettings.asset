@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/Monster/LoadSceneTest.unity
+    guid: 0a504aa127272af42a343522715d31a9
+  - enabled: 1
+    path: Assets/Scenes/Monster/LoadingScene.unity
+    guid: 619dc89c6bc3bae4fa843b2170437c14
+  - enabled: 1
+    path: Assets/Scenes/CityBuilderUrbanAPODemo.unity
+    guid: 1aca70ac57bc23747994b78d0240c5b3
   m_configObjects: {}

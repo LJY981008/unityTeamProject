@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class Phase1RunScript : StateMachineBehaviour
 {
-    Phase1Script phase1Script;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        phase1Script = FindObjectOfType<Phase1Script>();
+        
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         // 페이즈1 타겟위치추적함수 - 여기주석풀면 따라가서 공격함
-        phase1Script.moveToTarget();
-        if(phase1Script.getDistanceToTarget() <= 7.0f)
+        InitMonster.Instance.moveToTarget(InitMonster.Instance.PhaseOneModel);
+        if(InitMonster.Instance.getDistanceToTarget() <= 13.0f)
         {
             animator.SetInteger("aniInt", 1);
         }

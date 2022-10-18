@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class Phase3BornScript : StateMachineBehaviour
 {
-    BossScript bossScript;
+    //BossScript bossScript;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        bossScript = FindObjectOfType<BossScript>();
-        animator.transform.LookAt(bossScript.target.transform.position);
-        bossScript.changeAnimator(3);
+        //bossScript = FindObjectOfType<BossScript>();
+        //animator.transform.LookAt(bossScript.target.transform.position);
+        InitMonster.Instance.changeAnimator(3);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        UIManager.instance.bossHpFill.fillAmount = stateInfo.normalizedTime;
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("1_Idle") &&
             animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
         {
             animator.SetInteger("aniInt", 1);
+            UIManager.instance.bossHpFill.fillAmount = 1.0f;
         }
     }
 

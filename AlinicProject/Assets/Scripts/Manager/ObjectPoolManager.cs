@@ -8,7 +8,7 @@ public class ObjectPoolManager : MonoBehaviour
     public static ObjectPoolManager instance;
     Queue<MoveParticle> QueuepoolingBullet = new Queue<MoveParticle>();
     List<PlayerUpper> listPoolingGun = new List<PlayerUpper>();
-    private GameObject playerBox;
+    private PlayerBody playerBox;
     private GameObject ammo;
 
     private void Awake()
@@ -66,9 +66,29 @@ public class ObjectPoolManager : MonoBehaviour
         newObj.transform.SetParent(null);
         return newObj;
     }
-    public static MoveParticle GetBullet(Vector3 spawnPos)
+    public static MoveParticle GetBullet(Vector3 spawnPos, Vector3 shotgunPos)
     {
         if(instance.QueuepoolingBullet.Count > 0)
+        {
+            var bullet = instance.QueuepoolingBullet.Dequeue();
+            bullet.transform.position = spawnPos;
+            bullet.transform.SetParent(null);
+            bullet.shotgunPos = shotgunPos;
+            bullet.gameObject.SetActive(true);
+            return bullet;
+        }
+        else
+        {
+            var newBullet = instance.CreateNewBullet();
+            newBullet.transform.position = spawnPos;
+            newBullet.gameObject.SetActive(true);
+            newBullet.transform.SetParent(null);
+            return newBullet;
+        }
+    }
+    public static MoveParticle GetBullet(Vector3 spawnPos)
+    {
+        if (instance.QueuepoolingBullet.Count > 0)
         {
             var bullet = instance.QueuepoolingBullet.Dequeue();
             bullet.transform.position = spawnPos;

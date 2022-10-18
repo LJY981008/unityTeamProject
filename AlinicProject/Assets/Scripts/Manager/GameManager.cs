@@ -13,11 +13,14 @@ public class GameManager : MonoBehaviour
     private int gunIndex = 1;                        // 기본총 값
 
     public float CurrentDamage;
-    public GameObject playerBox;
-    PlayerChar playerChar;
+    public PlayerBody playerBox;
+    public GameObject monster;
+    public PlayerUpper playerUpper;
+    
     GameObject playerDowner;
     private string[] listWeapon = { "Rifle", "Pistol", "Shotgun" };    // 무기 목록
-    private PlayerUpper playableWeapon;                      // 현재 사용 중인 무기
+    public PlayerUpper playableWeapon;                      // 현재 사용 중인 무기
+    private float disPlayerToMonster;
 
     [Header("Input KeyCodes")]
     [SerializeField]
@@ -26,6 +29,7 @@ public class GameManager : MonoBehaviour
     private Movement movement; // 키보드 입력으로 플레이어 이동, 점프
     private Status status; // 이동속도 등의 플레이어 정보
     private float x, z;
+    bool die = false;
     void Awake()
     {
         instance = this;
@@ -42,9 +46,15 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        Move();
-        Jump();
-        PlayerUtill.instance.MoveRotate(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"));
+        disPlayerToMonster = Vector3.Distance(playerBox.transform.position, monster.transform.position);
+        UIManager.instance.SetEnableBossHp(disPlayerToMonster);
+        Minimap.instance.MoveMonsterMap();
+        if (!die)
+        {
+            Move();
+            Jump();
+            PlayerUtill.instance.MoveRotate(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"));
+        }
         //좌클릭
         if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)))
         {
@@ -112,12 +122,8 @@ public class GameManager : MonoBehaviour
         
         if (tmpPlayerChar != null)
         {
-            //playerChar = Instantiate(tmpPlayerChar, Vector3.zero, Quaternion.identity);
             // 캐릭터 게임오브젝트를 리스트에서 불러오는 코드
             playerDowner = GameObject.Instantiate<GameObject>(tmpPlayerChar, Vector3.zero, Quaternion.identity, playerBox.transform);
-            /*playerDowner.transform.localPosition = Vector3.zero;
-            playerDowner.transform.localRotation = Quaternion.identity;
-            playerDowner.transform.SetParent(playerBox.transform);*/
         }
         else
         {
@@ -132,10 +138,17 @@ public class GameManager : MonoBehaviour
         // 이동중 일 때 (걷기 or 뛰기)
         if (x != 0 || z != 0)
         {
+            playableWeapon.IsMove(true);
             bool isRun = false;
             // 옆이나 뒤로 이동할 대는 달릴 수 없다.
             if (z > 0) isRun = Input.GetKey(keyCodeRun);
             movement.MSpeed = isRun == true ? status.RunSpeed : status.WalkSpeed;
+            playableWeapon.IsRun(isRun);
+        }
+        else
+        {
+            playableWeapon.IsMove(false);
+            playableWeapon.IsRun(false);
         }
         movement.Move(new Vector3(x, 0, z));
     }
@@ -145,5 +158,11 @@ public class GameManager : MonoBehaviour
         {
             movement.Jump();
         }
+    }
+    public void Die()
+    {
+        die = true;
+        playableWeapon.IsDie();
+        playerBox.DieRotate();
     }
 }

@@ -53,6 +53,11 @@ public class InitMonster : MonoBehaviour
     bool isDebugging = true;
 
     /// <summary>
+    /// true : 관리자 키 활성화
+    /// </summary>
+    bool isAdminMod = true;
+
+    /// <summary>
     /// 현재 페이즈 상태를 담는 변수
     /// 0 : 1페이즈
     /// 1 : 2페이즈
@@ -120,7 +125,7 @@ public class InitMonster : MonoBehaviour
     private GameObject _target;
 
     // 목표물의 Name
-    private string _targetName = "Character";
+    private string _targetName = "Player";
 
     // Run 모션에서의 속도
     private float _speedRun;
@@ -136,11 +141,84 @@ public class InitMonster : MonoBehaviour
         get { return _speedRun; }
         set { _speedRun = value; }
     }
+    // BossScript에 있던 멤버변수들
+    private List<Transform> childTs;
+    private Transform _PhaseOneBoss, _PhaseOneModel, _PhaseTwoBoss, _PhaseTwoModel, _PhaseThreeBoss, _PhaseThreeModel;
+    private GameObject _ironreaver01;
+    private Animator ani;
+    private Vector3 _deadPosition;
+    private Vector3 _targetPos;
+    private Vector3 _deadForward;
+
+    public Transform PhaseOneModel
+    {
+        get { return _PhaseOneModel; }
+    }
+    public Transform PhaseTwoModel
+    {
+        get { return _PhaseTwoModel; }
+    }
+    public Transform PhaseThreeModel
+    {
+        get { return _PhaseThreeModel; }
+    }
+    public GameObject ironreaver01
+    {
+        get { return _ironreaver01; }
+    }
+    public Vector3 targetPos
+    {
+        get { return _targetPos; }
+    }
+    public Vector3 deadForward
+    {
+        set { _deadForward = value; }
+        get { return _deadForward; }
+    }
+
+    private float _latelyCastSkillTime, _latelyCastSkillOneTime, _latelyCastSkillTwoTime;
+    public float latelyCastSkillTime
+    {
+        get { return _latelyCastSkillTime; }
+        set { _latelyCastSkillTime = value; }
+    }
+
+    public float latelyCastSkillOneTime
+    {
+        get { return _latelyCastSkillOneTime; }
+        set { _latelyCastSkillOneTime = value; }
+    }
+
+    public float latelyCastSkillTwoTime
+    {
+        get { return _latelyCastSkillTwoTime; }
+        set { _latelyCastSkillTwoTime = value; }
+    }
+    //여기까지
 
     private void Awake()
     {
         _speedRun = 15.0f;
+
+        childTs = new List<Transform>();
+        for (int i = 0; i < 3; i++)
+        {
+            childTs.Add(transform.GetChild(i));
+        }
+
+        _PhaseOneBoss = childTs[0];
+        _PhaseOneModel = childTs[0].Find("1_Model");
+        _PhaseTwoBoss = childTs[1];
+        _PhaseTwoModel = childTs[1].Find("2_Model");
+        _PhaseThreeBoss = childTs[2];
+        _PhaseThreeModel = childTs[2].Find("3_Model");
+        ani = _PhaseOneModel.GetComponent<Animator>();
+        _ironreaver01 = _PhaseTwoModel.Find("ironreaver01").gameObject;
+        latelyCastSkillOneTime = -25.0f;
+        latelyCastSkillTwoTime = -25.0f;
     }
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -160,10 +238,16 @@ public class InitMonster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
+        UIManager.instance.UpdateBossHp(monsterHp, PHASE_HP[phaseState]);
+        if (isAdminMod)
         {
-            onDamage(50);
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                onDamage(50);
+            }
         }
+        if(_target != null)
+            _targetPos = _target.transform.position;
     }
 
     /// <summary>
@@ -214,6 +298,14 @@ public class InitMonster : MonoBehaviour
     }
 
     /// <summary>
+    /// 몬스터와 타겟까지의 거리 구하기
+    /// </summary>
+    public float getDistanceToTarget(GameObject obj)
+    {
+        return Vector3.Distance(obj.transform.position, target.transform.position);
+    }
+
+    /// <summary>
     /// 몬스터를 타겟으로 이동하기
     /// </summary>
     public void moveToTarget()
@@ -225,6 +317,18 @@ public class InitMonster : MonoBehaviour
         // 몬스터를 타겟에 접근하기
         transform.position =
         Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * speedRun);
+    }
+    
+    // 새로운 이동함수
+    public void moveToTarget(Transform boss)
+    {
+        // Debug.Log("### InitMonster.moveToTarget ###");
+
+        // 몬스터가 타겟을 바라보기
+        boss.LookAt(InitMonster.Instance.target.transform.position);
+        // 몬스터를 타겟에 접근하기
+        transform.position =
+        Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * InitMonster.Instance.speedRun);
     }
 
     /// <summary>
@@ -268,7 +372,7 @@ public class InitMonster : MonoBehaviour
 
         if(target == null)
         {
-            settingTarget(GameObject.FindGameObjectWithTag("Character"));
+            settingTarget(GameObject.FindGameObjectWithTag("Player"));
         }
 
         showDamageText(amountOfDamage);
@@ -286,7 +390,8 @@ public class InitMonster : MonoBehaviour
                     Debug.Log("### 1페이즈 종료");
                 }
                 setPhaseState(1);
-                BossScript.instance.closePhase1();
+                closePhase1();
+                ActiveChangeInvoke();
             }
             else if (phaseState == 1) // 1페이즈 종료
             {
@@ -295,7 +400,8 @@ public class InitMonster : MonoBehaviour
                     Debug.Log("### 2페이즈 종료");
                 }
                 setPhaseState(2);
-                BossScript.instance.closePhase2();
+                closePhase2();
+                ActiveChangeInvoke2();
             }
             else if (phaseState == 2) // 1페이즈 종료
             {
@@ -303,7 +409,7 @@ public class InitMonster : MonoBehaviour
                 {
                     Debug.Log("### 3페이즈 종료");
                 }
-                BossScript.instance.closePhase3();
+                closePhase3();
             }
         }
 
@@ -351,4 +457,104 @@ public class InitMonster : MonoBehaviour
         }
         isInvincibility = false;
     }
+
+
+    // BossScript 에 있던 사용하는 함수들
+    public void ActiveChangeInvoke()
+    {
+        Invoke("ActiveChangePhase2", 5.5f);
+    }
+
+    public void ActiveChangeInvoke2()
+    {
+        Invoke("ActiveChangePhase3", 0.3f);
+    }
+
+    void ActiveChangePhase2()
+    {
+        _PhaseOneBoss.gameObject.SetActive(false);
+
+        _PhaseTwoBoss.gameObject.SetActive(true);
+        _PhaseTwoModel.forward = _deadForward;
+    }
+
+    void ActiveChangePhase3()
+    {
+        _PhaseTwoBoss.gameObject.SetActive(false);
+
+        _PhaseThreeBoss.gameObject.SetActive(true);
+        _PhaseThreeModel.forward = _deadForward;
+    }
+
+    public void rememberDeadPosition()
+    {
+        Debug.Log(PhaseOneModel.transform.position);
+        _deadPosition = PhaseOneModel.transform.position;
+    }
+
+    public void rememberTwoDeadPosition()
+    {
+        Debug.Log(PhaseTwoModel.transform.position);
+        _deadPosition = PhaseTwoModel.transform.position;
+    }
+
+    public void changeAnimator(int phase)
+    {
+        if (phase == 2)
+        {
+            Debug.Log("ani changed - 2");
+            ani = PhaseTwoModel.GetComponent<Animator>();
+        }
+        else if (phase == 3)
+        {
+            Debug.Log("ani changed - 3");
+            ani = PhaseThreeModel.GetComponent<Animator>();
+        }
+    }
+    /// <summary>
+    /// 1페이즈 종료
+    /// </summary>
+    public void closePhase1()
+    {
+        ani.SetInteger("aniInt", 6);
+    }
+
+    /// <summary>
+    /// 2페이즈 종료
+    /// </summary>
+    public void closePhase2()
+    {
+        ani.SetInteger("aniInt", 5);
+    }
+
+    /// <summary>
+    /// 3페이즈 종료
+    /// </summary>
+    public void closePhase3()
+    {
+        ani.SetInteger("aniInt", 9);
+    }
+
+    public void initSkillTime()
+    {
+        latelyCastSkillTime = Time.time;
+    }
+
+    public void initSkillOneTime()
+    {
+        Debug.Log("skill one init");
+        latelyCastSkillOneTime = Time.time;
+    }
+
+    public void initSkillTwoTime()
+    {
+        Debug.Log("skill two init");
+        latelyCastSkillTwoTime = Time.time;
+    }
+
+    public float getDistanceOfTime(float currentTime, float latelyTime)
+    {
+        return currentTime - latelyTime;
+    }
+    // 여기까지
 }

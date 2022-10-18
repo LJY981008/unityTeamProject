@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class Phase3RunScript : StateMachineBehaviour
 {
-    Phase3Script phase3Script;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        phase3Script = FindObjectOfType<Phase3Script>();
+        
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        phase3Script.moveToTarget();
-        if (phase3Script.getDistanceToTarget() <= 15.0f)
+        InitMonster.Instance.moveToTarget(InitMonster.Instance.PhaseThreeModel);
+        if (InitMonster.Instance.getDistanceToTarget() <= 13.0f)
         {
             Debug.Log("close");
             animator.SetInteger("aniInt", 1);

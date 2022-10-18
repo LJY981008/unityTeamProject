@@ -42,16 +42,26 @@ public class PlayerUpper : MonoBehaviour
         spawnParticle.firePoint = muzzlePivot.gameObject;
         GameManager.instance.CurrentDamage = gunData.damage;
     }
+    private void Update()
+    {
+        if (gunData.currentAmmo < 1) animator.SetBool("isFire", false);
+    }
     // 발사
     public void FireGun(int index)
     {
-        if (gunData.currentAmmo > 0)
+        if (!animator.GetBool("isRun"))
         {
-            animator.SetBool("isFire", true);
-        }
-        else
-        {
-            Debug.Log("탄없음");
+            if (gunData.currentAmmo > 0)
+            {
+                animator.SetBool("isFire", true);
+            }
+            else
+            {
+                // 총알 없을 때 격발시 오디오 현재 이상해서 수정해야함
+               /* AudioClip audioClip = AudioManager.instance.GetDryClip(transform.name.Replace("(Clone)", ""));
+                Debug.Log(audioClip.name);
+                PlayAudio(audioClip);*/
+            }
         }
     }   
     // 대기, 
@@ -62,14 +72,17 @@ public class PlayerUpper : MonoBehaviour
     // 장전
     public void ReloadGun(int index)
     {
-        // 탄약이 가득차있을 때는 작동안하는 이벤트 작성
-        if (gunData.currentAmmo < gunData.maxAmmo)
+        if (!animator.GetBool("isRun"))
         {
-            animator.SetBool("isReload", true);
-        }
-        else
-        {
-            Debug.Log("탄이 가득참");
+            // 탄약이 가득차있을 때는 작동안하는 이벤트 작성
+            if (gunData.currentAmmo < gunData.maxAmmo)
+            {
+                animator.SetBool("isReload", true);
+            }
+            else
+            {
+                Debug.Log("탄이 가득참");
+            }
         }
     }
     // 탄감소
@@ -93,8 +106,8 @@ public class PlayerUpper : MonoBehaviour
     public void shot()
     {
         firePos = muzzlePivot.position;
-        spawnParticle.firePoint = muzzlePivot.gameObject;
         spawnParticle.SetEffect();
+        spawnParticle.firePoint = muzzlePivot.gameObject;
         UseAmmo();
     }
 
@@ -110,6 +123,16 @@ public class PlayerUpper : MonoBehaviour
         }
         return null;
     }
-    //이거 박스로 옮기기
-   
+    public void IsMove(bool trigger)
+    {
+        animator.SetBool("isMove", trigger);
+    }
+    public void IsRun(bool trigger)
+    {
+        animator.SetBool("isRun", trigger);
+    }
+    public void IsDie()
+    {
+        animator.SetBool("isDie", true);
+    }
 }

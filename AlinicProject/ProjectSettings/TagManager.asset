@@ -8,6 +8,8 @@ TagManager:
   - Character
   - Terrain
   - hudDamageText
+  - Map
+  - Bullet
   layers:
   - Default
   - TransparentFX

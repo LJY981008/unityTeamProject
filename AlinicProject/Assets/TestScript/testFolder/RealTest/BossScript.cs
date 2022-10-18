@@ -8,14 +8,32 @@ public class BossScript : MonoBehaviour
 {
     public static BossScript instance;
     GameObject _target;
-    public Transform PhaseOneBoss, PhaseOneModel, PhaseTwoBoss, PhaseTwoModel, PhaseThreeBoss, PhaseThreeModel;
-    Animator ani;
-    int _triggerInt;
-    Phase1Script phase1Script;
-    Vector3 _deadPosition;
-    public GameObject ironreaver01;
+
     List<Transform> childTs;
+    public Transform PhaseOneBoss, PhaseOneModel, PhaseTwoBoss, PhaseTwoModel, PhaseThreeBoss, PhaseThreeModel;
+    public GameObject ironreaver01;
+    Animator ani;
+    Vector3 _deadPosition;
     Vector3 _targetPos;
+
+    private float _latelyCastSkillTime, _latelyCastSkillOneTime, _latelyCastSkillTwoTime;
+    public float latelyCastSkillTime
+    {
+        get { return _latelyCastSkillTime; }
+        set { _latelyCastSkillTime = value; }
+    }
+
+    public float latelyCastSkillOneTime
+    {
+        get { return _latelyCastSkillOneTime; }
+        set { _latelyCastSkillOneTime = value; }
+    }
+
+    public float latelyCastSkillTwoTime
+    {
+        get { return _latelyCastSkillTwoTime; }
+        set { _latelyCastSkillTwoTime = value; }
+    }
 
 
     public GameObject target
@@ -24,11 +42,6 @@ public class BossScript : MonoBehaviour
         set { _target = value; }
     }
 
-    public int triggerInt
-    {
-        get { return _triggerInt; }
-        set { _triggerInt = value; }
-    }
     public Vector3 deadPosition
     {
         get { return _deadPosition; }
@@ -47,16 +60,14 @@ public class BossScript : MonoBehaviour
     {
         if (instance == null)
             instance = this;
-
+        //target = GameObject.Find("Player");
 
         childTs = new List<Transform>();
         for (int i = 0; i < 3; i++)
         {
             childTs.Add(transform.GetChild(i));
         }
-
-        triggerInt = 1;
-        target = GameObject.Find("Player");
+        
         PhaseOneBoss = childTs[0];
         PhaseOneModel = childTs[0].Find("1_Model");
         PhaseTwoBoss = childTs[1];
@@ -65,6 +76,9 @@ public class BossScript : MonoBehaviour
         PhaseThreeModel = childTs[2].Find("3_Model");
         ani = PhaseOneModel.GetComponent<Animator>();
         ironreaver01 = PhaseTwoModel.Find("ironreaver01").gameObject;
+
+        latelyCastSkillOneTime = -25.0f;
+        latelyCastSkillTwoTime = -25.0f;
     }
     // Start is called before the first frame update
     void Start()
@@ -76,16 +90,16 @@ public class BossScript : MonoBehaviour
     void Update()
     {
         // 범위내에 진입했을때 보스 출현
-        if(getDistanceToTarget() <= 50.0f)
+        /*if(InitMonster.Instance.getDistanceToTarget() <= 50.0f)
         {
             // Debug.Log("distanceTest");
             if(_triggerInt == 1)
             {
                 PhaseOneBoss.gameObject.SetActive(true);
             }
-        }
+        }*/
 
-        if (Input.GetKey(KeyCode.F6))
+        /*if (Input.GetKey(KeyCode.F6))
         {
             ani.SetInteger("aniInt", 6);
             //Debug.Log(_deadPosition);
@@ -100,45 +114,38 @@ public class BossScript : MonoBehaviour
         if (Input.GetKey(KeyCode.F8))
         {
             ani.SetInteger("aniInt", 9);
-        }
-        if (_triggerInt == 2)
-        {
-            PhaseOneBoss.gameObject.SetActive(false);
-
-            PhaseTwoBoss.gameObject.SetActive(true);
-        }
-        if(_triggerInt == 3)
-        {
-            PhaseTwoBoss.gameObject.SetActive(false);
-
-            PhaseThreeBoss.gameObject.SetActive(true);
-        }
+        }*/
 
         _targetPos = _target.transform.position;
     }
 
-    public float getDistanceToTarget()
+
+    
+
+    public void ActiveChangeInvoke()
     {
-        return Vector3.Distance(transform.position, target.transform.position);
+        Invoke("ActiveChangePhase2", 5.5f);
     }
 
-    public void doInvoke()
+    public void ActiveChangeInvoke2()
     {
-        Invoke("makeBossDie", 5.5f);
-    }
-    void makeBossDie()
-    {
-        _triggerInt = 2;
+        Invoke("ActiveChangePhase3", 0.3f);
     }
 
-    public void doInvoke2()
+    void ActiveChangePhase2()
     {
-        Invoke("makeBossDie2", 0.3f);
+        PhaseOneBoss.gameObject.SetActive(false);
+
+        PhaseTwoBoss.gameObject.SetActive(true);
     }
-    void makeBossDie2()
+
+    void ActiveChangePhase3()
     {
-        _triggerInt = 3;
+        PhaseOneBoss.gameObject.SetActive(false);
+
+        PhaseTwoBoss.gameObject.SetActive(true);
     }
+
 
     public void rememberDeadPosition()
     {
@@ -189,6 +196,39 @@ public class BossScript : MonoBehaviour
     public void closePhase3()
     {
         ani.SetInteger("aniInt", 9);
+    }
+
+    public void initSkillTime()
+    {
+        latelyCastSkillTime = Time.time;
+    }
+
+    public void initSkillOneTime()
+    {
+        Debug.Log("skill one init");
+        latelyCastSkillOneTime = Time.time;
+    }
+
+    public void initSkillTwoTime()
+    {
+        Debug.Log("skill two init");
+        latelyCastSkillTwoTime = Time.time;
+    }
+
+    public float getDistanceOfTime(float currentTime, float latelyTime)
+    {
+        return currentTime - latelyTime;
+    }
+
+    public void moveToTarget(Transform boss)
+    {
+        // Debug.Log("### InitMonster.moveToTarget ###");
+
+        // 몬스터가 타겟을 바라보기
+        boss.LookAt(InitMonster.Instance.target.transform.position);
+        // 몬스터를 타겟에 접근하기
+        transform.position =
+        Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * InitMonster.Instance.speedRun);
     }
 
 }

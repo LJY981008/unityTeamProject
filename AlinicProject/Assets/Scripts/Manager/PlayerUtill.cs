@@ -22,6 +22,7 @@ public class PlayerUtill : MonoBehaviour
         rotateX = Mathf.Clamp(rotateX, -40, 40);
         Quaternion playerQuat = Quaternion.Euler(new Vector3(rotateX, rotateY, 0.0f));
         transform.rotation = Quaternion.Slerp(transform.rotation, playerQuat, Time.deltaTime * 500f);
+        Minimap.instance.MovePlayerMapForcus(-rotateY);
 
     }
     // ¸Ê¿¡¼­ ¹Ù´ÚÀ» Ã£´Â ÇÔ¼ö 
@@ -69,6 +70,10 @@ public class PlayerUtill : MonoBehaviour
         {
             return hitInfo.point;
         }
-        return Vector3.zero;
+        else
+        {
+            return Vector3.zero;
+        }
+        
     }
 }

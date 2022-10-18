@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class Phase1SklScript : StateMachineBehaviour
 {
-    Phase1Script phase1Script;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        phase1Script = FindObjectOfType<Phase1Script>();
-        animator.transform.LookAt(phase1Script.target.transform.position);
+        animator.transform.LookAt(InitMonster.Instance.target.transform.position);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -22,7 +20,7 @@ public class Phase1SklScript : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Debug.Log("OnStateExit - skill");
-        phase1Script.initSkillTime();
+        InitMonster.Instance.initSkillTime();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

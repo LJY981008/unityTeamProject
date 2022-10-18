@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Phase3Atk2Script : StateMachineBehaviour
 {
-    Phase3Script phase3Script;
+    MonsterAttack monsterAttack;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        phase3Script = FindObjectOfType<Phase3Script>();
-        animator.transform.LookAt(phase3Script.target.transform.position);
+        animator.transform.LookAt(InitMonster.Instance.target.transform.position);
         RazerEffectTestScript.instance.StartMissileCor();
     }
 
@@ -23,8 +23,8 @@ public class Phase3Atk2Script : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Debug.Log("OnStateExit - skill2");
-        phase3Script.initSkillTime();
-        phase3Script.initSkillTwoTime();
+        InitMonster.Instance.initSkillTime();
+        InitMonster.Instance.initSkillTwoTime();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

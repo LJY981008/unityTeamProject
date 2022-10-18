@@ -4,20 +4,17 @@ using UnityEngine;
 
 public class Phase1DeadScript : StateMachineBehaviour
 {
-    Phase1Script phase1Script;
-    BossScript bossScript;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        bossScript = FindObjectOfType<BossScript>();
-        phase1Script = FindObjectOfType<Phase1Script>();
-        bossScript.rememberDeadPosition();
+        InitMonster.Instance.rememberDeadPosition();
+        InitMonster.Instance.deadForward = InitMonster.Instance.PhaseOneModel.forward;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        bossScript.doInvoke();
+        
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

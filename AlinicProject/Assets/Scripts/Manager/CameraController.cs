@@ -7,6 +7,7 @@ public class CameraController : MonoBehaviour
     public static CameraController instance;
     private Vector3 offset;
     public GameObject playerBox;
+    public bool isDie = false;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -17,6 +18,15 @@ public class CameraController : MonoBehaviour
     {
         offset = new Vector3(-0.3f, 1.7f, -0.1f);
         SettingCam(playerBox);
+    }
+
+    private void Update()
+    {
+        if (isDie)
+        {
+            if (transform.localRotation.y > -0.5f) 
+                transform.Rotate(Vector3.down * Time.deltaTime * 30.0f);
+        }
     }
     // 카메라 위치 설정
     public void SettingCam(GameObject player)

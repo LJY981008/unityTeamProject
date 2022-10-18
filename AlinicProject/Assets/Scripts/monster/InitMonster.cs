@@ -246,7 +246,6 @@ public class InitMonster : MonoBehaviour
                 onDamage(50);
             }
         }
-        Debug.Log(monsterHp);
         if(_target != null)
             _targetPos = _target.transform.position;
     }

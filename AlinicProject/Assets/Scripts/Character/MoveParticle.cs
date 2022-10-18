@@ -12,9 +12,11 @@ public class MoveParticle : MonoBehaviour
     private float saveSpeed;
     public Vector3 startPos;
     public Vector3 endPos;
+    public Vector3 shotgunPos;
     private void Awake()
     {
         speed = 100f;
+        shotgunPos = Vector3.zero;
         saveSpeed = speed;
         playerBox = GameManager.instance.playerBox;
     }
@@ -22,7 +24,7 @@ public class MoveParticle : MonoBehaviour
     {
         startPos = transform.position;
         speed = saveSpeed;
-        if (muzzlePrefab != null)
+        if (muzzlePrefab != null && shotgunPos == Vector3.zero)
         {
             var muzzleVFX = Instantiate(muzzlePrefab, transform.position, Quaternion.identity);
             muzzleVFX.transform.forward = playerBox.transform.forward;
@@ -38,6 +40,8 @@ public class MoveParticle : MonoBehaviour
             }
         }
         endPos = PlayerUtill.GetShotEndPos();
+        endPos += shotgunPos;
+        transform.LookAt(endPos);
     }
 
     void Update()
@@ -48,9 +52,9 @@ public class MoveParticle : MonoBehaviour
         }
         if (speed != 0)
         {
-            //if (endPos == Vector3.zero) transform.position += playerBox.transform.forward * (speed * Time.deltaTime);
-            //else transform.position += endPos.normalized * (speed * Time.deltaTime);
-            transform.position += playerBox.transform.forward * (speed * Time.deltaTime);
+            if (endPos == Vector3.zero) transform.position += playerBox.transform.forward * (speed * Time.deltaTime);
+            else transform.position = Vector3.MoveTowards(transform.position, endPos, Time.deltaTime * speed);
+            
         }
         else
         {
@@ -59,9 +63,9 @@ public class MoveParticle : MonoBehaviour
     }
     void OnCollisionEnter(Collision co)
     {
-        if (!co.collider.CompareTag("Player"))
+        Debug.Log(co.transform.tag + ":" + co.transform.root.tag);
+        if (!co.transform.root.CompareTag("Player"))
         {
-            Debug.Log(co.collider.transform.root.tag);
             speed = 0;
             ContactPoint contact = co.contacts[0];
             Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
@@ -86,6 +90,7 @@ public class MoveParticle : MonoBehaviour
                 InitMonster monster = co.collider.transform.root.gameObject.GetComponent<InitMonster>();
                 monster.onDamage((int)GameManager.instance.CurrentDamage);
             }
+            shotgunPos = Vector3.zero;
             ObjectPoolManager.ReturnBullet(this);
         }
     }

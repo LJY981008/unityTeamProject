@@ -70,6 +70,10 @@ public class PlayerUtill : MonoBehaviour
         {
             return hitInfo.point;
         }
-        return Vector3.zero;
+        else
+        {
+            return Vector3.zero;
+        }
+        
     }
 }

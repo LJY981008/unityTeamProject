@@ -57,9 +57,10 @@ public class PlayerUpper : MonoBehaviour
             }
             else
             {
-                AudioClip audioClip = AudioManager.instance.GetDryClip(transform.name.Replace("(Clone)", ""));
+                // 총알 없을 때 격발시 오디오 현재 이상해서 수정해야함
+               /* AudioClip audioClip = AudioManager.instance.GetDryClip(transform.name.Replace("(Clone)", ""));
                 Debug.Log(audioClip.name);
-                PlayAudio(audioClip);
+                PlayAudio(audioClip);*/
             }
         }
     }   
@@ -105,8 +106,8 @@ public class PlayerUpper : MonoBehaviour
     public void shot()
     {
         firePos = muzzlePivot.position;
-        spawnParticle.firePoint = muzzlePivot.gameObject;
         spawnParticle.SetEffect();
+        spawnParticle.firePoint = muzzlePivot.gameObject;
         UseAmmo();
     }
 

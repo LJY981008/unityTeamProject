@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     
     GameObject playerDowner;
     private string[] listWeapon = { "Rifle", "Pistol", "Shotgun" };    // 무기 목록
-    private PlayerUpper playableWeapon;                      // 현재 사용 중인 무기
+    public PlayerUpper playableWeapon;                      // 현재 사용 중인 무기
     private float disPlayerToMonster;
 
     [Header("Input KeyCodes")]
@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     private Movement movement; // 키보드 입력으로 플레이어 이동, 점프
     private Status status; // 이동속도 등의 플레이어 정보
     private float x, z;
+    bool die = false;
     void Awake()
     {
         instance = this;
@@ -48,9 +49,12 @@ public class GameManager : MonoBehaviour
         disPlayerToMonster = Vector3.Distance(playerBox.transform.position, monster.transform.position);
         UIManager.instance.SetEnableBossHp(disPlayerToMonster);
         Minimap.instance.MoveMonsterMap();
-        Move();
-        Jump();
-        PlayerUtill.instance.MoveRotate(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"));
+        if (!die)
+        {
+            Move();
+            Jump();
+            PlayerUtill.instance.MoveRotate(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"));
+        }
         //좌클릭
         if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)))
         {
@@ -118,12 +122,8 @@ public class GameManager : MonoBehaviour
         
         if (tmpPlayerChar != null)
         {
-            //playerChar = Instantiate(tmpPlayerChar, Vector3.zero, Quaternion.identity);
             // 캐릭터 게임오브젝트를 리스트에서 불러오는 코드
             playerDowner = GameObject.Instantiate<GameObject>(tmpPlayerChar, Vector3.zero, Quaternion.identity, playerBox.transform);
-            /*playerDowner.transform.localPosition = Vector3.zero;
-            playerDowner.transform.localRotation = Quaternion.identity;
-            playerDowner.transform.SetParent(playerBox.transform);*/
         }
         else
         {
@@ -161,6 +161,8 @@ public class GameManager : MonoBehaviour
     }
     public void Die()
     {
+        die = true;
         playableWeapon.IsDie();
+        playerBox.DieRotate();
     }
 }

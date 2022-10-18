@@ -42,6 +42,10 @@ public class PlayerUpper : MonoBehaviour
         spawnParticle.firePoint = muzzlePivot.gameObject;
         GameManager.instance.CurrentDamage = gunData.damage;
     }
+    private void Update()
+    {
+        if (gunData.currentAmmo < 1) animator.SetBool("isFire", false);
+    }
     // 발사
     public void FireGun(int index)
     {
@@ -53,7 +57,9 @@ public class PlayerUpper : MonoBehaviour
             }
             else
             {
-                Debug.Log("탄없음");
+                AudioClip audioClip = AudioManager.instance.GetDryClip(transform.name.Replace("(Clone)", ""));
+                Debug.Log(audioClip.name);
+                PlayAudio(audioClip);
             }
         }
     }   
@@ -123,5 +129,9 @@ public class PlayerUpper : MonoBehaviour
     public void IsRun(bool trigger)
     {
         animator.SetBool("isRun", trigger);
+    }
+    public void IsDie()
+    {
+        animator.SetBool("isDie", true);
     }
 }

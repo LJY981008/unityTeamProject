@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public Canvas canvas;
     public TextMeshProUGUI textMaxAmmo;
     public TextMeshProUGUI textCurrentAmmo;
+    public TextMeshProUGUI textBossName;
     public Image imageHp;
     public List<Image> imageWeapons;
     public Image imageBuffPanel;
@@ -26,20 +27,17 @@ public class UIManager : MonoBehaviour
     private Vector3 bodyMagazineImagePos;
     private float time;
     private float saveBossHpAmount;
+    private float updateHpSpeed;
     private void Awake()
     {
         instance = this;
         buffDuration = -1;
         time = 0;
         saveBossHpAmount = 1.0f;
+        updateHpSpeed = 0.3f;
         bodyGunImagePos = new Vector3(7.0f, 0.0f, 0.0f);
         bodyMagazineImagePos = new Vector3(7.0f, 35.0f, 0.0f);
     }
-    private void OnEnable()
-    {
-        bossHpFill.fillAmount = saveBossHpAmount;
-    }
-
     private void Update()
     {
         if(buffDuration > -1) {
@@ -55,7 +53,7 @@ public class UIManager : MonoBehaviour
     {
         if(imageHp.fillAmount > current / max)
         {
-            imageHp.fillAmount -= Time.deltaTime * 0.1f;
+            imageHp.fillAmount -= Time.deltaTime * updateHpSpeed;
         }
     }
 
@@ -114,7 +112,16 @@ public class UIManager : MonoBehaviour
     }
     public void SetEnableBossHp(float dis)
     {
-        if (dis < 50f) bossHpBackground.gameObject.SetActive(true);
-        else if (dis >= 50f) bossHpBackground.gameObject.SetActive(false);
+        if (dis < 50f)
+        {
+            textBossName.gameObject.SetActive(true);
+            bossHpFill.fillAmount = saveBossHpAmount;
+        }
+        else if (dis >= 50f)
+        {
+            textBossName.gameObject.SetActive(false);
+            saveBossHpAmount = bossHpFill.fillAmount;
+        }
+                
     }
 }

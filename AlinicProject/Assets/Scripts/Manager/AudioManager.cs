@@ -41,4 +41,15 @@ public class AudioManager : MonoBehaviour
         }
         return null;
     }
+    public AudioClip GetDryClip(string gunName)
+    {
+        foreach(var clip in anyAudioClipList)
+        {
+            if (clip.name.Equals(gunName + "_dryfire", System.StringComparison.OrdinalIgnoreCase))
+            {
+                return clip;
+            }
+        }
+        return null;
+    }
 }

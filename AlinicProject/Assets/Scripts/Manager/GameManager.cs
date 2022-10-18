@@ -159,4 +159,8 @@ public class GameManager : MonoBehaviour
             movement.Jump();
         }
     }
+    public void Die()
+    {
+        playableWeapon.IsDie();
+    }
 }

@@ -13,15 +13,19 @@ public class MoveParticle : MonoBehaviour
     public Vector3 startPos;
     public Vector3 endPos;
     public Vector3 shotgunPos;
+    public RaycastHit hit;
+    float deleteTime;
     private void Awake()
     {
-        speed = 100f;
+        Physics.IgnoreLayerCollision(7, 7, true);
+        speed = 30f;
         shotgunPos = Vector3.zero;
         saveSpeed = speed;
         playerBox = GameManager.instance.playerBox;
     }
     void OnEnable()
     {
+        deleteTime = 0.0f;
         startPos = transform.position;
         speed = saveSpeed;
         if (muzzlePrefab != null && shotgunPos == Vector3.zero)
@@ -39,14 +43,16 @@ public class MoveParticle : MonoBehaviour
                 Destroy(muzzleVFX, psChild.main.duration);
             }
         }
-        endPos = PlayerUtill.GetShotEndPos();
+        hit = PlayerUtill.GetShotEndPos();
+        endPos = hit.point;
         endPos += shotgunPos;
         transform.LookAt(endPos);
     }
 
     void Update()
     {
-        if(Vector3.Distance(startPos, transform.position) > 100)
+        deleteTime += Time.deltaTime;
+        if (deleteTime > 3.0f)
         {
             ObjectPoolManager.ReturnBullet(this);
         }
@@ -61,37 +67,33 @@ public class MoveParticle : MonoBehaviour
             Debug.Log("No Speed");
         }
     }
-    void OnCollisionEnter(Collision co)
+    private void OnTriggerEnter(Collider co)
     {
-        Debug.Log(co.transform.tag + ":" + co.transform.root.tag);
-        if (!co.transform.root.CompareTag("Player"))
-        {
-            speed = 0;
-            ContactPoint contact = co.contacts[0];
-            Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
-            Vector3 pos = contact.point;
+        //speed = 0;
+        //ContactPoint contact = co.contacts[0];
+        Quaternion rot = Quaternion.FromToRotation(Vector3.up, hit.normal);
+        Vector3 pos = hit.point;
 
-            if (hitPrefab != null)
+        if (hitPrefab != null)
+        {
+            var hitVFX = Instantiate(hitPrefab, pos, rot);
+            var psHit = hitVFX.GetComponent<ParticleSystem>();
+            if (psHit != null)
             {
-                var hitVFX = Instantiate(hitPrefab, pos, rot);
-                var psHit = hitVFX.GetComponent<ParticleSystem>();
-                if (psHit != null)
-                {
-                    Destroy(hitVFX, psHit.main.duration);
-                }
-                else
-                {
-                    var psChild = hitVFX.transform.GetChild(0).GetComponent<ParticleSystem>();
-                    Destroy(hitVFX, psChild.main.duration);
-                }
+                Destroy(hitVFX, psHit.main.duration);
             }
-            if (co.collider.transform.root.CompareTag("Monster"))
+            else
             {
-                InitMonster monster = co.collider.transform.root.gameObject.GetComponent<InitMonster>();
-                monster.onDamage((int)GameManager.instance.CurrentDamage);
+                var psChild = hitVFX.transform.GetChild(0).GetComponent<ParticleSystem>();
+                Destroy(hitVFX, psChild.main.duration);
             }
-            shotgunPos = Vector3.zero;
-            ObjectPoolManager.ReturnBullet(this);
         }
+        if (co.transform.root.CompareTag("Monster"))
+        {
+            InitMonster monster = co.GetComponent<Collider>().transform.root.gameObject.GetComponent<InitMonster>();
+            monster.onDamage((int)GameManager.instance.CurrentDamage);
+        }
+        shotgunPos = Vector3.zero;
+        ObjectPoolManager.ReturnBullet(this);
     }
 }

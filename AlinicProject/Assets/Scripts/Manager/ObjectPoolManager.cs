@@ -72,8 +72,8 @@ public class ObjectPoolManager : MonoBehaviour
         {
             var bullet = instance.QueuepoolingBullet.Dequeue();
             bullet.transform.position = spawnPos;
-            bullet.transform.SetParent(null);
             bullet.shotgunPos = shotgunPos;
+            bullet.transform.SetParent(null);
             bullet.gameObject.SetActive(true);
             return bullet;
         }
@@ -81,6 +81,7 @@ public class ObjectPoolManager : MonoBehaviour
         {
             var newBullet = instance.CreateNewBullet();
             newBullet.transform.position = spawnPos;
+            newBullet.shotgunPos = shotgunPos;
             newBullet.gameObject.SetActive(true);
             newBullet.transform.SetParent(null);
             return newBullet;

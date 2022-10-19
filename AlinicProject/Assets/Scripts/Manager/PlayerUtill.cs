@@ -62,17 +62,19 @@ public class PlayerUtill : MonoBehaviour
         }
         return Vector3.zero;
     }
-    public static Vector3 GetShotEndPos()
+    public static RaycastHit GetShotEndPos()
     {
         RaycastHit hitInfo;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity))
+        int layerMask = (1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Bullet"));
+        layerMask = ~layerMask;
+        if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, layerMask))
         {
-            return hitInfo.point;
+            return hitInfo;
         }
         else
         {
-            return Vector3.zero;
+            return hitInfo;
         }
         
     }

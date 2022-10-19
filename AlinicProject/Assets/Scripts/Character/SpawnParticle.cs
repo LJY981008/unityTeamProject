@@ -9,7 +9,7 @@ public class SpawnParticle : MonoBehaviour
     //public RotateToMouse rotateToMouse;
     private GameObject effectToSpawn;
     private Vector3[] shotgunSpread;
-    private float spread = 0.8f;
+    private float spread = 3f;
 
     void Start()
     {

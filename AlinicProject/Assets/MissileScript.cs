@@ -24,13 +24,13 @@ public class MissileScript : MonoBehaviour
     {
         ContactPoint cp = collision.contacts[0];
         Quaternion rot = Quaternion.FromToRotation(Vector3.up, cp.normal);
-        Debug.Log(cp.point);
-        if(hitEffect != null)
-        {
-            var Effect = Instantiate(hitEffect, cp.point, rot);
-        }
+        
         if (!collision.collider.CompareTag("Monster"))
         {
+            if (hitEffect != null)
+            {
+                var Effect = Instantiate(hitEffect, cp.point, rot);
+            }
             Destroy(gameObject);
         }
         else

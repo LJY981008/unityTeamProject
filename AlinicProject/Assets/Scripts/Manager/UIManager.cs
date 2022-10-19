@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
     public Image imageBossHpFill;           // 보스의 체력 게이지
     public Image imageBossHpBackground;     // 보스의 체력 바
     public Image imageDamageEffect;         // 데미지 이펙트
+    public Image btnStart;
 
     private float buffDuration;             // 버프 지속시간
     private float buffTime;                 // 버프 유지시간

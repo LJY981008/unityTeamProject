@@ -30,8 +30,8 @@ public class PlayerBody : MonoBehaviour
     }
     public void OnDamage(float damege)
     {
+        UIManager.instance.OnDamage();
         currentHP -= damege;
-        
     }
     private void OnTriggerExit(Collider other)
     {

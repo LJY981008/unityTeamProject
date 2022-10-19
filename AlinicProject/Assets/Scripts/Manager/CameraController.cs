@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviour
     private Vector3 offset;
     public GameObject playerBox;
     public bool isDie = false;
-    // Start is called before the first frame update
+
     private void Awake()
     {
         instance = this;
@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour
     }
     private void Start()
     {
-        offset = new Vector3(-0.3f, 1.7f, -0.1f);
+        offset = new Vector3(-0.1f, 1.7f, -0.1f);
         SettingCam(playerBox);
     }
 

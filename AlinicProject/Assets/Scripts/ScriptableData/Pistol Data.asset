@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   maxAmmo: 12
-  ammo: 12
+  currentAmmo: 12

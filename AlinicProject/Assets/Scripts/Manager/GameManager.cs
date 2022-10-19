@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public PlayerBody playerBody;           // 플레이어
     public PlayerUpper playableWeapon;      // 현재 사용 중인 무기
     public GameObject monster;              // 몬스터 오브젝트
+    public bool isStart = false;
 
     [Header("Input KeyCodes")]
     [SerializeField]
@@ -46,52 +47,54 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        disPlayerToMonster = Vector3.Distance(playerBody.transform.position, monster.transform.position);
-        UIManager.instance.SetEnableBossHp(disPlayerToMonster);
-        Minimap.instance.MoveMonsterMap();
-        if (!die)
-        {
-            Move();
-            Jump();
-            PlayerUtill.instance.MoveRotate(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"));
-        }
-        //좌클릭
-        if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)))
-        {
-            playableWeapon.FireGun(gunIndex);
-        }
-        //우클릭
-        else
-        {
-            playableWeapon.IdleGun();
-        }
-        
-        //키 다운으로 무기 선택
-        if (Input.GetKeyDown(KeyCode.Alpha1) && gunIndex != 0)
-        {
-            gunIndex = 0;
-            SelectWeapon();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2) && gunIndex != 1)
-        {
-            //권총
-            gunIndex = 1;
-            SelectWeapon();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3) && gunIndex != 2)
-        {
-            //샷건
-            gunIndex = 2;
-            SelectWeapon();
-        }
-        else if (Input.GetKeyDown(KeyCode.R))
-        {
-            playableWeapon.ReloadGun(gunIndex);
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            GameObject obj = Instantiate<GameObject>(ResourcesManager.instance.buffItem);
-            obj.transform.position = PlayerUtill.GetRandomMapPos(playerBody.transform.position);
+        if (isStart) {
+            disPlayerToMonster = Vector3.Distance(playerBody.transform.position, monster.transform.position);
+            UIManager.instance.SetEnableBossHp(disPlayerToMonster);
+            Minimap.instance.MoveMonsterMap();
+            if (!die)
+            {
+                Move();
+                Jump();
+                PlayerUtill.instance.MoveRotate(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"));
+            }
+            //좌클릭
+            if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)))
+            {
+                playableWeapon.FireGun(gunIndex);
+            }
+            //우클릭
+            else
+            {
+                playableWeapon.IdleGun();
+            }
+
+            //키 다운으로 무기 선택
+            if (Input.GetKeyDown(KeyCode.Alpha1) && gunIndex != 0)
+            {
+                gunIndex = 0;
+                SelectWeapon();
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2) && gunIndex != 1)
+            {
+                //권총
+                gunIndex = 1;
+                SelectWeapon();
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3) && gunIndex != 2)
+            {
+                //샷건
+                gunIndex = 2;
+                SelectWeapon();
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
+            {
+                playableWeapon.ReloadGun(gunIndex);
+            }
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                GameObject obj = Instantiate<GameObject>(ResourcesManager.instance.buffItem);
+                obj.transform.position = PlayerUtill.GetRandomMapPos(playerBody.transform.position);
+            }
         }
     }
     // 무기 선택 함수

@@ -3,42 +3,60 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+/**
+ * UI ÄÁÆ®·Ñ ¸Å´ÏÀú
+ * 
+ */
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
 
-    public Canvas canvas;
-    public TextMeshProUGUI textMaxAmmo;
-    public TextMeshProUGUI textCurrentAmmo;
-    public TextMeshProUGUI textBossName;
-    public Image imageHp;
-    public List<Image> imageWeapons;
-    public Image imageBuffPanel;
-    public Image imageBuffBody;
-    public Image imageBuffIcon;
-    public TextMeshProUGUI textBuffDuration;
-    public Image bossHpFill;
-    public Image bossHpBackground;
-    public ScrollRect scrollRect;
-    public GameObject buffSrc;
+    public Canvas mainCanvas;               // ÇÃ·¹ÀÌ È­¸é Äµ¹ö½º           
+    public TextMeshProUGUI textMaxAmmo;     // ÃÖ´ë Åº °³¼ö text
+    public TextMeshProUGUI textCurrentAmmo; // ÇöÀç Åº °³¼ö text
+    public TextMeshProUGUI textBossName;    // º¸½º ÀÌ¸§ text
+    public TextMeshProUGUI textBuffDuration;// ¹öÇÁ Áö¼Ó½Ã°£ text
+    public List<Image> imageWeapons;        // »ç¿ë°¡´ÉÇÑ ¹«±â ÀÌ¹ÌÁö ¸®½ºÆ®
+    public Image imageHp;                   // ÇÃ·¹ÀÌ¾î Ã¼·Â °ÔÀÌÁö
+    public Image imageBuffPanel;            // ¹öÇÁ Ä­ ÀÌ¹ÌÁö
+    public Image imageBuffBody;             // ¹öÇÁÀÇ Á¾·ù ¾ÆÀÌÄÜ
+    public Image imageBuffIcon;             // ¹öÇÁÀÇ È¿°ú ¾ÆÀÌÄÜ
+    public Image imageBossHpFill;           // º¸½ºÀÇ Ã¼·Â °ÔÀÌÁö
+    public Image imageBossHpBackground;     // º¸½ºÀÇ Ã¼·Â ¹Ù
+    public Image imageDamageEffect;         // µ¥¹ÌÁö ÀÌÆåÆ®
 
-    private float buffDuration;
-    private Image selectWeapon;
-    private Vector3 bodyGunImagePos;
-    private Vector3 bodyMagazineImagePos;
-    private float time;
-    private float saveBossHpAmount;
-    private float updateHpSpeed;
+    private float buffDuration;             // ¹öÇÁ Áö¼Ó½Ã°£
+    private float buffTime;                 // ¹öÇÁ À¯Áö½Ã°£
+    private float saveBossHpAmount;         // º¸½º Ã¼·ÂÀÇ amount ÀúÀå
+    private float updateHpSpeed;            // ÇÃ·¹ÀÌ¾î Ã¼·Â °ÔÀÌÁö°¡ ÁÙ¾îµå´Â ¼Óµµ
+    private float damageEffectSpeed;        // µ¥¹ÌÁö ÀÌÆåÆ® ÃâÇö ¼Óµµ
+    private float damageDestAlpha;          // µ¥¹ÌÁö ÀÌÆåÆ® ÃÖ´ë alpha °ª
+    private float disPlayerToBos;           // º¸½º Ã¼·ÂÀ» Ç¥½ÃÇÏ±â À§ÇÑ ÇÃ·¹ÀÌ¾î¿Í º¸½º »çÀÌÀÇ °Å¸®
+    private bool isDamage;                  // ÀÔÀº µ¥¹ÌÁö Ã¼Å©
+    private bool damageEffectTrigger;       // µ¥¹ÌÁö ÀÌÆåÆ® ³ªÅ¸³ª°í Áö¿öÁö´Â ±âÁØ Æ®¸®°Å
+    private Image selectWeapon;             // ¼±ÅÃÇÑ ¹«±â ÀÌ¹ÌÁö
+    private Vector3 bodyGunImagePos;        // ¹öÇÁ ¾ÆÀÌÄÜ Á¾·ùÀÇ À§Ä¡
+    private Vector3 bodyMagazineImagePos;   // ¹öÇÁ ¾ÆÀÌÄÜ È¿°úÀÇ À§Ä¡
+    private Color colorDamageSrc;           // µ¥¹ÌÁö ÀÌÆåÆ® °ª ÀúÀå
+
     private void Awake()
     {
         instance = this;
-        buffDuration = -1;
-        time = 0;
-        saveBossHpAmount = 1.0f;
+        
+        buffTime = 0.0f;
+        buffDuration = -1.0f;
         updateHpSpeed = 0.3f;
+        saveBossHpAmount = 1.0f;
+        damageDestAlpha = 0.1f;
+        damageEffectSpeed = 0.4f;
+        disPlayerToBos = 50f;
+
         bodyGunImagePos = new Vector3(7.0f, 0.0f, 0.0f);
         bodyMagazineImagePos = new Vector3(7.0f, 35.0f, 0.0f);
+        colorDamageSrc = imageDamageEffect.color;
+
+        isDamage = false;
+        damageEffectTrigger = false;
     }
     private void Update()
     {
@@ -49,8 +67,12 @@ public class UIManager : MonoBehaviour
         {
             imageBuffPanel.gameObject.SetActive(false);
         }
+        if (isDamage)
+        {
+            DamageEffect();
+        }
     }
-    // ì²´ë ¥ ì¦ê° UI ì ìš©
+    // ÇÃ·¹ÀÌ¾î Ã¼·Â °»½Å ÇÔ¼ö
     public void UpdateHpState(float max, float current)
     {
         if(imageHp.fillAmount > current / max)
@@ -59,7 +81,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // ì„ íƒí•œ ì´ í‘œì‹œ
+    // ¼±ÅÃÇÑ ÃÑ Ç¥½Ã ÇÔ¼ö
     public void SelectWeaponActive(string gunName)
     {
         if(selectWeapon != null)
@@ -74,7 +96,7 @@ public class UIManager : MonoBehaviour
             image.gameObject.SetActive(false);
         }
     }
-
+    // È¹µæÇÑ ¹öÇÁ Ç¥½Ã ÇÔ¼ö
     public void SetBuffBody(string body)
     {
         buffDuration = 20;
@@ -89,41 +111,71 @@ public class UIManager : MonoBehaviour
             imageBuffIcon.rectTransform.anchoredPosition = bodyGunImagePos;
         }
     }
+    // È¹µæÇÑ ¹öÇÁ ¾ÆÀÌÄÜ ¼¼ÆÃ ÇÔ¼ö
     public void SetBuffIcon(string icon)
     {
         imageBuffIcon.sprite = ResourcesManager.instance.GetBuffIconSprite(icon);
     }
+    // È¹µæÇÑ ¹öÇÁ Áö¼Ó½Ã°£ Ç¥½Ã ÇÔ¼ö
     public void SetBuffDuration()
     {
         textBuffDuration.text = buffDuration.ToString();
-        time += Time.deltaTime;
-        if (time >= 1)
+        buffTime += Time.deltaTime;
+        if (buffTime >= 1)
         {
             buffDuration--;
-            time = 0;
+            buffTime = 0;
         }
     }
+    // º¸½º Ã¼·Â °»½Å ÇÔ¼ö
     public void UpdateBossHp(int currentHp, int maxHp)
     {
         float amount = ((float)currentHp / (float)maxHp);   
-        if (bossHpFill.fillAmount > amount)
+        if (imageBossHpFill.fillAmount > amount)
         {
-            bossHpFill.fillAmount -= Time.deltaTime * 0.1f;
+            imageBossHpFill.fillAmount -= Time.deltaTime * 0.1f;
         }
         saveBossHpAmount = amount;
     }
+    // º¸½º HP ÃâÇö ÇÔ¼ö
     public void SetEnableBossHp(float dis)
     {
-        if (dis < 50f)
+        if (dis < disPlayerToBos)
         {
             textBossName.gameObject.SetActive(true);
-            bossHpFill.fillAmount = saveBossHpAmount;
+            imageBossHpFill.fillAmount = saveBossHpAmount;
         }
-        else if (dis >= 50f)
+        else if (dis >= disPlayerToBos)
         {
             textBossName.gameObject.SetActive(false);
-            saveBossHpAmount = bossHpFill.fillAmount;
+            saveBossHpAmount = imageBossHpFill.fillAmount;
+        }           
+    }
+    // ÇÃ·¹ÀÌ¾îÀÇ ÇÇÇØ ÀÌÆåÆ® ÇÔ¼ö
+    public void DamageEffect()
+    {
+        if (damageEffectTrigger) 
+        {
+            damageEffectSpeed *= -1;
+            damageEffectTrigger = false;
         }
-                
+        colorDamageSrc.a += Time.deltaTime * damageEffectSpeed;
+        imageDamageEffect.color = colorDamageSrc;
+        if (imageDamageEffect.color.a >= damageDestAlpha)
+        {
+            damageEffectTrigger = true;
+        }
+        if (imageDamageEffect.color.a <= 0)
+        {
+            colorDamageSrc.a = 0.0f;
+            damageEffectSpeed *= -1;
+            imageDamageEffect.color = colorDamageSrc;
+            isDamage = false;
+        }
+    }
+    // µ¥¹ÌÁö ÀÔ¾úÀ» ¶§ ÇÔ¼ö
+    public void OnDamage()
+    {
+        isDamage = true;
     }
 }

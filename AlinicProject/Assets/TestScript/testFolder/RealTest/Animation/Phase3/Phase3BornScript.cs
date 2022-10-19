@@ -16,12 +16,12 @@ public class Phase3BornScript : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        UIManager.instance.bossHpFill.fillAmount = stateInfo.normalizedTime;
+        UIManager.instance.imageBossHpFill.fillAmount = stateInfo.normalizedTime;
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("1_Idle") &&
             animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
         {
             animator.SetInteger("aniInt", 1);
-            UIManager.instance.bossHpFill.fillAmount = 1.0f;
+            UIManager.instance.imageBossHpFill.fillAmount = 1.0f;
         }
     }
 

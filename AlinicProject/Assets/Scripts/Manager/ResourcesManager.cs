@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 /**
- * 작성자 : 이준영
- * 마지막 수정 : 2022-08-17
- * 내용 : 리소스매니저. 무기 리소스들 불러오기, 원하는 무기 리소스 선택
+ * 리소스 매니저
+ * 
  */
 public class ResourcesManager : MonoBehaviour
 {

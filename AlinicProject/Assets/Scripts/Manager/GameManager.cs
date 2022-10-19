@@ -2,51 +2,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /**
- * 작성자 : 이준영
- * 마지막 수정 : 2022-08-17
- * 내용 : 게임매니저. 무기 생성, 무기 변경
+ * 게임 매니저
+ * 
  */
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    private int gunIndex = 1;                        // 기본총 값
 
-    public float CurrentDamage;
-    public PlayerBody playerBox;
-    public GameObject monster;
-    public PlayerUpper playerUpper;
-    
-    GameObject playerDowner;
-    private string[] listWeapon = { "Rifle", "Pistol", "Shotgun" };    // 무기 목록
-    public PlayerUpper playableWeapon;                      // 현재 사용 중인 무기
-    private float disPlayerToMonster;
+    public float currentDamage;             // 무기의 공격력
+    public PlayerBody playerBody;           // 플레이어
+    public PlayerUpper playableWeapon;      // 현재 사용 중인 무기
+    public GameObject monster;              // 몬스터 오브젝트
 
     [Header("Input KeyCodes")]
     [SerializeField]
     private KeyCode keyCodeRun = KeyCode.LeftShift; // 달리기 키
     private KeyCode keyCodeJump = KeyCode.Space;    // 점프 키
-    private Movement movement; // 키보드 입력으로 플레이어 이동, 점프
-    private Status status; // 이동속도 등의 플레이어 정보
-    private float x, z;
-    bool die = false;
+    private Movement movement;              // 키보드 입력으로 플레이어 이동, 점프
+    private Status status;                  // 이동속도 등의 플레이어 정보
+    private int gunIndex = 1;               // 사용할 무기의 값
+    private float moveX, moveZ;             // 이동 값
+    private float disPlayerToMonster;       // 플레이어와 보스 사이의 거리
+    private bool die = false;               // 사망 트리거
+    private string[] listWeapon = { "Rifle", "Pistol", "Shotgun" };    // 무기 목록
+    private GameObject playableCharacter;   // 플레이어의 캐릭터
+    
+    
+
     void Awake()
     {
         instance = this;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        movement = playerBox.GetComponent<Movement>();
-        status = playerBox.GetComponent<Status>();
+        movement = playerBody.GetComponent<Movement>();
+        status = playerBody.GetComponent<Status>();
     }
     private void Start()
     {
         CreateCharacter("Man_Full");
         SelectWeapon();    // 기본무기 권총
-        playerDowner.transform.localPosition = Vector3.zero;
+        playableCharacter.transform.localPosition = Vector3.zero;   // 캐릭터의 위치
     }
     private void Update()
     {
-        disPlayerToMonster = Vector3.Distance(playerBox.transform.position, monster.transform.position);
+        disPlayerToMonster = Vector3.Distance(playerBody.transform.position, monster.transform.position);
         UIManager.instance.SetEnableBossHp(disPlayerToMonster);
         Minimap.instance.MoveMonsterMap();
         if (!die)
@@ -91,18 +91,19 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
             GameObject obj = Instantiate<GameObject>(ResourcesManager.instance.buffItem);
-            obj.transform.position = PlayerUtill.GetRandomMapPos(playerBox.transform.position);
+            obj.transform.position = PlayerUtill.GetRandomMapPos(playerBody.transform.position);
         }
     }
+    // 무기 선택 함수
     public void SelectWeapon()
     {
         if (playableWeapon != null)
         {
-            ObjectPoolManager.ReturnGun(playableWeapon);           // 이전 무기 오브젝트 및 컴포넌드 제거
+            ObjectPoolManager.ReturnGun(playableWeapon);           // 이전 무기 리턴
         }
-        CreatePlayableWeapon(listWeapon[gunIndex]);        // 선택한 무기 생성
+        CreatePlayableWeapon(listWeapon[gunIndex]);                 // 선택한 무기 생성
     }
-    // 원하는 무기 씬에 생성
+    // 선택한 무기 씬에 활성화 함수
     public void CreatePlayableWeapon(string weaponName)
     {
         GameObject selectWeapon = ResourcesManager.instance.GetPlayableWeapon(weaponName);
@@ -115,33 +116,28 @@ public class GameManager : MonoBehaviour
             Debug.Log("Create실패");
         }
     }
+    // 플레이어 캐릭터 생성 함수
     public void CreateCharacter(string _name)
     {
-        // 캐릭터를 생성하는 코드를 작성
         GameObject tmpPlayerChar = ResourcesManager.instance.GetChar("Man_Full");
-        
         if (tmpPlayerChar != null)
-        {
-            // 캐릭터 게임오브젝트를 리스트에서 불러오는 코드
-            playerDowner = GameObject.Instantiate<GameObject>(tmpPlayerChar, Vector3.zero, Quaternion.identity, playerBox.transform);
-        }
+            playableCharacter = GameObject.Instantiate<GameObject>(tmpPlayerChar, Vector3.zero, Quaternion.identity, playerBody.transform);
         else
-        {
             Debug.Log("생성 실패");
-        }
     }
+    // 플레이어 이동 함수
     void Move()
     {
         // 플레이어 이동
-        x = Input.GetAxisRaw("Horizontal");
-        z = Input.GetAxisRaw("Vertical");
+        moveX = Input.GetAxisRaw("Horizontal");
+        moveZ = Input.GetAxisRaw("Vertical");
         // 이동중 일 때 (걷기 or 뛰기)
-        if (x != 0 || z != 0)
+        if (moveX != 0 || moveZ != 0)
         {
             playableWeapon.IsMove(true);
             bool isRun = false;
             // 옆이나 뒤로 이동할 대는 달릴 수 없다.
-            if (z > 0) isRun = Input.GetKey(keyCodeRun);
+            if (moveZ > 0) isRun = Input.GetKey(keyCodeRun);
             movement.MSpeed = isRun == true ? status.RunSpeed : status.WalkSpeed;
             playableWeapon.IsRun(isRun);
         }
@@ -150,8 +146,9 @@ public class GameManager : MonoBehaviour
             playableWeapon.IsMove(false);
             playableWeapon.IsRun(false);
         }
-        movement.Move(new Vector3(x, 0, z));
+        movement.Move(new Vector3(moveX, 0, moveZ));
     }
+    // 점프 함수
     void Jump()
     {
         if (Input.GetKeyDown(keyCodeJump))
@@ -159,10 +156,11 @@ public class GameManager : MonoBehaviour
             movement.Jump();
         }
     }
+    // 죽었을 때 함수
     public void Die()
     {
         die = true;
         playableWeapon.IsDie();
-        playerBox.DieRotate();
+        playerBody.DieRotate();
     }
 }

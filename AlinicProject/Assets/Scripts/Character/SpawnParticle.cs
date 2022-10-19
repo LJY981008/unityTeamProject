@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/**
+ * ≈∫æÀ Ω∫∆˘ Ω∫≈©∏≥∆Æ
+ * 
+ */
 public class SpawnParticle : MonoBehaviour
 {
-    [HideInInspector] public GameObject firePoint;
-    public GameObject[] Effects;
-    //public RotateToMouse rotateToMouse;
-    private GameObject effectToSpawn;
-    private Vector3[] shotgunSpread;
-    private float spread = 3f;
+    [HideInInspector] public GameObject firePoint;  // √—±∏
+    public GameObject[] Effects;                    // ¿Ã∆Â∆Æ ¡æ∑˘
+    //public RotateToMouse rotateToMouse; 
+    private GameObject effectToSpawn;               // º±≈√«— ¿Ã∆Â∆Æ
+    private Vector3[] shotgunSpread;                // º¶∞«¿« ≈∫∆€¡¸ ¿ßƒ°
+    private float spread = 3f;                      // º¶∞«¿« ≈∫∆€¡¸ ∞≈∏Æ
 
     void Start()
     {
@@ -20,7 +23,7 @@ public class SpawnParticle : MonoBehaviour
         shotgunSpread[2] = new Vector3(0.0f, -spread, spread); // 5Ω√ πÊ«‚
         shotgunSpread[3] = new Vector3(0.0f, -spread, -spread); // 7Ω√ πÊ«‚
     }
-
+    // ¿Ã∆Â∆Æ »£√‚
     public void SetEffect()
     {
         MoveParticle effects;

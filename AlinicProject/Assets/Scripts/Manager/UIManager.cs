@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI textBuffDuration;
     public Image bossHpFill;
     public Image bossHpBackground;
+    public ScrollRect scrollRect;
+    public GameObject buffSrc;
 
     private float buffDuration;
     private Image selectWeapon;
@@ -48,7 +50,7 @@ public class UIManager : MonoBehaviour
             imageBuffPanel.gameObject.SetActive(false);
         }
     }
-    // Ã¼·Â Áõ°¨ UI Àû¿ë
+    // ì²´ë ¥ ì¦ê° UI ì ìš©
     public void UpdateHpState(float max, float current)
     {
         if(imageHp.fillAmount > current / max)
@@ -57,7 +59,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // ¼±ÅÃÇÑ ÃÑ Ç¥½Ã
+    // ì„ íƒí•œ ì´ í‘œì‹œ
     public void SelectWeaponActive(string gunName)
     {
         if(selectWeapon != null)

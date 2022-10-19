@@ -25,10 +25,11 @@ public class BuffItem : MonoBehaviour
     {
         if (other.transform.CompareTag("Player"))
         {
-            // ��������, ��������
             UIManager.instance.imageBuffPanel.gameObject.SetActive(true);
-            UIManager.instance.SetBuffBody("Magazine"); // Magazine or Gun
-            UIManager.instance.SetBuffIcon("Large");    // 
+            BuffStatus.instance.RandomBuffBody();
+            BuffStatus.instance.RandomBuffIcon();
+            // UIManager.instance.SetBuffBody("Magazine"); // Magazine or Gun
+            // UIManager.instance.SetBuffIcon("Large");    // 
         }
     }
 }

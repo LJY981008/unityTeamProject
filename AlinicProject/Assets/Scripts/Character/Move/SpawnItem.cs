@@ -13,8 +13,8 @@ public class SpawnItem : MonoBehaviour
     void Awake()
     {
         maxDistance = 10f;
-        timeBetSpawnMax = 10f;
-        timeBetSpawnMin = 3f;
+        timeBetSpawnMax = 60f;
+        timeBetSpawnMin = 50f;
         // 생성 간격과 생성 시점 초기화
         timeBetSpawn = Random.Range(timeBetSpawnMin, timeBetSpawnMax);
         lastSpawnTime = 0f;

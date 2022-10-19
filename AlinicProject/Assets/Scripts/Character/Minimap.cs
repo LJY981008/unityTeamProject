@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+/**
+ * 미니맵 스크립트
+ * 
+ */
 public class Minimap : MonoBehaviour
 {
     public static Minimap instance;
@@ -25,7 +28,6 @@ public class Minimap : MonoBehaviour
         boss = GameManager.instance.monster;
     }
     // 맵에서 이동하는 함수
-    // 이동함수 안에서 갱신되는 플레이어의 포지션 받아오기 
     public void MovePlayerMap(Vector3 playerPos)
     {
         //좌우 x 상하 y
@@ -34,13 +36,11 @@ public class Minimap : MonoBehaviour
 
     }
     // 시작할 때 플레이어의 바라보는 방향 맞추는 함수
-    // 플레이어의 오브젝트 클래스가 생성될 때 rotation.eulerAngles 받아오기
     public void SetPlayerMapFocus(Vector3 rotate)
     {
         playerForcus.transform.rotation = Quaternion.Euler(new Vector3(0.0f, 0.0f, rotate.z));
     }
     // 플레이어가 회전할 때 맵에서도 회전해주는 함수
-    // 회전 함수를 사용할 때 rotateY 값 적용
     public void MovePlayerMapForcus(float dir)
     {
         Quaternion playerQuat = Quaternion.Euler(new Vector3(0.0f, 0.0f, dir));

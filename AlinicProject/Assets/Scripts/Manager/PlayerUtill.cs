@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/**
+ * 유틸
+ * 
+ */
 public class PlayerUtill : MonoBehaviour
 {
     public static PlayerUtill instance; 
@@ -15,6 +18,7 @@ public class PlayerUtill : MonoBehaviour
     private void Start()
     {
     }
+    // 플레이어 마우스 회전
     public void MoveRotate(float rotateSizeX, float rotateSizeY)
     {
         rotateY += rotateSizeY;
@@ -23,7 +27,6 @@ public class PlayerUtill : MonoBehaviour
         Quaternion playerQuat = Quaternion.Euler(new Vector3(rotateX, rotateY, 0.0f));
         transform.rotation = Quaternion.Slerp(transform.rotation, playerQuat, Time.deltaTime * 500f);
         Minimap.instance.MovePlayerMapForcus(-rotateY);
-
     }
     // 맵에서 바닥을 찾는 함수 
     public static Vector3 GetHeightMapPos(Vector3 _origin)
@@ -62,6 +65,7 @@ public class PlayerUtill : MonoBehaviour
         }
         return Vector3.zero;
     }
+    // 총알의 목표 지점
     public static RaycastHit GetShotEndPos()
     {
         RaycastHit hitInfo;

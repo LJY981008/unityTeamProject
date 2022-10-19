@@ -2,29 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /**
- * �ۼ��� : ���ؿ�
- * ������ ���� : 2022-08-17
- * ���� : �÷��̾� ��ü ��ũ��Ʈ
+ * 플레이어 무기 스크립트
+ * 
  */
 public class PlayerUpper : MonoBehaviour
 {
-    public GunData gunData;
+    public GunData gunData;                 // 총의 스크럽터블 스크립트
 
-    private AudioSource audioSource;        // 사운드
+    private AudioSource audioSource;
     private Animator animator;
-    private float fireDistance = 50f; // 사정거리
-    private Transform muzzlePivot;   // 총구 피봇 오브젝트
-    private Vector3 firePos;        //총구 위치
-    Vector3 spawnPos;
-    private Quaternion l = Quaternion.Euler(new Vector3(0, 180, 0));
-    private SpawnParticle spawnParticle;
+    private Transform muzzlePivot;          // 총구 위치 오브젝트
+    private SpawnParticle spawnParticle;    // 탄 스폰 스크립트
+    private Vector3 spawnPos;               // 무기 스폰 위치
+    private Quaternion spawnRotate;         // 무기 스폰 방향
+    
     private void Awake()
     {
-        spawnPos = new Vector3(0.0f, 1.6f, 0.0f);
+        
         animator = GetComponent<Animator>();
         audioSource = gameObject.AddComponent<AudioSource>();
-        muzzlePivot = FindFireSpot(transform, "Muzzle Pivot");
         spawnParticle = GameManager.instance.GetComponent<SpawnParticle>();
+
+        spawnRotate = Quaternion.Euler(new Vector3(0, 180, 0));
+        spawnPos = new Vector3(0.0f, 1.6f, 0.0f);
+        muzzlePivot = FindFireSpot(transform, "Muzzle Pivot");
         gunData.currentAmmo = gunData.maxAmmo;
         
     }
@@ -37,16 +38,17 @@ public class PlayerUpper : MonoBehaviour
             UIManager.instance.SelectWeaponActive(transform.name.Replace("(Clone)", ""));
         }
         transform.localPosition = spawnPos;
-        transform.localRotation = l;
+        transform.localRotation = spawnRotate;
         audioSource.playOnAwake = false;
         spawnParticle.firePoint = muzzlePivot.gameObject;
-        GameManager.instance.CurrentDamage = gunData.damage;
+        GameManager.instance.currentDamage = gunData.damage;
     }
     private void Update()
     {
         if (gunData.currentAmmo < 1) animator.SetBool("isFire", false);
     }
-    // 발사
+
+    // 격발 함수
     public void FireGun(int index)
     {
         if (!animator.GetBool("isRun"))
@@ -64,12 +66,13 @@ public class PlayerUpper : MonoBehaviour
             }
         }
     }   
-    // 대기, 
+
+    // 대기 함수
     public void IdleGun()
     {
         animator.SetBool("isFire", false);
     }
-    // 장전
+    // 장전 함수
     public void ReloadGun(int index)
     {
         if (!animator.GetBool("isRun"))
@@ -85,32 +88,32 @@ public class PlayerUpper : MonoBehaviour
             }
         }
     }
-    // 탄감소
+    // 탄 감소 함수
     public void UseAmmo()
     {
         gunData.currentAmmo--;
         UIManager.instance.textCurrentAmmo.text = gunData.currentAmmo.ToString();
     }
-    // 탄 장전
+    // 탄 장전 함수
     public void ReloadAmmo()
     {
         gunData.currentAmmo = gunData.maxAmmo;
         UIManager.instance.textCurrentAmmo.text = gunData.currentAmmo.ToString();
     }
-    // 오디오 재생
+    // 오디오 재생 함수
     public void PlayAudio(AudioClip clip)
     {
         audioSource.clip = clip;
         audioSource.Play();
     }
+    // 격발 이벤트 함수
     public void shot()
     {
-        firePos = muzzlePivot.position;
         spawnParticle.SetEffect();
         spawnParticle.firePoint = muzzlePivot.gameObject;
         UseAmmo();
     }
-
+    // 총구 위치 찾는 함수
     public Transform FindFireSpot(Transform _t, string name)
     {
         if (_t.name.Equals(name))
@@ -123,14 +126,17 @@ public class PlayerUpper : MonoBehaviour
         }
         return null;
     }
+    // 이동 트리거 함수
     public void IsMove(bool trigger)
     {
         animator.SetBool("isMove", trigger);
     }
+    // 달리기 트리거 함수
     public void IsRun(bool trigger)
     {
         animator.SetBool("isRun", trigger);
     }
+    // 사망 트리거 함수
     public void IsDie()
     {
         animator.SetBool("isDie", true);

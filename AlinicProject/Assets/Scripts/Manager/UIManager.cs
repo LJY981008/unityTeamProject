@@ -3,51 +3,60 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+/**
+ * UI 컨트롤 매니저
+ * 
+ */
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
 
-    public Canvas canvas;
-    public TextMeshProUGUI textMaxAmmo;
-    public TextMeshProUGUI textCurrentAmmo;
-    public TextMeshProUGUI textBossName;
-    public Image imageHp;
-    public List<Image> imageWeapons;
-    public Image imageBuffPanel;
-    public Image imageBuffBody;
-    public Image imageBuffIcon;
-    public TextMeshProUGUI textBuffDuration;
-    public Image bossHpFill;
-    public Image bossHpBackground;
-    public Image imageDamageEffect;
+    public Canvas mainCanvas;               // 플레이 화면 캔버스           
+    public TextMeshProUGUI textMaxAmmo;     // 최대 탄 개수 text
+    public TextMeshProUGUI textCurrentAmmo; // 현재 탄 개수 text
+    public TextMeshProUGUI textBossName;    // 보스 이름 text
+    public TextMeshProUGUI textBuffDuration;// 버프 지속시간 text
+    public List<Image> imageWeapons;        // 사용가능한 무기 이미지 리스트
+    public Image imageHp;                   // 플레이어 체력 게이지
+    public Image imageBuffPanel;            // 버프 칸 이미지
+    public Image imageBuffBody;             // 버프의 종류 아이콘
+    public Image imageBuffIcon;             // 버프의 효과 아이콘
+    public Image imageBossHpFill;           // 보스의 체력 게이지
+    public Image imageBossHpBackground;     // 보스의 체력 바
+    public Image imageDamageEffect;         // 데미지 이펙트
 
-    private float buffDuration;
-    private Image selectWeapon;
-    private Vector3 bodyGunImagePos;
-    private Vector3 bodyMagazineImagePos;
-    private float time;
-    private float saveBossHpAmount;
-    private float updateHpSpeed;
-    private bool isDamage;
-    private bool effectTrigger;
-    private float elapsed;
-    private float destAlpha;
-    private Color colorDamageSrc;
+    private float buffDuration;             // 버프 지속시간
+    private float buffTime;                 // 버프 유지시간
+    private float saveBossHpAmount;         // 보스 체력의 amount 저장
+    private float updateHpSpeed;            // 플레이어 체력 게이지가 줄어드는 속도
+    private float damageEffectSpeed;        // 데미지 이펙트 출현 속도
+    private float damageDestAlpha;          // 데미지 이펙트 최대 alpha 값
+    private float disPlayerToBos;           // 보스 체력을 표시하기 위한 플레이어와 보스 사이의 거리
+    private bool isDamage;                  // 입은 데미지 체크
+    private bool damageEffectTrigger;       // 데미지 이펙트 나타나고 지워지는 기준 트리거
+    private Image selectWeapon;             // 선택한 무기 이미지
+    private Vector3 bodyGunImagePos;        // 버프 아이콘 종류의 위치
+    private Vector3 bodyMagazineImagePos;   // 버프 아이콘 효과의 위치
+    private Color colorDamageSrc;           // 데미지 이펙트 값 저장
+
     private void Awake()
     {
         instance = this;
-        buffDuration = -1;
-        time = 0;
-        saveBossHpAmount = 1.0f;
+        
+        buffTime = 0.0f;
+        buffDuration = -1.0f;
         updateHpSpeed = 0.3f;
+        saveBossHpAmount = 1.0f;
+        damageDestAlpha = 0.1f;
+        damageEffectSpeed = 0.4f;
+        disPlayerToBos = 50f;
+
         bodyGunImagePos = new Vector3(7.0f, 0.0f, 0.0f);
         bodyMagazineImagePos = new Vector3(7.0f, 35.0f, 0.0f);
         colorDamageSrc = imageDamageEffect.color;
-        elapsed = 0.4f;
-        destAlpha = 0.1f;
+
         isDamage = false;
-        effectTrigger = false;
+        damageEffectTrigger = false;
     }
     private void Update()
     {
@@ -63,7 +72,7 @@ public class UIManager : MonoBehaviour
             DamageEffect();
         }
     }
-    // 체력 증감 UI 적용
+    // 플레이어 체력 갱신 함수
     public void UpdateHpState(float max, float current)
     {
         if(imageHp.fillAmount > current / max)
@@ -72,7 +81,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // 선택한 총 표시
+    // 선택한 총 표시 함수
     public void SelectWeaponActive(string gunName)
     {
         if(selectWeapon != null)
@@ -87,7 +96,7 @@ public class UIManager : MonoBehaviour
             image.gameObject.SetActive(false);
         }
     }
-
+    // 획득한 버프 표시 함수
     public void SetBuffBody(string body)
     {
         buffDuration = 20;
@@ -102,63 +111,69 @@ public class UIManager : MonoBehaviour
             imageBuffIcon.rectTransform.anchoredPosition = bodyGunImagePos;
         }
     }
+    // 획득한 버프 아이콘 세팅 함수
     public void SetBuffIcon(string icon)
     {
         imageBuffIcon.sprite = ResourcesManager.instance.GetBuffIconSprite(icon);
     }
+    // 획득한 버프 지속시간 표시 함수
     public void SetBuffDuration()
     {
         textBuffDuration.text = buffDuration.ToString();
-        time += Time.deltaTime;
-        if (time >= 1)
+        buffTime += Time.deltaTime;
+        if (buffTime >= 1)
         {
             buffDuration--;
-            time = 0;
+            buffTime = 0;
         }
     }
+    // 보스 체력 갱신 함수
     public void UpdateBossHp(int currentHp, int maxHp)
     {
         float amount = ((float)currentHp / (float)maxHp);   
-        if (bossHpFill.fillAmount > amount)
+        if (imageBossHpFill.fillAmount > amount)
         {
-            bossHpFill.fillAmount -= Time.deltaTime * 0.1f;
+            imageBossHpFill.fillAmount -= Time.deltaTime * 0.1f;
         }
         saveBossHpAmount = amount;
     }
+    // 보스 HP 출현 함수
     public void SetEnableBossHp(float dis)
     {
-        if (dis < 50f)
+        if (dis < disPlayerToBos)
         {
             textBossName.gameObject.SetActive(true);
-            bossHpFill.fillAmount = saveBossHpAmount;
+            imageBossHpFill.fillAmount = saveBossHpAmount;
         }
-        else if (dis >= 50f)
+        else if (dis >= disPlayerToBos)
         {
             textBossName.gameObject.SetActive(false);
-            saveBossHpAmount = bossHpFill.fillAmount;
+            saveBossHpAmount = imageBossHpFill.fillAmount;
         }           
     }
+    // 플레이어의 피해 이펙트 함수
     public void DamageEffect()
     {
-        if (effectTrigger) 
+        if (damageEffectTrigger) 
         {
-            elapsed *= -1;
-            effectTrigger = false;
+            damageEffectSpeed *= -1;
+            damageEffectTrigger = false;
         }
-        colorDamageSrc.a += Time.deltaTime * elapsed;
+        colorDamageSrc.a += Time.deltaTime * damageEffectSpeed;
         imageDamageEffect.color = colorDamageSrc;
-        if (imageDamageEffect.color.a >= destAlpha)
+        if (imageDamageEffect.color.a >= damageDestAlpha)
         {
-            effectTrigger = true;
+            damageEffectTrigger = true;
         }
         if (imageDamageEffect.color.a <= 0)
         {
             colorDamageSrc.a = 0.0f;
-            elapsed *= -1;
+            damageEffectSpeed *= -1;
             imageDamageEffect.color = colorDamageSrc;
             isDamage = false;
         }
     }
+    // 데미지 입었을 때 함수
     public void OnDamage()
     {
         isDamage = true;

@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/**
+ * 버프아이템 이벤트 스크립트
+ */
 public class BuffItem : MonoBehaviour
 {
     float rotateSpeed = 50f;

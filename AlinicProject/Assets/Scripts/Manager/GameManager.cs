@@ -34,8 +34,6 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
         movement = playerBody.GetComponent<Movement>();
         status = playerBody.GetComponent<Status>();
     }

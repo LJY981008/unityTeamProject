@@ -8,13 +8,18 @@ public class BtnEvent : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public Image btnImage;
     public Image panel;
+    public Text text;
     public Sprite push;
     public Sprite pool;
-    Color src;
+    Color tmpBtn;
+    Color tmpText;
+    Color tmpPanel;
     float speed = 1f;
     private void Awake()
     {
-        src = panel.color;
+        tmpText = text.color;
+        tmpPanel = panel.color;
+        tmpBtn = btnImage.color;
     }
     public void OnPointerDown(PointerEventData data)
     {
@@ -26,17 +31,21 @@ public class BtnEvent : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         Debug.Log("¾÷");
         btnImage.sprite = pool;
         StartCoroutine(UpdateAlpha());
-        
-
     }
     IEnumerator UpdateAlpha()
     {
         while (panel.color.a >= 0.1)
         {
-            src.a -= Time.deltaTime * speed;
-            panel.color = src;
+            tmpPanel.a -= Time.deltaTime * speed;
+            tmpBtn.a -= Time.deltaTime * speed;
+            tmpText.a -= Time.deltaTime * speed;
+            panel.color = tmpPanel;
+            text.color = tmpText;
+            btnImage.color = tmpBtn;
             yield return new WaitForEndOfFrame();
         }
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         panel.gameObject.SetActive(false);
         GameManager.instance.isStart = true;
     }

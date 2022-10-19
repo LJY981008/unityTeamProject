@@ -19,7 +19,7 @@ public class CameraController : MonoBehaviour
     }
     private void Start()
     {
-        offset = new Vector3(-0.1f, 1.7f, -0.1f);
+        offset = new Vector3(-0.1f, 1.7f, 0.1f);
         SettingCam(playerBox);
     }
 

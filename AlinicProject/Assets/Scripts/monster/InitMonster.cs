@@ -6,9 +6,9 @@ using TMPro.Examples;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor;
-using UnityEngine;
+using UnityEngine;/*
 using static UnityEditor.FilePathAttribute;
-using static UnityEngine.GraphicsBuffer;
+using static UnityEngine.GraphicsBuffer;*/
 
 /// <summary>
 /// 몬스터의 관한 전반적인 코드를 담는 클래스

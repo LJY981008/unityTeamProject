@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Monster/LoadSceneTest.unity
     guid: 0a504aa127272af42a343522715d31a9
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Monster/LoadingScene.unity
     guid: 619dc89c6bc3bae4fa843b2170437c14
   - enabled: 1

@@ -43,8 +43,8 @@ public class SpawnExplosionScript : MonoBehaviour {
 
 	void Update () {
 
-		if (Input.GetKeyDown (KeyCode.Space) || Input.GetMouseButtonDown (0))
-			SpawnVFX ();
+		if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+			SpawnVFX();
 		if (Input.GetKeyDown (KeyCode.D))
 			Next ();
 		if (Input.GetKeyDown (KeyCode.A)) 

@@ -11,7 +11,7 @@ public class BuffItem : MonoBehaviour
     float boundMinLocation = 0.2f;
     float boundMaxLocation = 0.6f;
     Vector3 boundDirection;
-    private void Start()
+    private void OnEnable()
     {
         boundDirection = Vector3.up;
     }
@@ -25,13 +25,21 @@ public class BuffItem : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other.tag);
         if (other.transform.CompareTag("Player"))
         {
+            if(UIManager.instance.imageBuffPanel.gameObject.activeSelf == true)
+            {
+                UIManager.instance.OffPanel();
+            }
             UIManager.instance.imageBuffPanel.gameObject.SetActive(true);
             BuffStatus.instance.RandomBuffBody();
             BuffStatus.instance.RandomBuffIcon();
             // UIManager.instance.SetBuffBody("Magazine"); // Magazine or Gun
             // UIManager.instance.SetBuffIcon("Large");    // 
+            GameManager.instance.isSpawnItem = false;
+            ObjectPoolManager.ReturnItem(this);
         }
+        
     }
 }

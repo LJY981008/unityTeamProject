@@ -8,15 +8,15 @@ using UnityEngine;
 public class SpawnParticle : MonoBehaviour
 {
     [HideInInspector] public GameObject firePoint;  // √—±∏
-    public GameObject[] Effects;                    // ¿Ã∆Â∆Æ ¡æ∑˘
     //public RotateToMouse rotateToMouse; 
-    private GameObject effectToSpawn;               // º±≈√«— ¿Ã∆Â∆Æ
     private Vector3[] shotgunSpread;                // º¶∞«¿« ≈∫∆€¡¸ ¿ßƒ°
     private float spread = 3f;                      // º¶∞«¿« ≈∫∆€¡¸ ∞≈∏Æ
-
+    public string currentBullet;
+    public bool isSlow;
     void Start()
     {
-        effectToSpawn = Effects[0];
+        isSlow = false;
+        currentBullet = "Normal";
         shotgunSpread = new Vector3[4];
         shotgunSpread[0] = new Vector3(0.0f, 0.0f, 0.0f); // ¡ﬂæ”
         shotgunSpread[1] = new Vector3(0.0f, spread, 0.0f); // 12Ω√ πÊ«‚
@@ -34,12 +34,12 @@ public class SpawnParticle : MonoBehaviour
             //Effects.transform.localRotation = firePoint.transform.rotation;
             if (!GameManager.instance.playableWeapon.name.Replace("(Clone)", "").Equals("Shotgun"))
             {
-                effects = ObjectPoolManager.GetBullet(firePoint.transform.position);
+                effects = ObjectPoolManager.GetBullet(firePoint.transform.position, currentBullet);
             }
             else
             {
                 foreach (var _spread in shotgunSpread) {
-                    effects = ObjectPoolManager.GetBullet(firePoint.transform.position, _spread);
+                    effects = ObjectPoolManager.GetBullet(firePoint.transform.position, _spread, currentBullet);
                 }
             }
         }
@@ -48,4 +48,9 @@ public class SpawnParticle : MonoBehaviour
             Debug.Log("No Fire Point");
         }
     }
+    public void setReturnBullet(MoveParticle obj)
+    {
+        ObjectPoolManager.ReturnBullet(obj, currentBullet);
+    }
+
 }

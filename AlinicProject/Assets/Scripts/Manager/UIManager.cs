@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
     public Image imageBossHpBackground;     // 보스의 체력 바
     public Image imageDamageEffect;         // 데미지 이펙트
     public Image btnStart;
-
+    public SpawnParticle spawnParticle;
     private float buffDuration;             // 버프 지속시간
     private float buffTime;                 // 버프 유지시간
     private float saveBossHpAmount;         // 보스 체력의 amount 저장
@@ -35,11 +35,13 @@ public class UIManager : MonoBehaviour
     private float disPlayerToBos;           // 보스 체력을 표시하기 위한 플레이어와 보스 사이의 거리
     private bool isDamage;                  // 입은 데미지 체크
     private bool damageEffectTrigger;       // 데미지 이펙트 나타나고 지워지는 기준 트리거
+    public bool isDe;
     private Image selectWeapon;             // 선택한 무기 이미지
     private Vector3 bodyGunImagePos;        // 버프 아이콘 종류의 위치
     private Vector3 bodyMagazineImagePos;   // 버프 아이콘 효과의 위치
     private Color colorDamageSrc;           // 데미지 이펙트 값 저장
-
+    public delegate void De();
+    public De de;
     private void Awake()
     {
         instance = this;
@@ -57,6 +59,7 @@ public class UIManager : MonoBehaviour
         colorDamageSrc = imageDamageEffect.color;
 
         isDamage = false;
+        isDe = false;
         damageEffectTrigger = false;
     }
     private void Update()
@@ -64,14 +67,31 @@ public class UIManager : MonoBehaviour
         if(buffDuration > -1) {
             SetBuffDuration();
         }
-        else
+        else if (buffDuration == -1)
         {
-            imageBuffPanel.gameObject.SetActive(false);
+            isDe = true;
         }
         if (isDamage)
         {
             DamageEffect();
         }
+        if (isDe)
+        {
+            isDe = false;
+            de = OffPanel;
+            de();
+        }
+    }
+    public void OffPanel()
+    {
+        imageBuffPanel.gameObject.SetActive(false);
+        if (spawnParticle.currentBullet == "Corrosion")
+        {
+            GameManager.instance.additionalDamage = 1.0f;
+        }
+        spawnParticle.currentBullet = "Normal";
+        if(de != null) 
+            de -= OffPanel;
     }
     // 플레이어 체력 갱신 함수
     public void UpdateHpState(float max, float current)
@@ -100,8 +120,6 @@ public class UIManager : MonoBehaviour
     // 획득한 버프 표시 함수
     public void SetBuffBody(string body)
     {
-        buffDuration = 20;
-        imageBuffPanel.gameObject.SetActive(true);
         imageBuffBody.sprite = ResourcesManager.instance.GetBuffBodySprite(body);
         if (body.Equals("Magazine"))
         {
@@ -113,9 +131,11 @@ public class UIManager : MonoBehaviour
         }
     }
     // 획득한 버프 아이콘 세팅 함수
-    public void SetBuffIcon(string icon)
+    public void SetBuffIcon(string icon, int duration)
     {
+        buffDuration = duration;
         imageBuffIcon.sprite = ResourcesManager.instance.GetBuffIconSprite(icon);
+        imageBuffPanel.gameObject.SetActive(true);
     }
     // 획득한 버프 지속시간 표시 함수
     public void SetBuffDuration()

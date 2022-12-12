@@ -10,12 +10,11 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
 
-    public float currentDamage;             // 무기의 공격력
+    public float currentDamage = 0;             // 무기의 공격력
     public PlayerBody playerBody;           // 플레이어
     public PlayerUpper playableWeapon;      // 현재 사용 중인 무기
     public GameObject monster;              // 몬스터 오브젝트
     public bool isStart = false;
-
     [Header("Input KeyCodes")]
     [SerializeField]
     private KeyCode keyCodeRun = KeyCode.LeftShift; // 달리기 키
@@ -28,12 +27,17 @@ public class GameManager : MonoBehaviour
     private bool die = false;               // 사망 트리거
     private string[] listWeapon = { "Rifle", "Pistol", "Shotgun" };    // 무기 목록
     private GameObject playableCharacter;   // 플레이어의 캐릭터
-    
-    
+    private int buffItemSpawnCoolTime = 3;
+    public bool isSpawnItem = false;
+
+    public float additionalDamage;         // 추가 %데미지
+    public int plusDamage;               // 추가 +데미지
 
     void Awake()
     {
         instance = this;
+        additionalDamage = 1.0f;
+        plusDamage = 0;
         movement = playerBody.GetComponent<Movement>();
         status = playerBody.GetComponent<Status>();
     }
@@ -42,6 +46,7 @@ public class GameManager : MonoBehaviour
         CreateCharacter("Man_Full");
         SelectWeapon();    // 기본무기 권총
         playableCharacter.transform.localPosition = Vector3.zero;   // 캐릭터의 위치
+        StartCoroutine(SpawnBuff());
     }
     private void Update()
     {
@@ -88,13 +93,31 @@ public class GameManager : MonoBehaviour
             {
                 playableWeapon.ReloadGun(gunIndex);
             }
-            if (Input.GetKeyDown(KeyCode.K))
+            /*if (Input.GetKeyDown(KeyCode.K))
             {
-                GameObject obj = Instantiate<GameObject>(ResourcesManager.instance.buffItem);
-                obj.transform.position = PlayerUtill.GetRandomMapPos(playerBody.transform.position);
-            }
+                ObjectPoolManager.GetItem();
+                onSpawnBuff = true;
+            }*/
         }
     }
+    public void startCo(string name)
+    {
+        StartCoroutine(name);
+    }
+    private IEnumerator SpawnBuff()
+    {
+        while (true) {
+            yield return new WaitForSeconds(buffItemSpawnCoolTime);
+            if (!isSpawnItem)
+            {
+                isSpawnItem = true;
+                ObjectPoolManager.GetItem();
+                Debug.Log("스폰");
+            }
+        }
+        //여기에 버프 스폰 알림 자막 작성
+    }
+
     // 무기 선택 함수
     public void SelectWeapon()
     {

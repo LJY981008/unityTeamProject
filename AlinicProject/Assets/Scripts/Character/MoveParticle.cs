@@ -12,17 +12,24 @@ public class MoveParticle : MonoBehaviour
     public GameObject hitPrefab;            // 적중 시의 이펙트 프리팹
     public PlayerBody playerBox;            // 플레이어 본체
     public Vector3 shotgunShotPos;          // 샷건 멀티샷의 목표지점 보정값
-
+    public SpawnParticle spawnParticle;
     private float durationTime;             // 총알의 유지 시간
     private float bulletSpeed;              // 총알의 속도
     private float saveSpeed;                // 속도 저장
     private Vector3 destShotPos;            // 총알의 목표 지점
     private RaycastHit hit;                 // 레이캐스트 값 저장
+    public float additionalDamage;
+    private Color originColor;
+    private Color slowColor;
+    
     
     private void Awake()
     {
         Physics.IgnoreLayerCollision(7, 7, true);   // 총알끼리의 충돌 제외
-        bulletSpeed = 30f;
+        originColor = new Color(1, 1, 1);
+        slowColor = new Color(0.06f, 0.6f, 1.0f);
+        bulletSpeed = 50f;
+        additionalDamage = 1.0f;
         shotgunShotPos = Vector3.zero;
         saveSpeed = bulletSpeed;
         playerBox = GameManager.instance.playerBody;
@@ -54,10 +61,12 @@ public class MoveParticle : MonoBehaviour
 
     void Update()
     {
+        if (bulletSpeed <= 150)
+            bulletSpeed += 10;
         durationTime += Time.deltaTime;
         if (durationTime > 3.0f)
         {
-            ObjectPoolManager.ReturnBullet(this);
+            spawnParticle.setReturnBullet(this);
         }
         if (bulletSpeed != 0)
         {
@@ -98,9 +107,32 @@ public class MoveParticle : MonoBehaviour
         if (co.transform.root.CompareTag("Monster"))
         {
             InitMonster monster = co.GetComponent<Collider>().transform.root.gameObject.GetComponent<InitMonster>();
-            monster.onDamage((int)GameManager.instance.currentDamage);
+            monster.onDamage((int)(GameManager.instance.currentDamage * GameManager.instance.additionalDamage) + GameManager.instance.plusDamage);
+            if (spawnParticle.currentBullet == "Ice")
+            {
+                if (!spawnParticle.isSlow)
+                {
+                    spawnParticle.isSlow = true;
+                    StartCoroutine(MonsterSlow(co.gameObject, monster));
+                }
+            }
         }
+        
         shotgunShotPos = Vector3.zero;
-        ObjectPoolManager.ReturnBullet(this);
+        spawnParticle.setReturnBullet(this);
+    }
+    IEnumerator MonsterSlow(GameObject obj, InitMonster monster)
+    {
+        // 애니메이션도 슬로우적용되게 작성
+        monster.speedRun -= (float)(monster.speedRun * 0.3);
+        SkinnedMeshRenderer skin = obj.GetComponent<SkinnedMeshRenderer>();
+        while (spawnParticle.currentBullet == "Ice")
+        {
+            skin.materials[0].color = slowColor;
+            yield return new WaitForSeconds(10);
+        }
+        spawnParticle.isSlow = false;
+        skin.materials[0].color = originColor;
+        monster.speedRun = 15f;
     }
 }

@@ -11,13 +11,11 @@ public class UltiSkill : MonoBehaviour
     private GameObject _attackArea;
     private GameObject _attackPoint;
     private GameObject missile;
-    private float speed;
     public GameObject effectToSpawn;
-    private UltiMissile ultiMissile;
+    //private UltiMissile ultiMissile;
     private void Awake()
     {
         instance = this;
-        speed = 20f;
     }
     public void ArrivalMissile()
     {
@@ -33,7 +31,6 @@ public class UltiSkill : MonoBehaviour
             _attackArea = createAttackArea();
             _attackPoint = createAttackPoint();
             missile = Instantiate<GameObject>(ResourcesManager.instance.missile);
-            
         }
     }
     public GameObject createAttackArea()

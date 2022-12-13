@@ -105,6 +105,14 @@ public class GameManager : MonoBehaviour
                     UIManager.instance.SkillEvent();
                 }
             }
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                if (UIManager.instance.imageUltiIcon.fillAmount >= 1f)
+                {
+                    UltiSkill.instance.StartUltiArea();
+                    UIManager.instance.UltiEvent();
+                }
+            }
         }
     }
     private IEnumerator SpawnBuff()

@@ -26,9 +26,11 @@ public class UIManager : MonoBehaviour
     public Image imageDamageEffect;         // 데미지 이펙트
     public Image btnStart;
     public Image imageSkillPanel;           // 스킬 아이콘
-    public Image ImagePistolSkillEffect;
+    public Image imagePistolSkillEffect;
+    public Image imageUltiIcon;
     public SpawnParticle spawnParticle;
     public int skillCoolTime;
+    public int ultiCoolTime;
     private float buffDuration;             // 버프 지속시간
     private float buffTime;                 // 버프 유지시간
     private float saveBossHpAmount;         // 보스 체력의 amount 저장
@@ -39,12 +41,14 @@ public class UIManager : MonoBehaviour
     private bool isDamage;                  // 입은 데미지 체크
     private bool damageEffectTrigger;       // 데미지 이펙트 나타나고 지워지는 기준 트리거
     private bool isSkill;
+    private bool isUlti;
     public bool isDe;
     private Image selectWeapon;             // 선택한 무기 이미지
     private Vector3 bodyGunImagePos;        // 버프 아이콘 종류의 위치
     private Vector3 bodyMagazineImagePos;   // 버프 아이콘 효과의 위치
     private Color colorDamageSrc;           // 데미지 이펙트 값 저장
-    private float skillProgressAmount; 
+    private float skillProgressAmount;
+    private float ultiProgressAmount;
     public delegate void De();
     public De de;
     private void Awake()
@@ -59,11 +63,14 @@ public class UIManager : MonoBehaviour
         damageEffectSpeed = 0.4f;
         disPlayerToBos = 50f;
         skillProgressAmount = 0f;
+        ultiProgressAmount = 0f;
+        ultiCoolTime = 30;
 
         bodyGunImagePos = new Vector3(7.0f, 0.0f, 0.0f);
         bodyMagazineImagePos = new Vector3(7.0f, 35.0f, 0.0f);
         colorDamageSrc = imageDamageEffect.color;
 
+        isUlti = false;
         isSkill = false;
         isDamage = false;
         isDe = false;
@@ -94,6 +101,14 @@ public class UIManager : MonoBehaviour
             if(imageSkillPanel.fillAmount >= 1)
             {
                 isSkill = false;
+            }
+        }
+        if (isUlti)
+        {
+            imageUltiIcon.fillAmount += ultiProgressAmount;
+            if(imageUltiIcon.fillAmount >= 1)
+            {
+                isUlti = false;
             }
         }
     }
@@ -219,5 +234,11 @@ public class UIManager : MonoBehaviour
         skillProgressAmount = (float)1 / skillCoolTime * Time.deltaTime;
         imageSkillPanel.fillAmount = 0;
         isSkill = true;
+    }
+    public void UltiEvent()
+    {
+        ultiProgressAmount = (float)1 / ultiCoolTime * Time.deltaTime;
+        imageUltiIcon.fillAmount = 0;
+        isUlti = true;
     }
 }

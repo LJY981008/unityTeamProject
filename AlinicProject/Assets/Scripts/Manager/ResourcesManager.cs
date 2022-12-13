@@ -18,12 +18,14 @@ public class ResourcesManager : MonoBehaviour
     [HideInInspector] public List<Sprite> spriteBuffIcon;         // 버프 아이콘 (적용되는 버프 종류)
     [HideInInspector] public GameObject buffItem;
     [HideInInspector] public List<GameObject> playerChar;
+    [HideInInspector] public GameObject missile;
     string pathWeapons = "Charactor/Weapons/Prefabs";
     string pathEffects = "Effect/Prefabs/UsePrefabs";
     string pathBuffIconSprite = "Image/Buff Image/Icon";
     string pathBuffBodySprite = "Image/Buff Image/Body";
     string pathBuffItem = "Buff Item/Test Buff Item";
     string pathChar = "Charactor/Adventure_Character/Prefabs";
+    string pathMissile = "Charactor/missile";
     private void Awake()
     {
         instance = this;
@@ -33,7 +35,7 @@ public class ResourcesManager : MonoBehaviour
         LoadBuffIcon();
         LoadBuffBody();
         LoadBuffItem();
-        
+        LoadMissile();
     }
 
     // 무기 선택
@@ -117,5 +119,8 @@ public class ResourcesManager : MonoBehaviour
         }
         return null;
     }
-    public void aa() { }
+    public void LoadMissile()
+    {
+        missile = Resources.Load<GameObject>(pathMissile);
+    }
 }

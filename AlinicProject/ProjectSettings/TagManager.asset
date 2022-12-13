@@ -10,6 +10,8 @@ TagManager:
   - hudDamageText
   - Map
   - Bullet
+  - FxTemporaire
+  - build
   layers:
   - Default
   - TransparentFX

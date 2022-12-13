@@ -62,9 +62,9 @@ public class PlayerSkill : MonoBehaviour
     {
         float prevSpeed = GameManager.instance.plusSpeed;
         GameManager.instance.plusSpeed = pistolSkillCoefficient;
-        UIManager.instance.ImagePistolSkillEffect.gameObject.SetActive(true);
+        UIManager.instance.imagePistolSkillEffect.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(pistolDuration);
-        UIManager.instance.ImagePistolSkillEffect.gameObject.SetActive(false);
+        UIManager.instance.imagePistolSkillEffect.gameObject.SetActive(false);
         GameManager.instance.plusSpeed = prevSpeed;
     }
 

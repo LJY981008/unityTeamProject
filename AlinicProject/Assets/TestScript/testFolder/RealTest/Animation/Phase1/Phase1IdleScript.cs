@@ -20,7 +20,7 @@ public class Phase1IdleScript : StateMachineBehaviour
         {
             if(InitMonster.Instance.getDistanceToTarget() <= 13.0f)
             {
-                if(InitMonster.Instance.getDistanceOfTime(Time.time, InitMonster.Instance.latelyCastSkillTime) >= 13.0f)
+                if(false && InitMonster.Instance.getDistanceOfTime(Time.time, InitMonster.Instance.latelyCastSkillTime) >= 13.0f)
                 {
                     animator.SetInteger("aniInt", 5);
                 }

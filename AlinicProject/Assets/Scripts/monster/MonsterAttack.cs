@@ -48,22 +48,30 @@ public class MonsterAttack
     {
         if (isDebugging) { Debug.Log("### MonsterAttack.endAttack ###"); }
 
-        Collider[] colls = Physics.OverlapSphere(_attackPoint.transform.position, _area);
-
-        // 몬스터 주변에 오브젝트가 있으면..
-        for (int i = 0; i < colls.Length; i++)
+        // 스턴 상태가 아닐 경우
+        if (InitMonster.Instance.flagStun == false)
         {
-            Collider tmpColl = colls[i];
 
-            GameObject root = tmpColl.gameObject.transform.root.gameObject;
+            Collider[] colls = Physics.OverlapSphere(_attackPoint.transform.position, _area);
 
-            // 캐릭터가 맞으면, 타겟 설정
-            if (root.name.Equals(_targetName))
+            // 몬스터 주변에 오브젝트가 있으면..
+            for (int i = 0; i < colls.Length; i++)
             {
-                // 타겟 오브젝트에 넣어주기
-                PlayerBody player = root.GetComponent<PlayerBody>();
-                player.OnDamage(_damage);
+                Collider tmpColl = colls[i];
+
+                GameObject root = tmpColl.gameObject.transform.root.gameObject;
+
+                // 캐릭터가 맞으면, 타겟 설정
+                if (root.name.Equals(_targetName))
+                {
+                    // 타겟 오브젝트에 넣어주기
+                    PlayerBody player = root.GetComponent<PlayerBody>();
+
+                    player.OnDamage(_damage); 
+                
+                }
             }
+
         }
         GameObject.Destroy(_attackArea);
         GameObject.Destroy(_attackPoint);

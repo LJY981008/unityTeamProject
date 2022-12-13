@@ -33,6 +33,8 @@ public class InitMonster : MonoBehaviour
         }
     }
 
+    public Animator animator;
+
     /// <summary>
     /// true : 타겟을 설정한다.
     /// false : 설정하지 않는다.
@@ -43,7 +45,7 @@ public class InitMonster : MonoBehaviour
     /// true : 무적
     /// fasle : 무적 해제
     /// </summary>
-    bool isInvincibility = true;
+    bool isInvincibility = false;
 
 
     /// <summary>
@@ -55,7 +57,7 @@ public class InitMonster : MonoBehaviour
     /// <summary>
     /// true : 관리자 키 활성화
     /// </summary>
-    bool isAdminMod = true;
+    bool isAdminMod = false;
 
     /// <summary>
     /// 현재 페이즈 상태를 담는 변수
@@ -241,9 +243,13 @@ public class InitMonster : MonoBehaviour
         if(!isInvincibility) UIManager.instance.UpdateBossHp(monsterHp, PHASE_HP[phaseState]);
         if (isAdminMod)
         {
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                actionSpeedDown(10);
+            }
             if (Input.GetKeyDown(KeyCode.M))
             {
-                onDamage(50);
+                actionStun(3);
             }
         }
         if(_target != null)
@@ -557,4 +563,62 @@ public class InitMonster : MonoBehaviour
         return currentTime - latelyTime;
     }
     // 여기까지
+
+    private Boolean flagSpeedDown = false;
+
+    /// <summary>
+    /// 동작 속도 감소 시작
+    /// </summary>
+
+    public void actionSpeedDown(float time)
+    {
+        
+        animator.speed = 0.7f;
+        flagSpeedDown = true;
+        CancelInvoke("afterSpeedDown");
+        Invoke("afterSpeedDown", time);
+
+    }
+
+    /// <summary>
+    /// 동작 속도 감소 종료
+    /// </summary>
+
+    public void afterSpeedDown()
+    {
+        animator.speed = 1f;
+        flagSpeedDown = false;
+    }
+
+    private Boolean _flagStun = false;
+    
+    public Boolean flagStun
+    {
+        get { return _flagStun; }
+    }
+
+    /// <summary>
+    /// 스턴 시작
+    /// </summary>
+
+    public void actionStun(float time) {
+
+        _flagStun = true;
+        animator.SetBool("STUN", true);
+        animator.Play("Idle");
+
+        CancelInvoke("afterStun");
+        Invoke("afterStun", time);
+
+    }
+
+    /// <summary>
+    /// 스턴 종료
+    /// </summary>
+
+    public void afterStun()
+    {
+        animator.SetBool("STUN", false);
+        _flagStun = false;
+    }
 }

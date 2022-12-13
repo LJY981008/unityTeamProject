@@ -2,20 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InitMonsterPhase1 : MonoBehaviour
+public class MonsterPhase : MonoBehaviour
 {
-
-    private Vector3 _endMove;
-
-    public Vector3 endMove {
-        get { return _endMove; }
-        set { _endMove = value; }
-    }
-
 
     private void Awake()
     {
-        
+        transform.parent.parent.GetComponent<InitMonster>().animator = GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -28,5 +20,10 @@ public class InitMonsterPhase1 : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public Animator getAnimator()
+    {
+        return GetComponent<Animator>();
     }
 }

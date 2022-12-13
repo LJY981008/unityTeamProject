@@ -25,7 +25,10 @@ public class UIManager : MonoBehaviour
     public Image imageBossHpBackground;     // 보스의 체력 바
     public Image imageDamageEffect;         // 데미지 이펙트
     public Image btnStart;
+    public Image imageSkillPanel;           // 스킬 아이콘
+    public Image ImagePistolSkillEffect;
     public SpawnParticle spawnParticle;
+    public int skillCoolTime;
     private float buffDuration;             // 버프 지속시간
     private float buffTime;                 // 버프 유지시간
     private float saveBossHpAmount;         // 보스 체력의 amount 저장
@@ -35,17 +38,19 @@ public class UIManager : MonoBehaviour
     private float disPlayerToBos;           // 보스 체력을 표시하기 위한 플레이어와 보스 사이의 거리
     private bool isDamage;                  // 입은 데미지 체크
     private bool damageEffectTrigger;       // 데미지 이펙트 나타나고 지워지는 기준 트리거
+    private bool isSkill;
     public bool isDe;
     private Image selectWeapon;             // 선택한 무기 이미지
     private Vector3 bodyGunImagePos;        // 버프 아이콘 종류의 위치
     private Vector3 bodyMagazineImagePos;   // 버프 아이콘 효과의 위치
     private Color colorDamageSrc;           // 데미지 이펙트 값 저장
+    private float skillProgressAmount; 
     public delegate void De();
     public De de;
     private void Awake()
     {
         instance = this;
-        
+        skillCoolTime = 0;
         buffTime = 0.0f;
         buffDuration = -1.0f;
         updateHpSpeed = 0.3f;
@@ -53,11 +58,13 @@ public class UIManager : MonoBehaviour
         damageDestAlpha = 0.1f;
         damageEffectSpeed = 0.4f;
         disPlayerToBos = 50f;
+        skillProgressAmount = 0f;
 
         bodyGunImagePos = new Vector3(7.0f, 0.0f, 0.0f);
         bodyMagazineImagePos = new Vector3(7.0f, 35.0f, 0.0f);
         colorDamageSrc = imageDamageEffect.color;
 
+        isSkill = false;
         isDamage = false;
         isDe = false;
         damageEffectTrigger = false;
@@ -80,6 +87,14 @@ public class UIManager : MonoBehaviour
             isDe = false;
             de = OffPanel;
             de();
+        }
+        if (isSkill)
+        {
+            imageSkillPanel.fillAmount += skillProgressAmount;
+            if(imageSkillPanel.fillAmount >= 1)
+            {
+                isSkill = false;
+            }
         }
     }
     public void OffPanel()
@@ -198,5 +213,11 @@ public class UIManager : MonoBehaviour
     public void OnDamage()
     {
         isDamage = true;
+    }
+    public void SkillEvent()
+    {
+        skillProgressAmount = (float)1 / skillCoolTime * Time.deltaTime;
+        imageSkillPanel.fillAmount = 0;
+        isSkill = true;
     }
 }

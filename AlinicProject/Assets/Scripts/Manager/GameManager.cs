@@ -32,10 +32,11 @@ public class GameManager : MonoBehaviour
 
     public float additionalDamage;         // 추가 %데미지
     public int plusDamage;               // 추가 +데미지
-
+    public float plusSpeed;
     void Awake()
     {
         instance = this;
+        plusSpeed = 1.0f;
         additionalDamage = 1.0f;
         plusDamage = 0;
         movement = playerBody.GetComponent<Movement>();
@@ -95,11 +96,15 @@ public class GameManager : MonoBehaviour
             {
                 playableWeapon.ReloadGun(gunIndex);
             }
-            /*if (Input.GetKeyDown(KeyCode.K))
+            if (Input.GetKeyDown(KeyCode.Q))
             {
-                ObjectPoolManager.GetItem();
-                onSpawnBuff = true;
-            }*/
+                if (UIManager.instance.imageSkillPanel.fillAmount >= 1)
+                {
+                    PlayerSkill.instance.SkillCoolTime = gunIndex;
+                    PlayerSkill.instance.Skill();
+                    UIManager.instance.SkillEvent();
+                }
+            }
         }
     }
     private IEnumerator SpawnBuff()
@@ -160,7 +165,7 @@ public class GameManager : MonoBehaviour
             bool isRun = false;
             // 옆이나 뒤로 이동할 대는 달릴 수 없다.
             if (moveZ > 0) isRun = Input.GetKey(keyCodeRun);
-            movement.MSpeed = isRun == true ? status.RunSpeed : status.WalkSpeed;
+            movement.MSpeed = isRun == true ? status.RunSpeed * plusSpeed : status.WalkSpeed * plusSpeed;
             playableWeapon.IsRun(isRun);
         }
         else

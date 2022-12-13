@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
+        
+
         if (isStart) {
             disPlayerToMonster = Vector3.Distance(playerBody.transform.position, monster.transform.position);
             UIManager.instance.SetEnableBossHp(disPlayerToMonster);
@@ -99,10 +101,6 @@ public class GameManager : MonoBehaviour
                 onSpawnBuff = true;
             }*/
         }
-    }
-    public void startCo(string name)
-    {
-        StartCoroutine(name);
     }
     private IEnumerator SpawnBuff()
     {

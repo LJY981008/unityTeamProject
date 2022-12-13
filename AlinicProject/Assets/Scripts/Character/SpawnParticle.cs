@@ -12,10 +12,8 @@ public class SpawnParticle : MonoBehaviour
     private Vector3[] shotgunSpread;                // ¼¦°ÇÀÇ ÅºÆÛÁü À§Ä¡
     private float spread = 3f;                      // ¼¦°ÇÀÇ ÅºÆÛÁü °Å¸®
     public string currentBullet;
-    public bool isSlow;
     void Start()
     {
-        isSlow = false;
         currentBullet = "Normal";
         shotgunSpread = new Vector3[4];
         shotgunSpread[0] = new Vector3(0.0f, 0.0f, 0.0f); // Áß¾Ó

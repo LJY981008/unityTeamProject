@@ -19,15 +19,13 @@ public class MoveParticle : MonoBehaviour
     private Vector3 destShotPos;            // 총알의 목표 지점
     private RaycastHit hit;                 // 레이캐스트 값 저장
     public float additionalDamage;
-    private Color originColor;
-    private Color slowColor;
+    
     
     
     private void Awake()
     {
         Physics.IgnoreLayerCollision(7, 7, true);   // 총알끼리의 충돌 제외
-        originColor = new Color(1, 1, 1);
-        slowColor = new Color(0.06f, 0.6f, 1.0f);
+        Physics.IgnoreLayerCollision(0, 0, true);
         bulletSpeed = 50f;
         additionalDamage = 1.0f;
         shotgunShotPos = Vector3.zero;
@@ -108,31 +106,31 @@ public class MoveParticle : MonoBehaviour
         {
             InitMonster monster = co.GetComponent<Collider>().transform.root.gameObject.GetComponent<InitMonster>();
             monster.onDamage((int)(GameManager.instance.currentDamage * GameManager.instance.additionalDamage) + GameManager.instance.plusDamage);
-            if (spawnParticle.currentBullet == "Ice")
+            if(spawnParticle.currentBullet == "Normal")
             {
-                if (!spawnParticle.isSlow)
+
+            }
+            else if (spawnParticle.currentBullet == "Ice")
+            {
+                ApplyBuff.instance.isDamage = true;
+                if (!ApplyBuff.instance.isSlow)
                 {
-                    spawnParticle.isSlow = true;
-                    StartCoroutine(MonsterSlow(co.gameObject, monster));
+                    ApplyBuff.instance.isSlow = true;
+                    ApplyBuff.instance.DoCoroutine("MonsterSlow");
+                }
+            }
+            else if (spawnParticle.currentBullet == "Fire")
+            {
+                ApplyBuff.instance.SetBurnHitCount();
+                if ((!ApplyBuff.instance.isBurn) && (ApplyBuff.instance.HitBurnCount == 3))
+                {
+                    ApplyBuff.instance.isBurn = true;
+                    ApplyBuff.instance.DoCoroutine("MonsterBurn");
                 }
             }
         }
-        
         shotgunShotPos = Vector3.zero;
         spawnParticle.setReturnBullet(this);
     }
-    IEnumerator MonsterSlow(GameObject obj, InitMonster monster)
-    {
-        // 애니메이션도 슬로우적용되게 작성
-        monster.speedRun -= (float)(monster.speedRun * 0.3);
-        SkinnedMeshRenderer skin = obj.GetComponent<SkinnedMeshRenderer>();
-        while (spawnParticle.currentBullet == "Ice")
-        {
-            skin.materials[0].color = slowColor;
-            yield return new WaitForSeconds(10);
-        }
-        spawnParticle.isSlow = false;
-        skin.materials[0].color = originColor;
-        monster.speedRun = 15f;
-    }
+    
 }

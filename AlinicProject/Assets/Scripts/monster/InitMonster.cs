@@ -238,7 +238,6 @@ public class InitMonster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("½ºÇÇµå : " + _speedRun);
         if(!isInvincibility) UIManager.instance.UpdateBossHp(monsterHp, PHASE_HP[phaseState]);
         if (isAdminMod)
         {

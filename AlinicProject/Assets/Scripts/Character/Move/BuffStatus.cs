@@ -36,7 +36,8 @@ public class BuffStatus : MonoBehaviour
     }
     public void RandomBuffBody()
     {
-        random = Random.Range(1,3);
+        //random = Random.Range(1,3);
+        random = 1;
         switch (random)
         {
             case 1:
@@ -57,7 +58,8 @@ public class BuffStatus : MonoBehaviour
     {
         if (random == 1)
         {
-            random = Random.Range(1, 4);
+            //random = Random.Range(1, 4);
+            random = 2;
         }
         else if(random == 2)
         {

@@ -131,6 +131,7 @@ public class InitMonster : MonoBehaviour
 
     // Run 모션에서의 속도
     private float _speedRun;
+    private float _prevSpeedRun;
 
     public GameObject target
     {
@@ -243,14 +244,14 @@ public class InitMonster : MonoBehaviour
         if(!isInvincibility) UIManager.instance.UpdateBossHp(monsterHp, PHASE_HP[phaseState]);
         if (isAdminMod)
         {
-            if (Input.GetKeyDown(KeyCode.N))
+            /*if (Input.GetKeyDown(KeyCode.N))
             {
                 actionSpeedDown(10);
             }
             if (Input.GetKeyDown(KeyCode.M))
             {
                 actionStun(3);
-            }
+            }*/
         }
         if(_target != null)
             _targetPos = _target.transform.position;
@@ -570,13 +571,12 @@ public class InitMonster : MonoBehaviour
     /// 동작 속도 감소 시작
     /// </summary>
 
-    public void actionSpeedDown(float time)
+    public void actionSpeedDown()
     {
-        
+        _prevSpeedRun = _speedRun;
+        _speedRun -= (_speedRun * 0.3f);
         animator.speed = 0.7f;
         flagSpeedDown = true;
-        CancelInvoke("afterSpeedDown");
-        Invoke("afterSpeedDown", time);
 
     }
 
@@ -586,6 +586,7 @@ public class InitMonster : MonoBehaviour
 
     public void afterSpeedDown()
     {
+        _speedRun = _prevSpeedRun;
         animator.speed = 1f;
         flagSpeedDown = false;
     }
@@ -601,14 +602,11 @@ public class InitMonster : MonoBehaviour
     /// 스턴 시작
     /// </summary>
 
-    public void actionStun(float time) {
+    public void actionStun() {
 
         _flagStun = true;
         animator.SetBool("STUN", true);
         animator.Play("Idle");
-
-        CancelInvoke("afterStun");
-        Invoke("afterStun", time);
 
     }
 

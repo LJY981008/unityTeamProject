@@ -128,6 +128,15 @@ public class MoveParticle : MonoBehaviour
                     ApplyBuff.instance.DoCoroutine("MonsterBurn");
                 }
             }
+            else if(spawnParticle.currentBullet == "Force")
+            {
+                ApplyBuff.instance.SetForceHitCount();
+                if((!ApplyBuff.instance.isForce) && (ApplyBuff.instance.HitForceCount == 10))
+                {
+                    ApplyBuff.instance.isForce = true;
+                    ApplyBuff.instance.DoCoroutine("MonsterForce");
+                }
+            }
         }
         shotgunShotPos = Vector3.zero;
         spawnParticle.setReturnBullet(this);

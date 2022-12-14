@@ -36,8 +36,7 @@ public class BuffStatus : MonoBehaviour
     }
     public void RandomBuffBody()
     {
-        //random = Random.Range(1,3);
-        random = 1;
+        random = Random.Range(1,3);
         switch (random)
         {
             case 1:
@@ -58,8 +57,7 @@ public class BuffStatus : MonoBehaviour
     {
         if (random == 1)
         {
-            //random = Random.Range(1, 4);
-            random = 2;
+            random = Random.Range(1, 4);
         }
         else if(random == 2)
         {
@@ -77,11 +75,11 @@ public class BuffStatus : MonoBehaviour
                 GameManager.instance.additionalDamage = 1.3f;
                 break;
             case 2:
-                UIManager.instance.SetBuffIcon("Fire", 9999);
+                UIManager.instance.SetBuffIcon("Fire", 20);
                 spawnParticle.currentBullet = "Fire";
                 break;
             case 3:
-                UIManager.instance.SetBuffIcon("Force", 9999);
+                UIManager.instance.SetBuffIcon("Force", 20);
                 spawnParticle.currentBullet = "Force";
                 break;
             case 4:
@@ -102,16 +100,6 @@ public class BuffStatus : MonoBehaviour
                 break;
             default:
                 break;
-        }
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            GameObject newBuff = Instantiate<GameObject>(buffSrc);
-            newBuff.SetActive(true);
-            newBuff.transform.SetParent(scrollRect.content);
         }
     }
 }

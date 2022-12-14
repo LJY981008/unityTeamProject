@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1179734100}
   - component: {fileID: 5010346507152427304}
   - component: {fileID: -8439783788402844634}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shoot_04
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -83,6 +83,7 @@ MonoBehaviour:
   playerBox: {fileID: 0}
   shotgunShotPos: {x: 0, y: 0, z: 0}
   spawnParticle: {fileID: 0}
+  additionalDamage: 0
 --- !u!1001 &1884534964382368742
 PrefabInstance:
   m_ObjectHideFlags: 0

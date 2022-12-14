@@ -8,17 +8,25 @@ public class ApplyBuff : MonoBehaviour
     public GameObject objMonster;
     public bool isSlow;
     public bool isBurn;
+    public bool isForce;
 
     public bool isDamage;
 
     private Color originColor;
+    private Color originEmissionColor;
     private Color slowColor;
     private Color burnColor;
+    private Color forceColor;
+    private Color forceEmissionColor;
     private int hitBurnCount;
     private int burnStack;
     private int burnDamage;
     private int burnDuration;
     private int burnElapsed;
+    private int hitForceCount;
+    private int forceDuration;
+    private int forceElapsed;
+    private bool forceCoolTime;
 
     private Transform currentMonsterModel;
     private SkinnedMeshRenderer currentMonsterSkin;
@@ -29,30 +37,41 @@ public class ApplyBuff : MonoBehaviour
         set { hitBurnCount = value; }
         get { return hitBurnCount; }
     }
+    public int HitForceCount
+    {
+        set { hitForceCount = value; }
+        get { return hitForceCount; }
+    }
     private void Awake()
     {
         instance = this;
         isSlow = false;
         isBurn = false;
+        isForce = false;
     }
     private void Start()
     {
         slowColor = new Color(0.06f, 0.6f, 1.0f);
         burnColor = new Color(1, 0, 0);
+        forceColor = new Color(0.2f, 0.2f, 0.2f);
+        forceEmissionColor = Color.black;
         currentMonsterModel = FindMaterial(objMonster.transform, "1_Model");
         currentMonsterSkin = FindMaterial(currentMonsterModel, "ironreaver01").GetComponent<SkinnedMeshRenderer>();
-        originColor = currentMonsterSkin.materials[0].color;
+        SetDefaultColor();
         hitBurnCount = 0;
         burnStack = 0;
         burnDamage = 5;
         burnDuration = 5;
         burnElapsed = 0;
+
+        hitForceCount = 0;
+        forceDuration = 3;
+        forceElapsed = 0;
+        forceCoolTime = false;
     }
-    public IEnumerator MonsterSlow()
+    private IEnumerator MonsterSlow()
     {
-        // 애니메이션도 슬로우적용되게 작성
-        float prevSpeed = InitMonster.Instance.speedRun;
-        InitMonster.Instance.speedRun -= (float)(InitMonster.Instance.speedRun * 0.3);
+        InitMonster.Instance.actionSpeedDown();
         while (isDamage)
         {
             currentMonsterSkin.materials[0].color = slowColor;
@@ -61,9 +80,9 @@ public class ApplyBuff : MonoBehaviour
         }
         isSlow = false;
         currentMonsterSkin.materials[0].color = originColor;
-        InitMonster.Instance.speedRun = prevSpeed;
+        InitMonster.Instance.afterSpeedDown();
     }
-    public IEnumerator MonsterBurn()
+    private IEnumerator MonsterBurn()
     {
         while (burnElapsed < burnDuration)
         {
@@ -76,7 +95,17 @@ public class ApplyBuff : MonoBehaviour
         burnElapsed = 0;
         burnStack = 0;
     }
+    private IEnumerator MonsterForce()
+    {
+        InitMonster.Instance.actionStun();
+        yield return new WaitForSeconds(3f);
+        InitMonster.Instance.afterStun();
+        currentMonsterSkin.materials[0].color = originColor;
+        currentMonsterSkin.materials[0].SetColor("_EmissionColor", originEmissionColor);
+        yield return new WaitForSeconds(7f);
+        forceCoolTime = false;
 
+    }
     public void SetBurnHitCount()
     {
         hitBurnCount++;
@@ -93,9 +122,34 @@ public class ApplyBuff : MonoBehaviour
             hitBurnCount = 1;
         }
     }
+    public void SetForceHitCount()
+    {
+        if (!forceCoolTime)
+            hitForceCount++;
+        else
+            Debug.Log("내부쿨");
+        if(hitForceCount == 10)
+        {
+            forceCoolTime = true;
+            if (currentMonsterSkin.materials[0].color != forceColor)
+            {
+                currentMonsterSkin.materials[0].color = forceColor;
+                currentMonsterSkin.materials[0].SetColor("_EmissionColor", forceEmissionColor);
+            }
+        }
+        else if (hitForceCount > 10)
+        {
+            hitForceCount = 1;
+        }
+    }
     public void DoCoroutine(string name)
     {
         StartCoroutine(name);
+    }
+    private void SetDefaultColor()
+    {
+        originColor = currentMonsterSkin.materials[0].color;
+        originEmissionColor = currentMonsterSkin.materials[0].GetColor("_EmissionColor");
     }
     private Transform FindMaterial(Transform tr, string name)
     {

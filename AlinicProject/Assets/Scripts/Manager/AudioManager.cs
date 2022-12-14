@@ -8,7 +8,7 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
-
+    public SpawnParticle spawnParticle;
     List<AudioClip> anyAudioClipList = new List<AudioClip>();   // 모든 오디오 클립 리소스 리스트
 
     private void Awake()
@@ -31,8 +31,16 @@ public class AudioManager : MonoBehaviour
     {
         foreach (var clip in anyAudioClipList)
         {
-            if (clip.name.Equals(gunName + "_fire", System.StringComparison.OrdinalIgnoreCase))
-                return clip;
+            if (!spawnParticle.currentBullet.Equals("Grenade"))
+            {
+                if (clip.name.Equals(gunName + "_fire", System.StringComparison.OrdinalIgnoreCase))
+                    return clip;
+            }
+            else
+            {
+                if (clip.name.Equals(gunName + "_fire_grenade", System.StringComparison.OrdinalIgnoreCase))
+                    return clip;
+            }
         }
         return null;
     }

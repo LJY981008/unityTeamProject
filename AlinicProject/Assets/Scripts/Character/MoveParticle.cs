@@ -139,6 +139,11 @@ public class MoveParticle : MonoBehaviour
             }
         }
         shotgunShotPos = Vector3.zero;
+        if (spawnParticle.currentBullet == "Grande")
+        {
+            spawnParticle.currentBullet = PlayerSkill.instance.prevBullet;
+            GameManager.instance.currentDamage = PlayerSkill.instance.prevDamage;
+        }
         spawnParticle.setReturnBullet(this);
     }
     

@@ -42,6 +42,7 @@ public class PlayerUpper : MonoBehaviour
         audioSource.playOnAwake = false;
         spawnParticle.firePoint = muzzlePivot.gameObject;
         GameManager.instance.currentDamage = gunData.damage;
+        GameManager.instance.prevDamage = gunData.damage;
     }
     private void Update()
     {
@@ -56,17 +57,32 @@ public class PlayerUpper : MonoBehaviour
             if (gunData.currentAmmo > 0)
             {
                 animator.SetBool("isFire", true);
+                if (index == 2)
+                {
+
+                }
             }
             else
             {
+                GameManager.instance.shotCount = 0;
                 // 총알 없을 때 격발시 오디오 현재 이상해서 수정해야함
-               /* AudioClip audioClip = AudioManager.instance.GetDryClip(transform.name.Replace("(Clone)", ""));
-                Debug.Log(audioClip.name);
-                PlayAudio(audioClip);*/
+                /* AudioClip audioClip = AudioManager.instance.GetDryClip(transform.name.Replace("(Clone)", ""));
+                 Debug.Log(audioClip.name);
+                 PlayAudio(audioClip);*/
             }
         }
+        else
+        {
+            GameManager.instance.shotCount = 0;
+        }
     }   
-
+    public void FireSkill()
+    {
+        if (!animator.GetBool("isRun"))
+        {
+            animator.SetBool("isFire", true);
+        }
+    }
     // 대기 함수
     public void IdleGun()
     {
@@ -111,7 +127,8 @@ public class PlayerUpper : MonoBehaviour
     {
         spawnParticle.SetEffect();
         spawnParticle.firePoint = muzzlePivot.gameObject;
-        UseAmmo();
+        if (!spawnParticle.currentBullet.Equals("Grenade"))
+            UseAmmo();
     }
     // 총구 위치 찾는 함수
     public Transform FindFireSpot(Transform _t, string name)

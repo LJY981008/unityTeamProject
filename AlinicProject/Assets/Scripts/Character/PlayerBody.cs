@@ -8,6 +8,9 @@ public class PlayerBody : MonoBehaviour
 {
     public float maxHP;             // 최대 체력
     public float currentHP;         // 현재 체력
+    public Vector3 nuckbackDir;
+    public Vector3 nuckbackDest;
+
     private float dieRotateSpeed;   // 죽었을 때 회전 속도
     private float destDieRotate;    // 죽었을 때 눞는 최대치
     private Quaternion playerQuat;  // 죽었을 때 적용할 각도
@@ -44,6 +47,10 @@ public class PlayerBody : MonoBehaviour
         {
             UIManager.instance.imageBuffPanel.gameObject.SetActive(false);
         }
+    }
+    public void NuckBack()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, nuckbackDest, 20f * Time.deltaTime);
     }
     // 죽었을 때 회전 속도 함수
     public void DieRotate()

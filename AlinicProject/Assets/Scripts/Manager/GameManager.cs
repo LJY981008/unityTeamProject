@@ -29,16 +29,21 @@ public class GameManager : MonoBehaviour
     private GameObject playableCharacter;   // 플레이어의 캐릭터
     private int buffItemSpawnCoolTime = 3;
     public bool isSpawnItem = false;
-
+    public int shotCount;
     public float additionalDamage;         // 추가 %데미지
     public int plusDamage;               // 추가 +데미지
     public float plusSpeed;
+    public float prevDamage;
+    public bool isSkill;
     void Awake()
     {
         instance = this;
         plusSpeed = 1.0f;
         additionalDamage = 1.0f;
         plusDamage = 0;
+        prevDamage = currentDamage;
+        shotCount = 0;
+        isSkill = false;
         movement = playerBody.GetComponent<Movement>();
         status = playerBody.GetComponent<Status>();
     }
@@ -51,9 +56,12 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        
+        if(shotCount < 15)
+        {
+            currentDamage = prevDamage;
+        }
 
-        if (isStart) {
+        if (isStart && !isSkill) {
             disPlayerToMonster = Vector3.Distance(playerBody.transform.position, monster.transform.position);
             UIManager.instance.SetEnableBossHp(disPlayerToMonster);
             Minimap.instance.MoveMonsterMap();
@@ -68,9 +76,19 @@ public class GameManager : MonoBehaviour
             {
                 playableWeapon.FireGun(gunIndex);
             }
+            else if (Input.GetKeyDown(KeyCode.Q))
+            {
+                if (UIManager.instance.imageSkillPanel.fillAmount >= 1)
+                {
+                    PlayerSkill.instance.SkillCoolTime = gunIndex;
+                    PlayerSkill.instance.Skill();
+                    UIManager.instance.SkillEvent();
+                }
+            }
             //우클릭
             else
             {
+                shotCount = 0;
                 playableWeapon.IdleGun();
             }
 
@@ -96,15 +114,7 @@ public class GameManager : MonoBehaviour
             {
                 playableWeapon.ReloadGun(gunIndex);
             }
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                if (UIManager.instance.imageSkillPanel.fillAmount >= 1)
-                {
-                    PlayerSkill.instance.SkillCoolTime = gunIndex;
-                    PlayerSkill.instance.Skill();
-                    UIManager.instance.SkillEvent();
-                }
-            }
+            
             if (Input.GetKeyDown(KeyCode.V))
             {
                 if (UIManager.instance.imageUltiIcon.fillAmount >= 1f)

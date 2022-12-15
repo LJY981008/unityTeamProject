@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Pistol Data
   m_EditorClassIdentifier: 
   damage: 8
+  defalutAmmo: 12
   maxAmmo: 12
   currentAmmo: 12
+  defalutCoolTime: 15
   skillCoolTime: 15
   currentCoolTime: 0

@@ -70,7 +70,7 @@ public class ApplyBuff : MonoBehaviour
         buffLargeMagazineSize.Add("Pistol", 10);
         buffLargeMagazineSize.Add("Rifle", 15);
         buffLargeMagazineSize.Add("Shotgun", 5);
-        buffIceMagazineState = 0.2f;
+        buffIceMagazineState = 0.8f;
         forceEmissionColor = Color.black;
         currentMonsterModel = FindMaterial(objMonster.transform, "1_Model");
         monsterMaterial = FindMaterial(currentMonsterModel, "ironreaver01").GetComponent<SkinnedMeshRenderer>().materials[0];
@@ -124,7 +124,6 @@ public class ApplyBuff : MonoBehaviour
     }
     private IEnumerator BuffLargeMagazine()
     {
-        Debug.Log("ÄÚ");
         foreach(var weapon in weapons)
         {
             weapons[weapon.Key].gunData.maxAmmo += buffLargeMagazineSize[weapon.Key];
@@ -132,9 +131,7 @@ public class ApplyBuff : MonoBehaviour
         }
         UIManager.instance.textCurrentAmmo.text = GameManager.instance.playableWeapon.gunData.currentAmmo.ToString();
         UIManager.instance.textMaxAmmo.text = GameManager.instance.playableWeapon.gunData.maxAmmo.ToString();
-        Debug.Log("·ç");
         yield return new WaitForSecondsRealtime(buffLargeMagazineDuration);
-        Debug.Log("Æ¾");
         foreach(var weapon in weapons)
         {
             weapons[weapon.Key].gunData.maxAmmo -= buffLargeMagazineSize[weapon.Key];
@@ -146,13 +143,19 @@ public class ApplyBuff : MonoBehaviour
         UIManager.instance.textCurrentAmmo.text = GameManager.instance.playableWeapon.gunData.currentAmmo.ToString();
         UIManager.instance.textMaxAmmo.text = GameManager.instance.playableWeapon.gunData.maxAmmo.ToString();
     }
-    /*private IEnumerator BuffIceMagazine()
+
+    private IEnumerator BuffIceMagazine()
     {
-        int prev = UIManager.instance.skillCoolTime;
-        UIManager.instance.skillCoolTime -= (int)(prev * buffIceMagazineState);
+        foreach (var weapon in weapons)
+        {
+            weapons[weapon.Key].gunData.skillCoolTime *= buffIceMagazineState;
+        }
         yield return new WaitForSecondsRealtime(buffIceMagazineDuration);
-        UIManager.instance.skillCoolTime = prev;
-    }*/
+        foreach (var weapon in weapons)
+        {
+            weapons[weapon.Key].gunData.skillCoolTime = weapons[weapon.Key].gunData.defalutCoolTime;
+        }
+    }
     public void SetBurnHitCount()
     {
         hitBurnCount++;
@@ -191,9 +194,7 @@ public class ApplyBuff : MonoBehaviour
     }
     public void DoCoroutine(string name)
     {
-        Debug.Log("D : " + name);
         StartCoroutine(name);
-        Debug.Log("o");
     }
     private void SetDefault()
     {
@@ -225,7 +226,8 @@ public class ApplyBuff : MonoBehaviour
     {
         foreach (var weapon in weapons)
         {
-            weapons[weapon.Key].gunData.maxAmmo = weapons[weapon.Key].gunData.constAmmo;
+            weapons[weapon.Key].gunData.maxAmmo = weapons[weapon.Key].gunData.defalutAmmo;
+            weapons[weapon.Key].gunData.skillCoolTime = weapons[weapon.Key].gunData.defalutCoolTime;
         }
     }
 }

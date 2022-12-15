@@ -28,6 +28,7 @@ public class PlayerUpper : MonoBehaviour
         muzzlePivot = FindFireSpot(transform, "Muzzle Pivot");
         gunData.currentAmmo = gunData.maxAmmo;
         gunData.currentCoolTime = 0;
+        gunData.defalutCoolTime = gunData.skillCoolTime;
     }
     private void OnEnable()
     {

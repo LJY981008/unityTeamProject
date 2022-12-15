@@ -65,8 +65,7 @@ public class BuffStatus : MonoBehaviour
         }
         else if(random == 2)
         {
-                random = Random.Range(5, 8);
-            random = 7;
+            random = Random.Range(5, 8);
         }
         else
         {
@@ -97,6 +96,7 @@ public class BuffStatus : MonoBehaviour
                 break;
             case 6:
                 UIManager.instance.SetBuffIcon("Ice", 30);
+                ApplyBuff.instance.DoCoroutine("BuffIceMagazine");
                 break;
             case 7:
                 UIManager.instance.SetBuffIcon("Large", 40);

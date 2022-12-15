@@ -9,12 +9,15 @@ public class BuffStatus : MonoBehaviour
     public List<BuffBase> onBuff = new List<BuffBase>();
     public ScrollRect scrollRect;
     public GameObject buffSrc;
+    public PlayerBody player;
     public SpawnParticle spawnParticle;
     int random;
+    private float buffLightMagazineDuration;
 
     void Awake()
     {
         instance = this;
+        buffLightMagazineDuration = 60f;
     }
     public float Buff(string type, float origin)
     {
@@ -37,6 +40,7 @@ public class BuffStatus : MonoBehaviour
     public void RandomBuffBody()
     {
         random = Random.Range(1,3);
+        random = 2;
         switch (random)
         {
             case 1:
@@ -61,7 +65,8 @@ public class BuffStatus : MonoBehaviour
         }
         else if(random == 2)
         {
-            random = Random.Range(5, 8);
+                random = Random.Range(5, 8);
+            random = 8;
         }
         else
         {
@@ -88,18 +93,22 @@ public class BuffStatus : MonoBehaviour
                 break;
             case 5:
                 UIManager.instance.SetBuffIcon("Heal", 15);
+                player.DoCoroutine("Heal");
                 break;
             case 6:
                 UIManager.instance.SetBuffIcon("Ice", 30);
                 break;
             case 7:
                 UIManager.instance.SetBuffIcon("Large", 40);
+                ApplyBuff.instance.DoCoroutine("BuffLargeMagazine");
                 break;
             case 8:
                 UIManager.instance.SetBuffIcon("Light", 60);
+                ApplyBuff.instance.DoCoroutine("BuffLightMagazine");
                 break;
             default:
                 break;
         }
     }
+    
 }

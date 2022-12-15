@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     private KeyCode keyCodeJump = KeyCode.Space;    // 점프 키
     private Movement movement;              // 키보드 입력으로 플레이어 이동, 점프
     private Status status;                  // 이동속도 등의 플레이어 정보
-    private int gunIndex = 1;               // 사용할 무기의 값
+    public int gunIndex = 1;               // 사용할 무기의 값
     private float moveX, moveZ;             // 이동 값
     private float disPlayerToMonster;       // 플레이어와 보스 사이의 거리
     private bool die = false;               // 사망 트리거
@@ -33,12 +33,14 @@ public class GameManager : MonoBehaviour
     public float additionalDamage;         // 추가 %데미지
     public int plusDamage;               // 추가 +데미지
     public float plusSpeed;
+    public float buffSpeed;
     public float prevDamage;
     public bool isSkill;
     void Awake()
     {
         instance = this;
         plusSpeed = 1.0f;
+        buffSpeed = 1.0f;
         additionalDamage = 1.0f;
         plusDamage = 0;
         prevDamage = currentDamage;
@@ -183,7 +185,7 @@ public class GameManager : MonoBehaviour
             bool isRun = false;
             // 옆이나 뒤로 이동할 대는 달릴 수 없다.
             if (moveZ > 0) isRun = Input.GetKey(keyCodeRun);
-            movement.MSpeed = isRun == true ? status.RunSpeed * plusSpeed : status.WalkSpeed * plusSpeed;
+            movement.MSpeed = isRun == true ? status.RunSpeed * plusSpeed * buffSpeed : status.WalkSpeed * plusSpeed * buffSpeed;
             playableWeapon.IsRun(isRun);
         }
         else

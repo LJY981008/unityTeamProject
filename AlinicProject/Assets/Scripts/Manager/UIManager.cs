@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -126,9 +127,13 @@ public class UIManager : MonoBehaviour
     // 플레이어 체력 갱신 함수
     public void UpdateHpState(float max, float current)
     {
-        if(imageHp.fillAmount > current / max)
+        if(Math.Round(imageHp.fillAmount, 2) > Math.Round(current / max, 2))
         {
             imageHp.fillAmount -= Time.deltaTime * updateHpSpeed;
+        }
+        else if (Math.Round(imageHp.fillAmount, 2) < Math.Round(current / max, 2))
+        {
+            imageHp.fillAmount += Time.deltaTime * updateHpSpeed;
         }
     }
 

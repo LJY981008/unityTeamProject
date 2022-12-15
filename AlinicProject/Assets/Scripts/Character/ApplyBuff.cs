@@ -6,10 +6,11 @@ public class ApplyBuff : MonoBehaviour
 {
     public static ApplyBuff instance;
     public GameObject objMonster;
+    public Dictionary<string, PlayerUpper> weapons = new Dictionary<string, PlayerUpper>();
+    public Dictionary<string, int> buffLargeMagazineSize = new Dictionary<string, int>();
     public bool isSlow;
     public bool isBurn;
     public bool isForce;
-
     public bool isDamage;
 
     private Material monsterMaterial;
@@ -28,9 +29,14 @@ public class ApplyBuff : MonoBehaviour
     private int forceDuration;
     private int forceElapsed;
     private bool forceCoolTime;
-   
-
+    private bool isChange;
+    private float buffLightMagazineDuration;
+    private float buffLargeMagazineDuration;
+    private float buffIceMagazineDuration;
+    private float buffIceMagazineState;
+    private float buffLightMagazineSpeed;
     private Transform currentMonsterModel;
+ 
     private SkinnedMeshRenderer currentMonsterSkin;
     private SpawnParticle spawnParticle;
 
@@ -50,12 +56,21 @@ public class ApplyBuff : MonoBehaviour
         isSlow = false;
         isBurn = false;
         isForce = false;
+        isChange = false;
     }
     private void Start()
     {
         slowColor = new Color(0.06f, 0.6f, 1.0f);
         burnColor = new Color(1, 0, 0);
         forceColor = new Color(0.2f, 0.2f, 0.2f);
+        buffLightMagazineDuration = 60f;
+        buffLargeMagazineDuration = 40f;
+        buffIceMagazineDuration = 30f;
+        buffLightMagazineSpeed = 1.2f;
+        buffLargeMagazineSize.Add("Pistol", 10);
+        buffLargeMagazineSize.Add("Rifle", 15);
+        buffLargeMagazineSize.Add("Shotgun", 5);
+        buffIceMagazineState = 0.2f;
         forceEmissionColor = Color.black;
         currentMonsterModel = FindMaterial(objMonster.transform, "1_Model");
         monsterMaterial = FindMaterial(currentMonsterModel, "ironreaver01").GetComponent<SkinnedMeshRenderer>().materials[0];
@@ -99,8 +114,33 @@ public class ApplyBuff : MonoBehaviour
         monsterMaterial.SetColor("_EmissionColor", originEmissionColor);
         yield return new WaitForSeconds(7f);
         forceCoolTime = false;
-
     }
+    private IEnumerator BuffLightMagazine()
+    {
+        float prevBuffSpeed = GameManager.instance.buffSpeed;
+        GameManager.instance.buffSpeed = buffLightMagazineSpeed;
+        yield return new WaitForSecondsRealtime(buffLightMagazineDuration);
+        GameManager.instance.buffSpeed = prevBuffSpeed;
+    }
+    private IEnumerator BuffLargeMagazine()
+    {
+        weapons["Pistol"].gunData.maxAmmo += buffLargeMagazineSize["Pistol"];
+        weapons["Rifle"].gunData.maxAmmo += buffLargeMagazineSize["Rifle"];
+        weapons["Shotgun"].gunData.maxAmmo += buffLargeMagazineSize["Shotgun"];
+        UIManager.instance.textMaxAmmo.text = GameManager.instance.playableWeapon.gunData.maxAmmo.ToString();
+        yield return new WaitForSecondsRealtime(buffLargeMagazineDuration);
+        weapons["Pistol"].gunData.maxAmmo -= buffLargeMagazineSize["Pistol"];
+        weapons["Rifle"].gunData.maxAmmo -= buffLargeMagazineSize["Rifle"];
+        weapons["Shotgun"].gunData.maxAmmo -= buffLargeMagazineSize["Shotgun"];
+        UIManager.instance.textMaxAmmo.text = GameManager.instance.playableWeapon.gunData.maxAmmo.ToString();
+    }
+    /*private IEnumerator BuffIceMagazine()
+    {
+        int prev = UIManager.instance.skillCoolTime;
+        UIManager.instance.skillCoolTime -= (int)(prev * buffIceMagazineState);
+        yield return new WaitForSecondsRealtime(buffIceMagazineDuration);
+        UIManager.instance.skillCoolTime = prev;
+    }*/
     public void SetBurnHitCount()
     {
         hitBurnCount++;
@@ -155,6 +195,7 @@ public class ApplyBuff : MonoBehaviour
         forceElapsed = 0;
         forceCoolTime = false;
     }
+    
     private Transform FindMaterial(Transform tr, string name)
     {
         if(tr.name.Equals(name))

@@ -72,6 +72,7 @@ public class ObjectPoolManager : MonoBehaviour
     public PlayerUpper CreateNewGun(GameObject obj)
     {
         var newObj = Instantiate<GameObject>(obj, Vector3.zero, Quaternion.identity).GetComponent<PlayerUpper>();
+        ApplyBuff.instance.weapons.Add(newObj.transform.name.Replace("(Clone)", ""), newObj);
         newObj.gameObject.SetActive(false);
         newObj.transform.SetParent(instance.playerBox.transform);
         return newObj;

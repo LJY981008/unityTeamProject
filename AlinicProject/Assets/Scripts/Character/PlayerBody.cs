@@ -48,6 +48,20 @@ public class PlayerBody : MonoBehaviour
             UIManager.instance.imageBuffPanel.gameObject.SetActive(false);
         }
     }
+    public IEnumerator Heal()
+    {
+        int cnt = 0;
+        while (cnt <= 10)
+        {
+            cnt++;
+            currentHP += 2;
+            yield return new WaitForSecondsRealtime(1f);
+        }
+    }
+    public void DoCoroutine(string name)
+    {
+        StartCoroutine(name);
+    }
     public void NuckBack()
     {
         transform.position = Vector3.MoveTowards(transform.position, nuckbackDest, 20f * Time.deltaTime);

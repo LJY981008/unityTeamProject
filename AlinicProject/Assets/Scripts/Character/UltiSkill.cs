@@ -12,10 +12,12 @@ public class UltiSkill : MonoBehaviour
     private GameObject _attackPoint;
     private GameObject missile;
     public GameObject effectToSpawn;
+    private int missileDamage;
     //private UltiMissile ultiMissile;
     private void Awake()
     {
         instance = this;
+        missileDamage = 200;
     }
     public void ArrivalMissile()
     {
@@ -55,9 +57,8 @@ public class UltiSkill : MonoBehaviour
     public void SpawnVFX()
     {
         var vfx = Instantiate(effectToSpawn, _target, Quaternion.identity);
-
         var ps = GetFirstPS(vfx);
-
+        MissileHit();
         Destroy(vfx, ps.main.duration + ps.main.startLifetime.constantMax + 1);
     }
     public ParticleSystem GetFirstPS(GameObject vfx)
@@ -73,5 +74,22 @@ public class UltiSkill : MonoBehaviour
             }
         }
         return ps;
+    }
+    public void MissileHit()
+    {
+        Collider[] colls = Physics.OverlapSphere(_attackPoint.transform.position, _area);
+        // 몬스터 주변에 오브젝트가 있으면..
+        foreach (var hit in colls)
+        {
+            GameObject root = hit.gameObject.transform.root.gameObject;
+            Debug.Log(root.tag + " " + root.name);
+            // 캐릭터가 맞으면, 타겟 설정
+            if (root.CompareTag("Monster"))
+            {
+                // 타겟 오브젝트에 넣어주기
+                InitMonster.Instance.onDamage(missileDamage);
+
+            }
+        }
     }
 }

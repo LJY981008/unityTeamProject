@@ -28,6 +28,7 @@ public class UltiMissile : MonoBehaviour
         {
             UltiSkill.instance.ArrivalMissile();
         }
+
     }
     private void GetDir()
     {

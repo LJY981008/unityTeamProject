@@ -51,6 +51,7 @@ public class PlayerSkill : MonoBehaviour
         float prevSpeed = animator.GetFloat("AttackSpeed");
         animator.SetFloat("AttackSpeed", prevSpeed * 1.3f);
         GameManager.instance.plusDamage += plusDamage;
+        GameManager.instance.isSkill = false;
         yield return new WaitForSecondsRealtime(shotgunDuration);
         animator.SetFloat("AttackSpeed", prevSpeed);
         GameManager.instance.plusDamage -= plusDamage;
@@ -76,15 +77,16 @@ public class PlayerSkill : MonoBehaviour
         prevDamage = GameManager.instance.currentDamage;
         spawnParticle.currentBullet = "Grenade";
         GameManager.instance.currentDamage = 60f;
-        
         playerbleWeapon.FireSkill();
-
+        GameManager.instance.isSkill = false;
+        
     }
     IEnumerator SkillPistol()
     {
         float prevSpeed = GameManager.instance.plusSpeed;
         GameManager.instance.plusSpeed = pistolSkillCoefficient;
         UIManager.instance.imagePistolSkillEffect.gameObject.SetActive(true);
+        GameManager.instance.isSkill = false;
         yield return new WaitForSecondsRealtime(pistolDuration);
         UIManager.instance.imagePistolSkillEffect.gameObject.SetActive(false);
         GameManager.instance.plusSpeed = prevSpeed;

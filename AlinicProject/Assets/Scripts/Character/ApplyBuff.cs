@@ -225,11 +225,7 @@ public class ApplyBuff : MonoBehaviour
     {
         foreach (var weapon in weapons)
         {
-            weapons[weapon.Key].gunData.maxAmmo -= buffLargeMagazineSize[weapon.Key];
-            if (weapons[weapon.Key].gunData.currentAmmo > weapons[weapon.Key].gunData.maxAmmo)
-            {
-                weapons[weapon.Key].gunData.currentAmmo = weapons[weapon.Key].gunData.maxAmmo;
-            }
+            weapons[weapon.Key].gunData.maxAmmo = weapons[weapon.Key].gunData.constAmmo;
         }
     }
 }

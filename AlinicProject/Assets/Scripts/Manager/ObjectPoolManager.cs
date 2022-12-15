@@ -85,8 +85,8 @@ public class ObjectPoolManager : MonoBehaviour
         Vector3 spawnPos = new Vector3(0.0f, 1.6f, 0.0f);
         var obj = instance.listPoolingGun.Find(o => o.name.Contains(weaponName));
         obj.transform.localPosition = spawnPos;
-        obj.gameObject.SetActive(true);
         obj.gunData.currentCoolTime = GameManager.instance.currentSkillCoolTime[weaponName.Replace("(Clone)", "")];
+        obj.gameObject.SetActive(true);
         return obj;
     }
     // 무기 반환 함수

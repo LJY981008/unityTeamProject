@@ -91,7 +91,7 @@ public class PlayerUpper : MonoBehaviour
     {
         if (!animator.GetBool("isRun"))
         {
-            animator.SetBool("isFire", true);
+            animator.Play("Auto Fire");
         }
     }
     // 대기 함수

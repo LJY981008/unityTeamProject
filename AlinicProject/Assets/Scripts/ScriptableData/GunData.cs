@@ -6,6 +6,7 @@ using UnityEngine;
 public class GunData : ScriptableObject
 {
     public float damage;   //공격력
+    public int constAmmo;
     public int maxAmmo;  // 탄약 최대치
     public int currentAmmo;
     public float skillCoolTime;

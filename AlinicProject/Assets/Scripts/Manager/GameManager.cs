@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     public float buffSpeed;
     public float prevDamage;
     public bool isSkill;
+    public bool isSelect;
     public Dictionary<string, float> currentSkillCoolTime = new Dictionary<string, float>();
     void Awake()
     {
@@ -47,6 +48,7 @@ public class GameManager : MonoBehaviour
         prevDamage = currentDamage;
         shotCount = 0;
         isSkill = false;
+        isSelect = false;
         movement = playerBody.GetComponent<Movement>();
         status = playerBody.GetComponent<Status>();
     }
@@ -59,13 +61,20 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        
+
         if (shotCount < 15)
         {
             currentDamage = prevDamage;
         }
 
-        if (isStart && !isSkill) {
+        if (isStart && !isSkill)
+        {
+            if (!die)
+            {
+                Move();
+                Jump();
+                PlayerUtill.instance.MoveRotate(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"));
+            }
             disPlayerToMonster = Vector3.Distance(playerBody.transform.position, monster.transform.position);
             UIManager.instance.SetEnableBossHp(disPlayerToMonster);
             Minimap.instance.MoveMonsterMap();
@@ -73,19 +82,25 @@ public class GameManager : MonoBehaviour
             {
                 currentSkillCoolTime[listWeapon[0]] -= Time.deltaTime;
             }
+            else
+            {
+                currentSkillCoolTime[listWeapon[0]] = 0;
+            }
             if (currentSkillCoolTime[listWeapon[1]] > 0)
             {
                 currentSkillCoolTime[listWeapon[1]] -= Time.deltaTime;
+            }
+            else
+            {
+                currentSkillCoolTime[listWeapon[1]] = 0;
             }
             if (currentSkillCoolTime[listWeapon[2]] > 0)
             {
                 currentSkillCoolTime[listWeapon[2]] -= Time.deltaTime;
             }
-            if (!die)
+            else
             {
-                Move();
-                Jump();
-                PlayerUtill.instance.MoveRotate(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"));
+                currentSkillCoolTime[listWeapon[2]] = 0;
             }
             //좌클릭
             if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)))
@@ -96,6 +111,7 @@ public class GameManager : MonoBehaviour
             {
                 if (UIManager.instance.imageSkillPanel.fillAmount >= 1)
                 {
+                    isSkill = true;
                     currentSkillCoolTime[listWeapon[gunIndex]] = playableWeapon.gunData.skillCoolTime;
                     PlayerSkill.instance.gunIndex = gunIndex;
                     PlayerSkill.instance.Skill();
@@ -131,7 +147,7 @@ public class GameManager : MonoBehaviour
             {
                 playableWeapon.ReloadGun(gunIndex);
             }
-            
+
             if (Input.GetKeyDown(KeyCode.V))
             {
                 if (UIManager.instance.imageUltiIcon.fillAmount >= 1f)
@@ -140,6 +156,7 @@ public class GameManager : MonoBehaviour
                     UIManager.instance.UltiEvent();
                 }
             }
+
         }
     }
     private IEnumerator SpawnBuff()
@@ -159,6 +176,7 @@ public class GameManager : MonoBehaviour
     // 무기 선택 함수
     public void SelectWeapon()
     {
+        isSelect = false;
         if (playableWeapon != null)
         {
             ObjectPoolManager.ReturnGun(playableWeapon);           // 이전 무기 리턴

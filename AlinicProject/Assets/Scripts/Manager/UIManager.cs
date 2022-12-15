@@ -30,7 +30,7 @@ public class UIManager : MonoBehaviour
     public Image imagePistolSkillEffect;
     public Image imageUltiIcon;
     public SpawnParticle spawnParticle;
-    public int skillCoolTime;
+    public Dictionary<string, float> skillCoolTime = new Dictionary<string, float>();
     public int ultiCoolTime;
     private float buffDuration;             // 버프 지속시간
     private float buffTime;                 // 버프 유지시간
@@ -41,21 +41,20 @@ public class UIManager : MonoBehaviour
     private float disPlayerToBos;           // 보스 체력을 표시하기 위한 플레이어와 보스 사이의 거리
     private bool isDamage;                  // 입은 데미지 체크
     private bool damageEffectTrigger;       // 데미지 이펙트 나타나고 지워지는 기준 트리거
-    private bool isSkill;
+    public bool isSkill;
     private bool isUlti;
     public bool isDe;
     private Image selectWeapon;             // 선택한 무기 이미지
     private Vector3 bodyGunImagePos;        // 버프 아이콘 종류의 위치
     private Vector3 bodyMagazineImagePos;   // 버프 아이콘 효과의 위치
     private Color colorDamageSrc;           // 데미지 이펙트 값 저장
-    private float skillProgressAmount;
+    public float skillProgressAmount;
     private float ultiProgressAmount;
     public delegate void De();
     public De de;
     private void Awake()
     {
         instance = this;
-        skillCoolTime = 0;
         buffTime = 0.0f;
         buffDuration = -1.0f;
         updateHpSpeed = 0.3f;
@@ -234,9 +233,9 @@ public class UIManager : MonoBehaviour
     {
         isDamage = true;
     }
-    public void SkillEvent()
+    public void SkillEvent(string weapon)
     {
-        skillProgressAmount = (float)1 / skillCoolTime * Time.deltaTime;
+        skillProgressAmount = (float)1 / skillCoolTime[weapon] * Time.deltaTime;
         imageSkillPanel.fillAmount = 0;
         isSkill = true;
     }

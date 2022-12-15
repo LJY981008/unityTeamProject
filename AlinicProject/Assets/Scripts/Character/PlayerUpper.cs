@@ -27,10 +27,21 @@ public class PlayerUpper : MonoBehaviour
         spawnPos = new Vector3(0.0f, 1.6f, 0.0f);
         muzzlePivot = FindFireSpot(transform, "Muzzle Pivot");
         gunData.currentAmmo = gunData.maxAmmo;
-        
+        gunData.currentCoolTime = 0;
     }
     private void OnEnable()
     {
+        if(gunData.currentCoolTime != 0)
+        {
+            float currentProgress = (gunData.skillCoolTime - gunData.currentCoolTime) / gunData.skillCoolTime;
+            UIManager.instance.imageSkillPanel.fillAmount = currentProgress;
+            UIManager.instance.skillProgressAmount = (float)1 / gunData.skillCoolTime * Time.deltaTime;
+            UIManager.instance.isSkill = true;
+        }
+        else
+        {
+            UIManager.instance.imageSkillPanel.fillAmount = 1.0f;
+        }
         if (UIManager.instance != null)
         {
             UIManager.instance.textMaxAmmo.text = gunData.maxAmmo.ToString();

@@ -73,6 +73,8 @@ public class ObjectPoolManager : MonoBehaviour
     {
         var newObj = Instantiate<GameObject>(obj, Vector3.zero, Quaternion.identity).GetComponent<PlayerUpper>();
         ApplyBuff.instance.weapons.Add(newObj.transform.name.Replace("(Clone)", ""), newObj);
+        UIManager.instance.skillCoolTime.Add(newObj.transform.name.Replace("(Clone)", ""), newObj.gunData.skillCoolTime);
+        GameManager.instance.currentSkillCoolTime.Add(newObj.transform.name.Replace("(Clone)", ""), newObj.gunData.currentCoolTime);
         newObj.gameObject.SetActive(false);
         newObj.transform.SetParent(instance.playerBox.transform);
         return newObj;
@@ -84,6 +86,7 @@ public class ObjectPoolManager : MonoBehaviour
         var obj = instance.listPoolingGun.Find(o => o.name.Contains(weaponName));
         obj.transform.localPosition = spawnPos;
         obj.gameObject.SetActive(true);
+        obj.gunData.currentCoolTime = GameManager.instance.currentSkillCoolTime[weaponName.Replace("(Clone)", "")];
         return obj;
     }
     // 무기 반환 함수

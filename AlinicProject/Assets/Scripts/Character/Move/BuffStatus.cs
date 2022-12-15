@@ -66,7 +66,7 @@ public class BuffStatus : MonoBehaviour
         else if(random == 2)
         {
                 random = Random.Range(5, 8);
-            random = 8;
+            random = 7;
         }
         else
         {

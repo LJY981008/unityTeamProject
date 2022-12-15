@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6113d965121414b419edb59ee51bba04, type: 3}
   m_Name: Rifle Data
   m_EditorClassIdentifier: 
-  damage: 0
-  maxAmmo: 0
-  currentAmmo: 0
+  damage: 18
+  maxAmmo: 30
+  currentAmmo: 30
+  skillCoolTime: 10
+  currentCoolTime: 0

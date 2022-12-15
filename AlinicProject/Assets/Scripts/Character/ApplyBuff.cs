@@ -124,14 +124,26 @@ public class ApplyBuff : MonoBehaviour
     }
     private IEnumerator BuffLargeMagazine()
     {
-        weapons["Pistol"].gunData.maxAmmo += buffLargeMagazineSize["Pistol"];
-        weapons["Rifle"].gunData.maxAmmo += buffLargeMagazineSize["Rifle"];
-        weapons["Shotgun"].gunData.maxAmmo += buffLargeMagazineSize["Shotgun"];
+        Debug.Log("ÄÚ");
+        foreach(var weapon in weapons)
+        {
+            weapons[weapon.Key].gunData.maxAmmo += buffLargeMagazineSize[weapon.Key];
+            weapons[weapon.Key].gunData.currentAmmo += buffLargeMagazineSize[weapon.Key];
+        }
+        UIManager.instance.textCurrentAmmo.text = GameManager.instance.playableWeapon.gunData.currentAmmo.ToString();
         UIManager.instance.textMaxAmmo.text = GameManager.instance.playableWeapon.gunData.maxAmmo.ToString();
+        Debug.Log("·ç");
         yield return new WaitForSecondsRealtime(buffLargeMagazineDuration);
-        weapons["Pistol"].gunData.maxAmmo -= buffLargeMagazineSize["Pistol"];
-        weapons["Rifle"].gunData.maxAmmo -= buffLargeMagazineSize["Rifle"];
-        weapons["Shotgun"].gunData.maxAmmo -= buffLargeMagazineSize["Shotgun"];
+        Debug.Log("Æ¾");
+        foreach(var weapon in weapons)
+        {
+            weapons[weapon.Key].gunData.maxAmmo -= buffLargeMagazineSize[weapon.Key];
+            if (weapons[weapon.Key].gunData.currentAmmo > weapons[weapon.Key].gunData.maxAmmo)
+            {
+                weapons[weapon.Key].gunData.currentAmmo = weapons[weapon.Key].gunData.maxAmmo;
+            }
+        }
+        UIManager.instance.textCurrentAmmo.text = GameManager.instance.playableWeapon.gunData.currentAmmo.ToString();
         UIManager.instance.textMaxAmmo.text = GameManager.instance.playableWeapon.gunData.maxAmmo.ToString();
     }
     /*private IEnumerator BuffIceMagazine()
@@ -179,7 +191,9 @@ public class ApplyBuff : MonoBehaviour
     }
     public void DoCoroutine(string name)
     {
+        Debug.Log("D : " + name);
         StartCoroutine(name);
+        Debug.Log("o");
     }
     private void SetDefault()
     {
@@ -206,5 +220,16 @@ public class ApplyBuff : MonoBehaviour
             if (childTr != null) return childTr;
         }
         return null;
+    }
+    private void OnDestroy()
+    {
+        foreach (var weapon in weapons)
+        {
+            weapons[weapon.Key].gunData.maxAmmo -= buffLargeMagazineSize[weapon.Key];
+            if (weapons[weapon.Key].gunData.currentAmmo > weapons[weapon.Key].gunData.maxAmmo)
+            {
+                weapons[weapon.Key].gunData.currentAmmo = weapons[weapon.Key].gunData.maxAmmo;
+            }
+        }
     }
 }

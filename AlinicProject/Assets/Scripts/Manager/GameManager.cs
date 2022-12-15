@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     public float buffSpeed;
     public float prevDamage;
     public bool isSkill;
+    public Dictionary<string, float> currentSkillCoolTime = new Dictionary<string, float>();
     void Awake()
     {
         instance = this;
@@ -58,7 +59,8 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        if(shotCount < 15)
+        
+        if (shotCount < 15)
         {
             currentDamage = prevDamage;
         }
@@ -67,6 +69,18 @@ public class GameManager : MonoBehaviour
             disPlayerToMonster = Vector3.Distance(playerBody.transform.position, monster.transform.position);
             UIManager.instance.SetEnableBossHp(disPlayerToMonster);
             Minimap.instance.MoveMonsterMap();
+            if (currentSkillCoolTime[listWeapon[0]] > 0)
+            {
+                currentSkillCoolTime[listWeapon[0]] -= Time.deltaTime;
+            }
+            if (currentSkillCoolTime[listWeapon[1]] > 0)
+            {
+                currentSkillCoolTime[listWeapon[1]] -= Time.deltaTime;
+            }
+            if (currentSkillCoolTime[listWeapon[2]] > 0)
+            {
+                currentSkillCoolTime[listWeapon[2]] -= Time.deltaTime;
+            }
             if (!die)
             {
                 Move();
@@ -82,9 +96,10 @@ public class GameManager : MonoBehaviour
             {
                 if (UIManager.instance.imageSkillPanel.fillAmount >= 1)
                 {
-                    PlayerSkill.instance.SkillCoolTime = gunIndex;
+                    currentSkillCoolTime[listWeapon[gunIndex]] = playableWeapon.gunData.skillCoolTime;
+                    PlayerSkill.instance.gunIndex = gunIndex;
                     PlayerSkill.instance.Skill();
-                    UIManager.instance.SkillEvent();
+                    UIManager.instance.SkillEvent(listWeapon[gunIndex]);
                 }
             }
             //우클릭
@@ -162,6 +177,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Create실패");
         }
+        
     }
     // 플레이어 캐릭터 생성 함수
     public void CreateCharacter(string _name)
@@ -201,6 +217,13 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(keyCodeJump))
         {
             movement.Jump();
+        }
+    }
+    public IEnumerator CoolTime(int gunIndex)
+    {
+        while (currentSkillCoolTime[listWeapon[gunIndex]] > 0) {
+            currentSkillCoolTime[listWeapon[gunIndex]]--;
+            yield return new WaitForSecondsRealtime(1f);
         }
     }
     // 죽었을 때 함수

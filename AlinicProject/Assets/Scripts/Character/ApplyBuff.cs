@@ -26,10 +26,7 @@ public class ApplyBuff : MonoBehaviour
     private int burnDuration;
     private int burnElapsed;
     private int hitForceCount;
-    private int forceDuration;
-    private int forceElapsed;
     private bool forceCoolTime;
-    private bool isChange;
     private float buffLightMagazineDuration;
     private float buffLargeMagazineDuration;
     private float buffIceMagazineDuration;
@@ -56,7 +53,6 @@ public class ApplyBuff : MonoBehaviour
         isSlow = false;
         isBurn = false;
         isForce = false;
-        isChange = false;
     }
     private void Start()
     {
@@ -206,8 +202,6 @@ public class ApplyBuff : MonoBehaviour
         burnElapsed = 0;
 
         hitForceCount = 0;
-        forceDuration = 3;
-        forceElapsed = 0;
         forceCoolTime = false;
     }
     

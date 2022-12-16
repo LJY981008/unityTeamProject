@@ -58,7 +58,6 @@ public class UIManager : MonoBehaviour
     private Vector2 widthUpSize;
     private Vector2 heightUpSize;
     private Vector2 defalutSize;
-    private float time;
     public delegate void De();
     public De de;
     private void Awake()

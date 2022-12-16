@@ -12,12 +12,10 @@ public class BuffStatus : MonoBehaviour
     public PlayerBody player;
     public SpawnParticle spawnParticle;
     int random;
-    private float buffLightMagazineDuration;
 
     void Awake()
     {
         instance = this;
-        buffLightMagazineDuration = 60f;
     }
     public float Buff(string type, float origin)
     {

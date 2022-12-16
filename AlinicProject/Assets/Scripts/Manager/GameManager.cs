@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     private bool die = false;               // 사망 트리거
     private string[] listWeapon = { "Rifle", "Pistol", "Shotgun" };    // 무기 목록
     private GameObject playableCharacter;   // 플레이어의 캐릭터
-    private int buffItemSpawnCoolTime = 30;
+    private int buffItemSpawnCoolTime = 3;
     public bool isSpawnItem = false;
     public int shotCount;
     public float additionalDamage;         // 추가 %데미지

@@ -29,6 +29,7 @@ public class UIManager : MonoBehaviour
     public Image imageSkillPanel;           // 스킬 아이콘
     public Image imagePistolSkillEffect;
     public Image imageUltiIcon;
+    public Image imageSpawnItemText;
     public SpawnParticle spawnParticle;
     public Dictionary<string, float> skillCoolTime = new Dictionary<string, float>();
     public int ultiCoolTime;
@@ -43,13 +44,21 @@ public class UIManager : MonoBehaviour
     private bool damageEffectTrigger;       // 데미지 이펙트 나타나고 지워지는 기준 트리거
     public bool isSkill;
     private bool isUlti;
+    public bool isSpawnItem;
+    public bool isDeleteItem;
     public bool isDe;
     private Image selectWeapon;             // 선택한 무기 이미지
+    private RectTransform spawnRect;
     private Vector3 bodyGunImagePos;        // 버프 아이콘 종류의 위치
     private Vector3 bodyMagazineImagePos;   // 버프 아이콘 효과의 위치
     private Color colorDamageSrc;           // 데미지 이펙트 값 저장
     public float skillProgressAmount;
     private float ultiProgressAmount;
+    private Vector2 textImageDestSize;
+    private Vector2 widthUpSize;
+    private Vector2 heightUpSize;
+    private Vector2 defalutSize;
+    private float time;
     public delegate void De();
     public De de;
     private void Awake()
@@ -65,7 +74,12 @@ public class UIManager : MonoBehaviour
         skillProgressAmount = 0f;
         ultiProgressAmount = 0f;
         ultiCoolTime = 30;
+        spawnRect = imageSpawnItemText.rectTransform;
 
+        textImageDestSize = new Vector2(200f, 80f);
+        widthUpSize = new Vector2(0f, 5f);
+        heightUpSize = new Vector2(5f, 0f);
+        defalutSize = spawnRect.rect.size;
         bodyGunImagePos = new Vector3(7.0f, 0.0f, 0.0f);
         bodyMagazineImagePos = new Vector3(7.0f, 35.0f, 0.0f);
         colorDamageSrc = imageDamageEffect.color;
@@ -74,10 +88,45 @@ public class UIManager : MonoBehaviour
         isSkill = false;
         isDamage = false;
         isDe = false;
+        isSpawnItem = false;
+        isDeleteItem = false;
         damageEffectTrigger = false;
+
+        
     }
     private void Update()
     {
+        if (isSpawnItem)
+        {
+            imageSpawnItemText.gameObject.SetActive(true);
+            if (spawnRect.rect.height < textImageDestSize.y) {
+                spawnRect.sizeDelta += widthUpSize;
+            }
+            else if (spawnRect.rect.width < textImageDestSize.x)
+            {
+                spawnRect.sizeDelta += heightUpSize;
+            }
+            else
+            {
+                isSpawnItem = false;
+            }
+        }
+        if (isDeleteItem)
+        {
+            if (spawnRect.rect.width > defalutSize.x)
+            {
+                spawnRect.sizeDelta -= heightUpSize;
+            }
+            else if (spawnRect.rect.height > defalutSize.y)
+            {
+                spawnRect.sizeDelta -= widthUpSize;
+            }
+            else
+            {
+                imageSpawnItemText.gameObject.SetActive(false);
+                isDeleteItem = false;
+            }
+        }
         if(buffDuration > -1) {
             SetBuffDuration();
         }
@@ -244,5 +293,15 @@ public class UIManager : MonoBehaviour
         ultiProgressAmount = (float)1 / ultiCoolTime * Time.deltaTime;
         imageUltiIcon.fillAmount = 0;
         isUlti = true;
+    }
+    public void DoCoroutine(string name)
+    {
+        StartCoroutine(name);
+    }
+    private IEnumerator ViewSpawnItemText()
+    {
+        yield return new WaitForSeconds(10f);
+        isDeleteItem = true;
+        
     }
 }

@@ -25,9 +25,9 @@ public class BuffItem : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.tag);
         if (other.transform.CompareTag("Player"))
         {
+            
             if(UIManager.instance.imageBuffPanel.gameObject.activeSelf == true)
             {
                 UIManager.instance.OffPanel();
@@ -39,7 +39,7 @@ public class BuffItem : MonoBehaviour
             // UIManager.instance.SetBuffIcon("Large");    // 
             GameManager.instance.isSpawnItem = false;
             ObjectPoolManager.ReturnItem(this);
+            
         }
-        
     }
 }

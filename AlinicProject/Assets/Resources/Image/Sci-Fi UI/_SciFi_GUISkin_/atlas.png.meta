@@ -296,7 +296,7 @@ TextureImporter:
         height: 1027
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 14, y: 12, z: 11, w: 17}
       outline: []
       physicsShape: []
       tessellationDetail: -1
@@ -853,10 +853,31 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: atlas_0
+      rect:
+        serializedVersion: 2
+        x: 3136
+        y: 1700
+        width: 812
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2503f1c264c95814687228884b973292
+      internalID: -1501990650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 06d0854fe08de984d9d0b8bbf80a55ea
     internalID: 0
     vertices: []
     indices: 
@@ -880,6 +901,7 @@ TextureImporter:
       button1: 21300014
       bullets: 21300022
       button_pushed: 21300016
+      atlas_0: -1501990650
       progress_bar_background1: 21300028
       rocket: 21300020
       bar_green1: 21300058

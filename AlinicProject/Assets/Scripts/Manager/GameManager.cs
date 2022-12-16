@@ -161,10 +161,13 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator SpawnBuff()
     {
+        
         while (true) {
             yield return new WaitForSeconds(buffItemSpawnCoolTime);
-            if (!isSpawnItem)
+            if (!isSpawnItem && isStart)
             {
+                UIManager.instance.isSpawnItem = true;
+                UIManager.instance.DoCoroutine("ViewSpawnItemText");
                 isSpawnItem = true;
                 ObjectPoolManager.GetItem();
                 Debug.Log("½ºÆù");

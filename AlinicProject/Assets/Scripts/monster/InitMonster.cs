@@ -57,7 +57,7 @@ public class InitMonster : MonoBehaviour
     /// <summary>
     /// true : 관리자 키 활성화
     /// </summary>
-    bool isAdminMod = false;
+    bool isAdminMod = true;
 
     /// <summary>
     /// 현재 페이즈 상태를 담는 변수
@@ -248,10 +248,11 @@ public class InitMonster : MonoBehaviour
             {
                 actionSpeedDown(10);
             }
+            */
             if (Input.GetKeyDown(KeyCode.M))
             {
-                actionStun(3);
-            }*/
+                onDamage(10000);
+            }
         }
         if(_target != null)
             _targetPos = _target.transform.position;
@@ -400,7 +401,7 @@ public class InitMonster : MonoBehaviour
                 closePhase1();
                 ActiveChangeInvoke();
             }
-            else if (phaseState == 1) // 1페이즈 종료
+            else if (phaseState == 1) // 2페이즈 종료
             {
                 if (isDebugging)
                 {
@@ -410,7 +411,7 @@ public class InitMonster : MonoBehaviour
                 closePhase2();
                 ActiveChangeInvoke2();
             }
-            else if (phaseState == 2) // 1페이즈 종료
+            else if (phaseState == 2) // 3페이즈 종료
             {
                 if (isDebugging)
                 {
@@ -524,6 +525,7 @@ public class InitMonster : MonoBehaviour
     public void closePhase1()
     {
         ani.SetInteger("aniInt", 6);
+        ani.SetBool("DEATH", true);
     }
 
     /// <summary>
@@ -532,6 +534,7 @@ public class InitMonster : MonoBehaviour
     public void closePhase2()
     {
         ani.SetInteger("aniInt", 5);
+        ani.SetBool("DEATH", true);
     }
 
     /// <summary>
@@ -540,6 +543,8 @@ public class InitMonster : MonoBehaviour
     public void closePhase3()
     {
         ani.SetInteger("aniInt", 9);
+        ani.SetBool("DEATH", true);
+        showChangeCamera2();
     }
 
     public void initSkillTime()
@@ -619,4 +624,46 @@ public class InitMonster : MonoBehaviour
         animator.SetBool("STUN", false);
         _flagStun = false;
     }
+
+    /// <summary>
+    /// 등장 시 카메라 전환
+    /// </summary>
+    public void showChangeCamera1()
+    {
+        Transform transformCamera = gameObject.transform.Find("Camera1");
+        transformCamera.gameObject.SetActive(true);
+        animator.SetFloat("SPEED", 0.8f);
+        
+    }
+
+    /// <summary>
+    /// 등장 시 카메라 전환
+    /// </summary>
+    public void closeChangeCamera1()
+    {
+        Transform transformCamera = gameObject.transform.Find("Camera1");
+        transformCamera.gameObject.SetActive(false);
+
+    }
+
+    /// <summary>
+    /// 죽을 시 카메라 전환
+    /// </summary>
+    public void showChangeCamera2()
+    {
+        Transform transformCamera = gameObject.transform.Find("Camera2");
+        transformCamera.gameObject.SetActive(true);
+
+    }
+
+    /// <summary>
+    /// 죽을 시 카메라 전환
+    /// </summary>
+    public void closeChangeCamera2()
+    {
+        Debug.Log("closeChangeCamera2");
+        Transform transformCamera = gameObject.transform.Find("Camera2");
+        transformCamera.gameObject.SetActive(false);
+    }
+
 }

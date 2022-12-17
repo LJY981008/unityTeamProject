@@ -18,7 +18,7 @@ public class InitMonster : MonoBehaviour
 {
 
     private static InitMonster instance = null;
-    System.Random random;
+    public System.Random random;
 
     // 데미지 텍스쳐
     GameObject hudDamageText;
@@ -376,9 +376,14 @@ public class InitMonster : MonoBehaviour
     public void onDamage(int amountOfDamage)
     {
 
-        if(isInvincibility) { return; }
+        if(isInvincibility) {
+            // Debug.Log("### 무적 상태 입니다. ###");
+            return; 
+        }
 
-        if(target == null)
+        // Debug.Log(amountOfDamage);
+
+        if (target == null)
         {
             settingTarget(GameObject.FindGameObjectWithTag("Player"));
         }
@@ -436,7 +441,6 @@ public class InitMonster : MonoBehaviour
 
         GameObject hudText = Instantiate(hudDamageText); // 생성할 텍스트 오브젝트
         hudText.transform.SetParent(GameObject.Find("Canvas").transform);
-        hudText.transform.localPosition = new Vector3(200 + random.Next(100), 80, -30);
         hudText.AddComponent<DamageText>();
         hudText.GetComponent<DamageText>().damage = damage; // 데미지 전달
 
@@ -633,7 +637,7 @@ public class InitMonster : MonoBehaviour
         Transform transformCamera = gameObject.transform.Find("Camera1");
         transformCamera.gameObject.SetActive(true);
         animator.SetFloat("SPEED", 0.8f);
-        
+        GameManager.instance.isStart = false;
     }
 
     /// <summary>
@@ -643,7 +647,7 @@ public class InitMonster : MonoBehaviour
     {
         Transform transformCamera = gameObject.transform.Find("Camera1");
         transformCamera.gameObject.SetActive(false);
-
+        GameManager.instance.isStart = true;
     }
 
     /// <summary>
@@ -653,7 +657,7 @@ public class InitMonster : MonoBehaviour
     {
         Transform transformCamera = gameObject.transform.Find("Camera2");
         transformCamera.gameObject.SetActive(true);
-
+        GameManager.instance.isStart = false;
     }
 
     /// <summary>
@@ -664,6 +668,7 @@ public class InitMonster : MonoBehaviour
         Debug.Log("closeChangeCamera2");
         Transform transformCamera = gameObject.transform.Find("Camera2");
         transformCamera.gameObject.SetActive(false);
+        GameManager.instance.isStart = true;
     }
 
 }

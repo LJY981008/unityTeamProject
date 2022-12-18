@@ -66,7 +66,30 @@ public class GameManager : MonoBehaviour
         {
             currentDamage = prevDamage;
         }
-
+        if (currentSkillCoolTime[listWeapon[0]] > 0)
+        {
+            currentSkillCoolTime[listWeapon[0]] -= Time.deltaTime;
+        }
+        else
+        {
+            currentSkillCoolTime[listWeapon[0]] = 0;
+        }
+        if (currentSkillCoolTime[listWeapon[1]] > 0)
+        {
+            currentSkillCoolTime[listWeapon[1]] -= Time.deltaTime;
+        }
+        else
+        {
+            currentSkillCoolTime[listWeapon[1]] = 0;
+        }
+        if (currentSkillCoolTime[listWeapon[2]] > 0)
+        {
+            currentSkillCoolTime[listWeapon[2]] -= Time.deltaTime;
+        }
+        else
+        {
+            currentSkillCoolTime[listWeapon[2]] = 0;
+        }
         if (isStart && !isSkill)
         {
             if (!die)
@@ -78,30 +101,7 @@ public class GameManager : MonoBehaviour
             disPlayerToMonster = Vector3.Distance(playerBody.transform.position, monster.transform.position);
             UIManager.instance.SetEnableBossHp(disPlayerToMonster);
             Minimap.instance.MoveMonsterMap();
-            if (currentSkillCoolTime[listWeapon[0]] > 0)
-            {
-                currentSkillCoolTime[listWeapon[0]] -= Time.deltaTime;
-            }
-            else
-            {
-                currentSkillCoolTime[listWeapon[0]] = 0;
-            }
-            if (currentSkillCoolTime[listWeapon[1]] > 0)
-            {
-                currentSkillCoolTime[listWeapon[1]] -= Time.deltaTime;
-            }
-            else
-            {
-                currentSkillCoolTime[listWeapon[1]] = 0;
-            }
-            if (currentSkillCoolTime[listWeapon[2]] > 0)
-            {
-                currentSkillCoolTime[listWeapon[2]] -= Time.deltaTime;
-            }
-            else
-            {
-                currentSkillCoolTime[listWeapon[2]] = 0;
-            }
+            
             //ÁÂÅ¬¸¯
             if ((Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)))
             {
@@ -246,6 +246,17 @@ public class GameManager : MonoBehaviour
             currentSkillCoolTime[listWeapon[gunIndex]]--;
             yield return new WaitForSecondsRealtime(1f);
         }
+    }
+    public void setStop()
+    {
+        isStart = false;
+        moveX = 0f;
+        moveZ = 0f;
+        playableWeapon.IdleGun();
+    }
+    public void setStart()
+    {
+        isStart = true;
     }
     // Á×¾úÀ» ¶§ ÇÔ¼ö
     public void Die()

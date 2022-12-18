@@ -10,7 +10,7 @@ public class Phase1Atk2Script : StateMachineBehaviour
     {
         animator.transform.LookAt(InitMonster.Instance.target.transform.position);
 
-        monsterAttack = new MonsterAttack(20, 5);
+        monsterAttack = new MonsterAttack(20, 3);
         monsterAttack.startAttack();
     }
 

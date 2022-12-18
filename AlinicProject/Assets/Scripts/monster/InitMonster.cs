@@ -584,7 +584,7 @@ public class InitMonster : MonoBehaviour
     {
         _prevSpeedRun = _speedRun;
         _speedRun -= (_speedRun * 0.3f);
-        animator.speed = 0.7f;
+        animator.SetFloat("SPEED", 0.7f);
         flagSpeedDown = true;
 
     }
@@ -596,7 +596,7 @@ public class InitMonster : MonoBehaviour
     public void afterSpeedDown()
     {
         _speedRun = _prevSpeedRun;
-        animator.speed = 1f;
+        animator.SetFloat("SPEED", 1f);
         flagSpeedDown = false;
     }
 
@@ -637,7 +637,7 @@ public class InitMonster : MonoBehaviour
         Transform transformCamera = gameObject.transform.Find("Camera1");
         transformCamera.gameObject.SetActive(true);
         animator.SetFloat("SPEED", 0.8f);
-        GameManager.instance.isStart = false;
+        GameManager.instance.setStop();
     }
 
     /// <summary>
@@ -647,7 +647,7 @@ public class InitMonster : MonoBehaviour
     {
         Transform transformCamera = gameObject.transform.Find("Camera1");
         transformCamera.gameObject.SetActive(false);
-        GameManager.instance.isStart = true;
+        GameManager.instance.setStart();
     }
 
     /// <summary>
@@ -656,8 +656,8 @@ public class InitMonster : MonoBehaviour
     public void showChangeCamera2()
     {
         Transform transformCamera = gameObject.transform.Find("Camera2");
-        transformCamera.gameObject.SetActive(true);
-        GameManager.instance.isStart = false;
+        transformCamera.gameObject.SetActive(true); 
+        GameManager.instance.setStop();
     }
 
     /// <summary>
@@ -668,7 +668,8 @@ public class InitMonster : MonoBehaviour
         Debug.Log("closeChangeCamera2");
         Transform transformCamera = gameObject.transform.Find("Camera2");
         transformCamera.gameObject.SetActive(false);
-        GameManager.instance.isStart = true;
+        GameManager.instance.setStart();
+        EndingManager.instance.StartEvent();
     }
 
 }

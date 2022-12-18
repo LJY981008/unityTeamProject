@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9077382129449808248}
   - component: {fileID: 1376520329552588063}
   - component: {fileID: 5293566956405085887}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: AttackArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2590394093543872527}
   m_LocalRotation: {x: 0.7055643, y: -0.041117884, z: 0.04668069, w: 0.7059103}
-  m_LocalPosition: {x: 4.22, y: 13.1, z: 2.04}
+  m_LocalPosition: {x: 4.22, y: 20, z: 2.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

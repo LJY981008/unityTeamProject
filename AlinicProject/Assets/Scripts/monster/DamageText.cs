@@ -42,13 +42,13 @@ public class DamageText : MonoBehaviour
     void Update()
     {
 
-        Debug.Log("X : " + transform.position.x);
-        Debug.Log("Y : " + transform.position.y);
-        Debug.Log("Z : " + transform.position.z);
+        // Debug.Log("X : " + transform.position.x);
+        // Debug.Log("Y : " + transform.position.y);
+        // Debug.Log("Z : " + transform.position.z);
 
-        Debug.Log("L X : " + transform.localPosition.x);
-        Debug.Log("L Y : " + transform.localPosition.y);
-        Debug.Log("L Z : " + transform.localPosition.z);
+        // Debug.Log("L X : " + transform.localPosition.x);
+        // Debug.Log("L Y : " + transform.localPosition.y);
+        // Debug.Log("L Z : " + transform.localPosition.z);
 
         Vector3 moveVector = new Vector3(0, moveSpeed * Time.deltaTime, moveSpeed * Time.deltaTime);
 

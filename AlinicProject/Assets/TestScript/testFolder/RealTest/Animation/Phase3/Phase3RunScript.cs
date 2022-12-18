@@ -14,10 +14,11 @@ public class Phase3RunScript : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         InitMonster.Instance.moveToTarget(InitMonster.Instance.PhaseThreeModel);
-        if (InitMonster.Instance.getDistanceToTarget() <= 13.0f)
+        if (InitMonster.Instance.getDistanceToTarget() <= 18.0f)
         {
-            Debug.Log("close");
+            // Debug.Log("close");
             animator.SetInteger("aniInt", 1);
+            animator.SetBool("ATTACK", true);
         }
     }
 

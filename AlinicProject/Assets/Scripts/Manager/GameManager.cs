@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     private bool die = false;               // 사망 트리거
     private string[] listWeapon = { "Rifle", "Pistol", "Shotgun" };    // 무기 목록
     private GameObject playableCharacter;   // 플레이어의 캐릭터
-    private int buffItemSpawnCoolTime = 9999;
+    private int buffItemSpawnCoolTime = 30;
     public bool isSpawnItem = false;
     public int shotCount;
     public float additionalDamage;         // 추가 %데미지
@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
         SelectWeapon();    // 기본무기 권총
         playableCharacter.transform.localPosition = Vector3.zero;   // 캐릭터의 위치
         StartCoroutine(SpawnBuff());
+        playerBody.transform.LookAt(monster.transform);
     }
     private void Update()
     {
@@ -220,7 +221,9 @@ public class GameManager : MonoBehaviour
     {
         GameObject tmpPlayerChar = ResourcesManager.instance.GetChar("Man_Full");
         if (tmpPlayerChar != null)
+        {
             playableCharacter = GameObject.Instantiate<GameObject>(tmpPlayerChar, Vector3.zero, Quaternion.identity, playerBody.transform);
+        }
         else
             Debug.Log("생성 실패");
     }

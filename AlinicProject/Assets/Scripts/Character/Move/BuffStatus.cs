@@ -35,72 +35,71 @@ public class BuffStatus : MonoBehaviour
             return origin;
         }
     }
-    public void RandomBuffBody()
+    public void RandomBuffBody(int rInt)
     {
-        random = Random.Range(1,3);
-        random = 2;
+        random = rInt;
+
         switch (random)
         {
             case 1:
+            case 2:
+            case 3:
+            case 4:
                 UIManager.instance.imageBuffPanel.gameObject.SetActive(true);
                 UIManager.instance.SetBuffBody("Gun");
                 break;
 
-            case 2:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
                 UIManager.instance.imageBuffPanel.gameObject.SetActive(true);
                 UIManager.instance.SetBuffBody("Magazine");
                 break;
-            case 3:
+            default:
                 Debug.Log("²Î");
                 break;
         }
     }
-    public void RandomBuffIcon()
+    public void RandomBuffIcon(int rInt)
     {
-        if (random == 1)
-        {
-            random = Random.Range(1, 4);
-        }
-        else if(random == 2)
-        {
-            random = Random.Range(5, 8);
-        }
-        else
-        {
-            random = 99999;
-        }
+        
+
+
+        random = rInt;
+
         switch (random)
         {
-            case 1:
+            case 1: // ºÎ½ÄÅº
                 UIManager.instance.SetBuffIcon("Corrosion", 20);
                 spawnParticle.currentBullet = "Corrosion";
                 GameManager.instance.additionalDamage = 1.3f;
                 break;
-            case 2:
+            case 2: // È­¿°Åº
                 UIManager.instance.SetBuffIcon("Fire", 20);
                 spawnParticle.currentBullet = "Fire";
                 break;
-            case 3:
+            case 3: // ¹«·ÂÅº
                 UIManager.instance.SetBuffIcon("Force", 20);
                 spawnParticle.currentBullet = "Force";
                 break;
-            case 4:
+            case 4: // ºù°áÅº
                 UIManager.instance.SetBuffIcon("Ice", 20);
                 spawnParticle.currentBullet = "Ice";
                 break;
-            case 5:
+            case 5: // ÀÀ±ÞÄ¡·áÅº
                 UIManager.instance.SetBuffIcon("Heal", 15);
                 player.DoCoroutine("Heal");
                 break;
-            case 6:
+            case 6: // °ú³Ã°¢Åº
                 UIManager.instance.SetBuffIcon("Ice", 30);
                 ApplyBuff.instance.DoCoroutine("BuffIceMagazine");
                 break;
-            case 7:
+            case 7: // ´ë¿ë·® ÅºÃ¢
                 UIManager.instance.SetBuffIcon("Large", 40);
                 ApplyBuff.instance.DoCoroutine("BuffLargeMagazine");
                 break;
-            case 8:
+            case 8: // °æ·®È­ ÅºÃ¢
                 UIManager.instance.SetBuffIcon("Light", 60);
                 ApplyBuff.instance.DoCoroutine("BuffLightMagazine");
                 break;

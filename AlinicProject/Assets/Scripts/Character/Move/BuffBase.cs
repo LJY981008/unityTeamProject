@@ -27,9 +27,10 @@ public class BuffBase : MonoBehaviour
     }
     public void Execute()
     {
+        int rInt = Random.Range(1, 8);
         BuffStatus.instance.onBuff.Add(this);
-        BuffStatus.instance.RandomBuffBody();
-        BuffStatus.instance.RandomBuffIcon();
+        BuffStatus.instance.RandomBuffBody(rInt);
+        BuffStatus.instance.RandomBuffIcon(rInt);
         StartCoroutine(Activation());
     }
     IEnumerator Activation()
@@ -44,9 +45,10 @@ public class BuffBase : MonoBehaviour
     }
     public void DeActivation()
     {
+        int rInt = Random.Range(1, 8);
         BuffStatus.instance.onBuff.Remove(this);
-        BuffStatus.instance.RandomBuffBody();
-        BuffStatus.instance.RandomBuffIcon();
+        BuffStatus.instance.RandomBuffBody(rInt);
+        BuffStatus.instance.RandomBuffIcon(rInt);
         Destroy(gameObject);
     }
 }

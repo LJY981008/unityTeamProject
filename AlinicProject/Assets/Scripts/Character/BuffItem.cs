@@ -8,8 +8,8 @@ public class BuffItem : MonoBehaviour
 {
     float rotateSpeed = 50f;
     float boundSpeed = 0.3f;
-    float boundMinLocation = 0.2f;
-    float boundMaxLocation = 0.6f;
+    float boundMinLocation = 1.3f;
+    float boundMaxLocation = 1.7f;
     Vector3 boundDirection;
     private void OnEnable()
     {

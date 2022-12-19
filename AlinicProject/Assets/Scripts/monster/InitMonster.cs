@@ -698,9 +698,8 @@ public class InitMonster : MonoBehaviour
     {
         Debug.Log("closeChangeCamera2");
         Transform transformCamera = gameObject.transform.Find("Camera2");
-
-        transformCamera.gameObject.SetActive(false);
         EndingManager.instance.StartEvent();
+        transformCamera.gameObject.SetActive(false);
     }
 
 

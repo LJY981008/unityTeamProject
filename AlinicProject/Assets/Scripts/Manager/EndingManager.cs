@@ -26,7 +26,7 @@ public class EndingManager : MonoBehaviour
         zero.a = 0;
         text.color = zero;
     }
-    public void StartEvent()
+    private void OnEnable()
     {
         StartCoroutine(UpdateAlpha());
     }

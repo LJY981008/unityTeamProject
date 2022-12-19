@@ -19,7 +19,7 @@ public class InitMonster : MonoBehaviour
 
     private static InitMonster instance = null;
     public System.Random random;
-
+    public GameObject endingObj;
     // 데미지 텍스쳐
     GameObject hudDamageText;
 
@@ -102,7 +102,7 @@ public class InitMonster : MonoBehaviour
     /// <summary>
     /// 페이즈별 체력을 담는 배열 변수
     /// </summary>
-    private static int[] PHASE_HP = { 1000, 2000, 3000 };
+    private static int[] PHASE_HP = { 700, 1400, 2000 };
 
     /// <summary>
     /// 몬스터의 현재 체력을 담을 변수
@@ -698,8 +698,9 @@ public class InitMonster : MonoBehaviour
     {
         Debug.Log("closeChangeCamera2");
         Transform transformCamera = gameObject.transform.Find("Camera2");
-        EndingManager.instance.StartEvent();
         transformCamera.gameObject.SetActive(false);
+        endingObj.SetActive(true);
+
     }
 
 

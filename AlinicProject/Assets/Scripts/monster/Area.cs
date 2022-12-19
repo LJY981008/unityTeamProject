@@ -7,6 +7,9 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Area : MonoBehaviour
 {
+
+    public GameObject targetObject;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,12 +19,9 @@ public class Area : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.N))
+        if(targetObject != null)
         {
-            Debug.Log(Vector3.Distance(
-                new Vector3(transform.position.x, 0, transform.position.z),
-                new Vector3(PlayerChar.instance.transform.position.x, 0, PlayerChar.instance.transform.position.z)
-                ));
+            gameObject.transform.position = new Vector3(targetObject.transform.position.x, 100, targetObject.transform.position.z);
         }
     }
 }

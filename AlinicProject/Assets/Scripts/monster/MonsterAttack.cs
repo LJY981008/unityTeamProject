@@ -89,12 +89,21 @@ public class MonsterAttack
         GameObject.Destroy(_attackPoint);
     }
 
+    public void startAttackArea()
+    {
+        if (isDebugging) { Debug.Log("### MonsterAttack.startAttack ###"); }
+        _attackArea = createAttackArea(InitMonster.Instance.gameObject);
+    }
+
     public void destroyAttack()
     {
         isDestroy = true;
         InitMonster.Instance.haveMonsterAttack = null;
+        if(_attackPoint != null)
+        {
+            GameObject.Destroy(_attackPoint);
+        }
         GameObject.Destroy(_attackArea);
-        GameObject.Destroy(_attackPoint);
     }
 
 
@@ -106,6 +115,23 @@ public class MonsterAttack
         GameObject tmpAttackArea = Resources.Load("Monster/AttackArea") as GameObject;
         GameObject objAttackArea = GameObject.Instantiate(tmpAttackArea);
         objAttackArea.transform.position = new Vector3(_target.transform.position.x, 100, _target.transform.position.z);
+        DecalProjector decalAttackArea = objAttackArea.GetComponent<DecalProjector>();
+        decalAttackArea.size = new Vector3(_area * 2, _area * 2, 10000);
+
+        return objAttackArea;
+    }
+
+    /// <summary>
+    /// 공격 범위를 생성한다.
+    /// </summary>
+    public GameObject createAttackArea(GameObject gObj)
+    {
+        GameObject tmpAttackArea = Resources.Load("Monster/AttackArea") as GameObject;
+        GameObject objAttackArea = GameObject.Instantiate(tmpAttackArea);
+        objAttackArea.transform.position = new Vector3(gObj.transform.position.x, 100, gObj.transform.position.z);
+        Area classArea = objAttackArea.GetComponent<Area>();
+        classArea.targetObject = gObj;
+
         DecalProjector decalAttackArea = objAttackArea.GetComponent<DecalProjector>();
         decalAttackArea.size = new Vector3(_area * 2, _area * 2, 10000);
 

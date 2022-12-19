@@ -339,6 +339,18 @@ public class InitMonster : MonoBehaviour
         Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * InitMonster.Instance.speedRun);
     }
 
+    // 새로운 이동함수
+    public void moveToTarget(Transform boss, float multip)
+    {
+        // Debug.Log("### InitMonster.moveToTarget ###");
+
+        // 몬스터가 타겟을 바라보기
+        boss.LookAt(InitMonster.Instance.target.transform.position);
+        // 몬스터를 타겟에 접근하기
+        transform.position =
+        Vector3.MoveTowards(transform.position, target.transform.position, Time.deltaTime * InitMonster.Instance.speedRun * multip);
+    }
+
     /// <summary>
     /// 손미사일 공격
     /// </summary>

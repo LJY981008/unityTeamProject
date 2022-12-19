@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     private bool die = false;               // 사망 트리거
     private string[] listWeapon = { "Rifle", "Pistol", "Shotgun" };    // 무기 목록
     private GameObject playableCharacter;   // 플레이어의 캐릭터
-    private int buffItemSpawnCoolTime = 3;
+    private int buffItemSpawnCoolTime = 9999;
     public bool isSpawnItem = false;
     public int shotCount;
     public float additionalDamage;         // 추가 %데미지
@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     public bool isSkill;
     public bool isSelect;
     public Dictionary<string, float> currentSkillCoolTime = new Dictionary<string, float>();
+    private BuffItem tmp;
     void Awake()
     {
         instance = this;
@@ -156,6 +157,13 @@ public class GameManager : MonoBehaviour
                     UIManager.instance.UltiEvent();
                 }
             }
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                if (tmp != null)
+                    ObjectPoolManager.ReturnItem(tmp);
+                tmp = ObjectPoolManager.GetItem();
+                Debug.Log("aa");
+            }
 
         }
     }
@@ -164,13 +172,20 @@ public class GameManager : MonoBehaviour
         
         while (true) {
             yield return new WaitForSeconds(buffItemSpawnCoolTime);
-            if (!isSpawnItem && isStart)
+            try
             {
-                UIManager.instance.isSpawnItem = true;
-                UIManager.instance.DoCoroutine("ViewSpawnItemText");
-                isSpawnItem = true;
-                ObjectPoolManager.GetItem();
-                Debug.Log("스폰");
+                if (!isSpawnItem && isStart)
+                {
+                    UIManager.instance.isSpawnItem = true;
+                    UIManager.instance.DoCoroutine("ViewSpawnItemText");
+                    isSpawnItem = true;
+                    ObjectPoolManager.GetItem();
+                    Debug.Log("스폰");
+                }
+            }
+            catch(UnityException e)
+            {
+                Debug.Log(e.Message);
             }
         }
         //여기에 버프 스폰 알림 자막 작성

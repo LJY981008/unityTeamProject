@@ -32,6 +32,7 @@ public class SpawnParticle : MonoBehaviour
             //Effects.transform.localRotation = firePoint.transform.rotation;
             if (!GameManager.instance.playableWeapon.name.Replace("(Clone)", "").Equals("Shotgun"))
             {
+                Debug.Log(currentBullet);
                 effects = ObjectPoolManager.GetBullet(firePoint.transform.position, currentBullet);
             }
             else
@@ -46,9 +47,9 @@ public class SpawnParticle : MonoBehaviour
             Debug.Log("No Fire Point");
         }
     }
-    public void setReturnBullet(MoveParticle obj)
+    public void setReturnBullet(MoveParticle obj, string bulletName)
     {
-        ObjectPoolManager.ReturnBullet(obj, currentBullet);
+        ObjectPoolManager.ReturnBullet(obj, bulletName);
     }
 
 }

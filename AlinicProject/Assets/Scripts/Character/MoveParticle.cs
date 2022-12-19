@@ -19,9 +19,10 @@ public class MoveParticle : MonoBehaviour
     private Vector3 destShotPos;            // 총알의 목표 지점
     private RaycastHit hit;                 // 레이캐스트 값 저장
     public float additionalDamage;
-    
-    
-    
+    float damage;
+    string bulletName;
+    bool isSpawn = false;
+
     private void Awake()
     {
         Physics.IgnoreLayerCollision(7, 7, true);   // 총알끼리의 충돌 제외
@@ -34,8 +35,14 @@ public class MoveParticle : MonoBehaviour
     }
     void OnEnable()
     {
+        damage = (GameManager.instance.currentDamage * GameManager.instance.additionalDamage) + GameManager.instance.plusDamage;
+        if (ObjectPoolManager.instance.isStart)
+        {
+            bulletName = spawnParticle.currentBullet;
+        }
         durationTime = 0.0f;
         bulletSpeed = saveSpeed;
+        
         if (muzzlePrefab != null && shotgunShotPos == Vector3.zero)
         {
             var muzzleVFX = Instantiate(muzzlePrefab, transform.position, Quaternion.identity);
@@ -64,7 +71,7 @@ public class MoveParticle : MonoBehaviour
         durationTime += Time.deltaTime;
         if (durationTime > 3.0f)
         {
-            spawnParticle.setReturnBullet(this);
+            spawnParticle.setReturnBullet(this, bulletName);
         }
         if (bulletSpeed != 0)
         {
@@ -106,7 +113,7 @@ public class MoveParticle : MonoBehaviour
         if (co.transform.root.CompareTag("Monster"))
         {
             InitMonster monster = co.GetComponent<Collider>().transform.root.gameObject.GetComponent<InitMonster>();
-            monster.onDamage((int)(GameManager.instance.currentDamage * GameManager.instance.additionalDamage) + GameManager.instance.plusDamage);
+            monster.onDamage((int)damage);
             if(spawnParticle.currentBullet == "Normal")
             {
 
@@ -144,8 +151,9 @@ public class MoveParticle : MonoBehaviour
         {
             spawnParticle.currentBullet = PlayerSkill.instance.prevBullet;
             GameManager.instance.currentDamage = PlayerSkill.instance.prevDamage;
+            spawnParticle.currentBullet = "Normal";
         }
-        spawnParticle.setReturnBullet(this);
+        spawnParticle.setReturnBullet(this, bulletName);
     }
     
 }

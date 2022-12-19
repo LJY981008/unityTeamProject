@@ -20,6 +20,7 @@ public class ObjectPoolManager : MonoBehaviour
     private GameObject ammo;                                                    // 총알
     private GameObject buffItemObject;
     private BuffItem buffItemScript;
+    public bool isStart = false;
     private void Awake()
     {
         instance = this;
@@ -27,6 +28,7 @@ public class ObjectPoolManager : MonoBehaviour
         GunInitialize();
         BulletInitialize(10);
         ItemInitialize();
+        isStart = true;
     }
     // 버프 아이템 오브젝트 호출 함수
     private void ItemInitialize()

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
+using TMPro;
 public class BtnEvent : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public Image btnImage;
     public Image panel;
-    public Text text;
+    public TextMeshProUGUI text;
     public Sprite push;
     public Sprite pool;
     Color tmpBtn;

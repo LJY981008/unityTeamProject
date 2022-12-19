@@ -20,7 +20,7 @@ public class BuffItem : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("BuffItem.Awake : " + rInt);
+        // Debug.Log("BuffItem.Awake : " + rInt);
 
         changeBuff();
     }
@@ -39,7 +39,7 @@ public class BuffItem : MonoBehaviour
         if (other.transform.CompareTag("Player"))
         {
 
-            Debug.Log("BuffItem.OnTriggerEnter : " + rInt);
+            // Debug.Log("BuffItem.OnTriggerEnter : " + rInt);
 
             if (UIManager.instance.imageBuffPanel.gameObject.activeSelf == true)
             {
@@ -66,7 +66,7 @@ public class BuffItem : MonoBehaviour
 
         rInt = Random.Range(1, 8);
 
-        Debug.Log("BuffItem.changeBuff : " + rInt);
+        // Debug.Log("BuffItem.changeBuff : " + rInt);
 
         /*
          * 빨 : 화상탄

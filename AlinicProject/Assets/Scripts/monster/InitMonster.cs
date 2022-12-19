@@ -57,7 +57,7 @@ public class InitMonster : MonoBehaviour
     /// <summary>
     /// true : 관리자 키 활성화
     /// </summary>
-    bool isAdminMod = false;
+    bool isAdminMod = true;
 
     /// <summary>
     /// 현재 페이즈 상태를 담는 변수
@@ -367,8 +367,7 @@ public class InitMonster : MonoBehaviour
         Vector3 direction = destination - obj.transform.position;
         return Quaternion.LookRotation(direction);
     }
-
-
+    
     /// <summary>
     /// 몬스터에게 피해를 입힐 때 사용하는 메소드.
     /// </summary>
@@ -376,7 +375,7 @@ public class InitMonster : MonoBehaviour
     public void onDamage(int amountOfDamage)
     {
 
-        if(isInvincibility) {
+        if (isInvincibility) {
             // Debug.Log("### 무적 상태 입니다. ###");
             return; 
         }

@@ -23,12 +23,10 @@ public class BtnEvent : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     }
     public void OnPointerDown(PointerEventData data)
     {
-        Debug.Log("´Ù¿î");
         btnImage.sprite = push;
     }
     public void OnPointerUp(PointerEventData data)
     {
-        Debug.Log("¾÷");
         btnImage.sprite = pool;
         StartCoroutine(UpdateAlpha());
     }

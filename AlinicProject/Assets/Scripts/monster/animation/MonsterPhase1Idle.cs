@@ -16,15 +16,7 @@ public class MonsterPhase1Idle : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // 타겟이 있으면... 이동 처리
-        if (_monster.target != null)
-        {
-            animator.SetInteger("indexAni", 1);
-        }
-        if(_monster.getDistanceToTarget() <= 1.5f)
-        {
-            animator.SetInteger("indexAni", 3);
-        }
+        
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

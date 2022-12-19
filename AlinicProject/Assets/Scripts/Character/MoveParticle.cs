@@ -83,6 +83,7 @@ public class MoveParticle : MonoBehaviour
     // 탄알 충돌 이벤트
     private void OnTriggerEnter(Collider co)
     {
+
         //speed = 0;
         //ContactPoint contact = co.contacts[0];
         Quaternion rot = Quaternion.FromToRotation(Vector3.up, hit.normal);

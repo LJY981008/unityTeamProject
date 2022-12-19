@@ -242,6 +242,12 @@ public class InitMonster : MonoBehaviour
     void Update()
     {
         if(!isInvincibility) UIManager.instance.UpdateBossHp(monsterHp, PHASE_HP[phaseState]);
+
+        if(target == null)
+        {
+            searchTarget();
+        }
+
         if (isAdminMod)
         {
             /*if (Input.GetKeyDown(KeyCode.N))
@@ -267,7 +273,7 @@ public class InitMonster : MonoBehaviour
         if(_target == null)
         {
             // 몬스터 주변의 오브젝트 불러오기
-            Collider[] colls = Physics.OverlapSphere(transform.position, 200.0f);
+            Collider[] colls = Physics.OverlapSphere(transform.position, 60.0f);
 
             // 몬스터 주변에 오브젝트가 있으면..
             for (int i = 0; i < colls.Length; i++)
@@ -692,8 +698,6 @@ public class InitMonster : MonoBehaviour
     {
         Debug.Log("closeChangeCamera2");
         Transform transformCamera = gameObject.transform.Find("Camera2");
-        transformCamera.gameObject.SetActive(false);
-        GameManager.instance.setStart();
         EndingManager.instance.StartEvent();
     }
 

@@ -23,6 +23,11 @@ public class Phase3BornScript : StateMachineBehaviour
             animator.SetInteger("aniInt", 1);
             UIManager.instance.imageBossHpFill.fillAmount = 1.0f;
         }
+
+        if (InitMonster.Instance.haveMonsterAttack != null)
+        {
+            InitMonster.Instance.haveMonsterAttack.destroyAttack();
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

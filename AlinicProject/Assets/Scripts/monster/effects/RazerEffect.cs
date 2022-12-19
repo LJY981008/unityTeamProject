@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,7 +33,7 @@ public class RazerEffect : MonoBehaviour
     {
         if (speed != 0)
         {
-            transform.position += transform.forward * (speed * Time.deltaTime);
+            transform.position += transform.forward * 3 * (speed * Time.deltaTime);
         }
         else
         {
@@ -52,8 +53,19 @@ public class RazerEffect : MonoBehaviour
         {
             var hitVFX = Instantiate(hitPrefab, pos, rot);
             var psHit = hitVFX.GetComponent<ParticleSystem>();
+
+
             if (psHit != null)
             {
+
+                // Debug.Log("¸ÂÀº Å¸°Ù : " + psHit.gameObject.transform.root.tag);
+                Debug.Log("¸ÂÀº Å¸°Ù : " + collision.gameObject.transform.root.name);
+                if (collision.gameObject.transform.root.tag == "Player")
+                {
+                    PlayerBody player = collision.gameObject.transform.root.GetComponent<PlayerBody>();
+                    player.OnDamage(30);
+                }
+
                 Destroy(hitVFX, psHit.main.duration);
             }
             else

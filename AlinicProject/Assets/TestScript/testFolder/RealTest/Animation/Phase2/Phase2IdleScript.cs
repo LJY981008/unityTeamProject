@@ -16,7 +16,7 @@ public class Phase2IdleScript : StateMachineBehaviour
     {
         if (InitMonster.Instance.target != null)
         {
-            if (InitMonster.Instance.getDistanceToTarget() <= 20.0f || animator.GetBool("ATTACK"))
+            if (InitMonster.Instance.getDistanceToTarget() <= 15.0f || animator.GetBool("ATTACK"))
             {
                 animator.SetBool("ATTACK", false);
                 animator.SetInteger("aniInt", randomInt);

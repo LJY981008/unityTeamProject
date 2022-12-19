@@ -401,7 +401,7 @@ public class InitMonster : MonoBehaviour
                 {
                     Debug.Log("### 1페이즈 종료");
                 }
-                setPhaseState(1);
+
                 closePhase1();
                 ActiveChangeInvoke();
             }
@@ -427,6 +427,13 @@ public class InitMonster : MonoBehaviour
 
 
     }
+
+    public void changeForPhase1()
+    {
+        ActiveChangePhase2();
+        setPhaseState(1);
+    }
+
 
     /// <summary>
     /// 피해를 입힐 경우 데미지 텍스트 처리하기
@@ -473,18 +480,25 @@ public class InitMonster : MonoBehaviour
     // BossScript 에 있던 사용하는 함수들
     public void ActiveChangeInvoke()
     {
-        Invoke("ActiveChangePhase2", 5.5f);
+        Invoke("changeForPhase1", 11f);
+        if (haveMonsterAttack != null)
+        {
+            haveMonsterAttack.destroyAttack();
+        }
     }
 
     public void ActiveChangeInvoke2()
     {
         Invoke("ActiveChangePhase3", 0.3f);
+        if (haveMonsterAttack != null)
+        {
+            haveMonsterAttack.destroyAttack();
+        }
     }
 
     void ActiveChangePhase2()
     {
         _PhaseOneBoss.gameObject.SetActive(false);
-
         _PhaseTwoBoss.gameObject.SetActive(true);
         _PhaseTwoModel.forward = _deadForward;
     }
@@ -670,5 +684,8 @@ public class InitMonster : MonoBehaviour
         GameManager.instance.setStart();
         EndingManager.instance.StartEvent();
     }
+
+
+    public MonsterAttack haveMonsterAttack;
 
 }

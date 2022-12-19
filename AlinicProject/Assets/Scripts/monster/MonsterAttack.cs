@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -7,6 +8,8 @@ using static UnityEngine.GraphicsBuffer;
 
 public class MonsterAttack
 {
+
+
 
     private bool isDebugging = false;
 
@@ -35,7 +38,12 @@ public class MonsterAttack
         _damage = damage;
         _area = area;
         _target = InitMonster.Instance.target;
+
+        InitMonster.Instance.haveMonsterAttack = this;
+
     }
+
+    private Boolean isDestroy = false;
 
     public void startAttack()
     {
@@ -46,7 +54,10 @@ public class MonsterAttack
 
     public void endAttack()
     {
+        if (isDestroy) return;
         if (isDebugging) { Debug.Log("### MonsterAttack.endAttack ###"); }
+        
+
 
         // 스턴 상태가 아닐 경우
         if (InitMonster.Instance.flagStun == false)
@@ -73,6 +84,15 @@ public class MonsterAttack
             }
 
         }
+        InitMonster.Instance.haveMonsterAttack = null;
+        GameObject.Destroy(_attackArea);
+        GameObject.Destroy(_attackPoint);
+    }
+
+    public void destroyAttack()
+    {
+        isDestroy = true;
+        InitMonster.Instance.haveMonsterAttack = null;
         GameObject.Destroy(_attackArea);
         GameObject.Destroy(_attackPoint);
     }

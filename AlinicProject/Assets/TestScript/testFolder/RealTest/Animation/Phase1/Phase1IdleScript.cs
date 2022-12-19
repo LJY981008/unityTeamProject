@@ -18,7 +18,7 @@ public class Phase1IdleScript : StateMachineBehaviour
 
         if(InitMonster.Instance.target != null)
         {
-            if(InitMonster.Instance.getDistanceToTarget() <= 20.0f || animator.GetBool("ATTACK"))
+            if(InitMonster.Instance.getDistanceToTarget() <= 15.0f || animator.GetBool("ATTACK"))
             {
                 animator.SetBool("ATTACK", false);
                 if (false && InitMonster.Instance.getDistanceOfTime(Time.time, InitMonster.Instance.latelyCastSkillTime) >= 13.0f)

@@ -33,14 +33,17 @@ public class Movement : MonoBehaviour
     private CharacterController charaterController; // 플레이어의 이동 제어를 위한 컴포넌트
     private void Update()
     {
-        // 허공에 떠 있으면 중력만큼 y축 이동속도 감소
-        if ( !charaterController.isGrounded )
+        if (GameManager.instance.isStart)
         {
-            mForce.y += gravity * Time.deltaTime;
+            // 허공에 떠 있으면 중력만큼 y축 이동속도 감소
+            if (!charaterController.isGrounded)
+            {
+                mForce.y += gravity * Time.deltaTime;
+            }
+            // 1초당 mForce 속력으로 이동
+            charaterController.Move(mForce * Time.deltaTime);
+            Minimap.instance.MovePlayerMap(transform.position);
         }
-        // 1초당 mForce 속력으로 이동
-        charaterController.Move(mForce * Time.deltaTime);
-        Minimap.instance.MovePlayerMap(transform.position);
     }
     public void Move(Vector3 dir)
     {
